@@ -1,0 +1,3 @@
+numpy
+pytest
+-e git+git://github.com/bennybp/bse-scratch.git#egg=bse-scratch
