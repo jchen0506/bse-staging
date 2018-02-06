@@ -6,7 +6,7 @@ from pip.download import PipSession
 def read_requirements():
     """parses requirements from requirements.txt"""
     install_reqs = parse_requirements('requirements.txt', session=PipSession())
-    reqs = [str(ir.req) for ir in install_reqs]
+    reqs = [ir.name for ir in install_reqs]
     print(reqs)
     return reqs
 
@@ -23,6 +23,7 @@ if __name__ == "__main__":
         packages=setuptools.find_packages(),
 
         install_requires=read_requirements(),
+        dependency_links=['git+git://github.com/bennybp/bse-scratch.git@master#egg=bse-scratch'],
 
         extras_require={
             'docs': [
