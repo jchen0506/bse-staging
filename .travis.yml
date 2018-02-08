@@ -29,18 +29,14 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda create -q -n bse_env python=$TRAVIS_PYTHON_VERSION
+  - conda create -q -n bse_env python=$TRAVIS_PYTHON_VERSION pip
   - source activate bse_env
-
-    # Install anything not in conda
-  - pip install pint
-  - pip install codecov
-  - pip install pytest-cov
   - conda list
 
 before_script:
   - python -V
-  - pip install -e .[tests]
+  - pip install pip install -e git+https://github.com/bennybp/bse-scratch.git#egg=bse-scratch
+  - pip install -e .[tests] -v
 
 script:
   - py.test -v --cov=eex/ --durations=5

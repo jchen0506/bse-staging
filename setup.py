@@ -23,7 +23,6 @@ if __name__ == "__main__":
         packages=setuptools.find_packages(),
 
         install_requires=read_requirements(),
-        dependency_links=['git+git://github.com/bennybp/bse-scratch.git@master#egg=bse-scratch'],
 
         extras_require={
             'docs': [
