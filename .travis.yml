@@ -45,5 +45,5 @@ script:
 notifications:
   email: false
 
-#after_success:
-  #- codecov
+after_success:
+  - codecov

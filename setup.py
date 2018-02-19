@@ -34,6 +34,7 @@ if __name__ == "__main__":
                 'numpydoc',
             ],
             'tests': [
+                'codecov',
                 'pytest',
                 'pytest-cov',
                 'pytest-pep8',
@@ -41,6 +42,7 @@ if __name__ == "__main__":
         },
 
         tests_require=[
+            'codecov',
             'pytest',
             'pytest-cov',
             'pytest-pep8',

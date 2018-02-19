@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/doaa-altarawy/BSE_website.svg?branch=master)](https://travis-ci.org/doaa-altarawy/BSE_website)
+[![codecov](https://codecov.io/gh/doaa-altarawy/BSE_website/branch/master/graph/badge.svg)](https://codecov.io/gh/doaa-altarawy/BSE_website)
 
 # BSE website
-Website of the Bases set exchange Ver 2.0
+Website of the Bases set exchange ver 2.0
 
 # For Development
 
