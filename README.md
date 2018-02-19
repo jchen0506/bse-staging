@@ -3,18 +3,44 @@
 # BSE website
 Website of the Bases set exchange Ver 2.0
 
-# Development
+# For Development
 
+
+1. Create conda environment
 ```
-cd BSE_website
 conda create -n bse_env python=3.5 pip
 source acivate bse_env
-pip install pip install -e git+https://github.com/bennybp/bse-scratch.git#egg=bse-scratch
+```
+
+2. Clone and install the basis_set_exchange library
+```
+git clone https://github.com/MolSSI/basis_set_exchange.git
+cd basis_set_exchang
 pip install -e .
+```
+
+3. Clone the website project
+```
+git clone  https://github.com/doaa-altarawy/BSE_website.git
+cd BSE_website
+```
+
+4. Install the basis_set_exchange library
+```
+pip install -e git+https://github.com/MolSSI/basis_set_exchange.git#egg=basis_set_exchange
+```
+
+5. Install the website
+```
+pip install -e .
+```
+
+6. Run the server
+```
 python bse_website.py
 ```
 
-Then access server on the browser at:
+6. Then access the website at the browser:
 ```
 http://localhost:5000
 ```

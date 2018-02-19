@@ -35,8 +35,9 @@ install:
 
 before_script:
   - python -V
-  - pip install pip install -e git+https://github.com/bennybp/bse-scratch.git#egg=bse-scratch
+  - pip install -e git+https://github.com/MolSSI/basis_set_exchange.git#egg=basis_set_exchange
   - pip install -e .[tests] -v
+  - pip freeze
 
 script:
   - py.test -v --cov=eex/ --durations=5
