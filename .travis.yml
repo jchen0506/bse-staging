@@ -40,7 +40,7 @@ before_script:
   - pip freeze
 
 script:
-  - py.test -v --cov=eex/ --durations=5
+  - py.test -v --cov=app/ --durations=5
 
 notifications:
   email: false
