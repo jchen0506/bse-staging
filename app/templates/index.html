@@ -5,14 +5,70 @@
 	<meta name="description" content="BSE"/>
 	<title>BSE</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/css/style.css"/>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/js/periodic_table.js"></script>
 </head>
 <body>
-<div class="container">
-<div class="periodic">
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="../static/images/BaSE_logo_sm.jpg" height="30" class="d-inline-block align-top" alt=""> ver. 2.0
+      </a>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Downloads</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">All</a>
+              <a class="dropdown-item" href="#">Current selection</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Feedback</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">About</a>
+              <a class="dropdown-item" href="#">How to</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </nav>
+
+
+<main class="container-fluid">
+
+  <div class="row px-3 py-1">
+
+
+    <nav class="col-sm-3 col-md-3 hidden-xs-down border sidebar mr-sm-3">
+        Left nav bar
+    </nav> <!-- left nav -->
+
+    <div class="col-sm-8 col-md-8 p-3 border">
+        <div class="pb-2">
+            <div class="row">
+                <div class="col-8">Total found: </div>
+                <div class="col-2 text-right"><button id="reset_selection" class="btn btn-sm">Reset selection</button></div>
+                <div class="col-2 text-right"><button id="test_avail" class="btn btn-sm">Avail</button></div>
+            </div>
+        </div>
+        <div id="periodic_table" class="px-2"></div>
+    </div>
+
+  <div class="periodic col-sm-8 col-md-8 p-3 border d-none">
   <div class="periodic-row">
     <div class="cell">
       <div class="element">
@@ -21,7 +77,11 @@
         <div class="at_details">hydrogen<br />1.008</div>
       </div>
     </div>
-    <div class="cell"></div>
+    <div class="cell" data-toggle="buttons">
+       <label class="btn btn-block btn-success active">
+          <input type="checkbox" name="horn" checked autocomplete="off"> Horn
+        </label>
+    </div>
     <div class="cell"></div>
     <div class="cell"></div>
     <div class="cell"></div>
@@ -903,7 +963,116 @@
     </div>
   </div>
   <div style="clear: both;"></div>
-</div>
-</div>
+</div> <!-- perioidic -->
+
+  </div><!-- First row (panel and periodic) -->
+
+    <div class="row px-3 py-1">
+
+        <!-- BS info -->
+        <div class="card col-sm-3 mr-sm-3 p-3">
+            <div class="card-block">
+            <p id="info">Total: 1 published All Electron basis sets that contain Ca Ga Y Nb Ba La Db</p>
+            </div>
+        </div>
+
+        <!-- Download basis set -->
+        <div class="card col-sm-8 mb-2 p-3">
+            <h5 class="card-title">Download basis set</h5>
+            <div class="card-block">
+                <form class="form-inline">
+                    <div class="form-group my-1 mr-sm-2">
+                      <label class="mr-sm-2" for="format">Format</label>
+                      <select class="custom-select form-control" id="format">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="optimize">
+                        <label class="custom-control-label" for="optimize">Optimize General Contractions</label>
+                      </div>
+                    </div>
+
+                  <button type="submit" class="btn unique-color">Get Basis set</button>
+                </form>
+
+            </div>
+        </div><!-- download -->
+
+         <div class="col-sm-3 mr-sm-3"></div>
+
+
+        <!-- Cite this website-->
+        <div class="card card-body col-sm-8 hidden-xs-down p-3">
+            <h5 class="card-title">Citation</h5>
+            <hr class="mt-1">
+            <div class="card-block">
+                <p class="card-text">When publishing results obtained from use of the Basis Set Exchange (BSE) software and the EMSL Basis Set Library, please cite: </p>
+
+                <ul>
+                    <li><em>The Role of Databases in Support of Computational Chemistry Calculations.</em>
+                        Feller, D., J. Comp. Chem., 17(13), 1571-1586, 1996.
+                    </li>
+                    <li><em>Basis Set Exchange: A Community Database for Computational Sciences.</em>
+                        Schuchardt, K.L., Didier, B.T., Elsethagen, T., Sun, L., Gurumoorthi, V., Chase, J., Li, J., and Windus, T.L.
+                        J. Chem. Inf. Model., 47(3), 1045-1052, 2007, doi:10.1021/ci600510j.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+</main><!-- outer container-->
+
+<!-- footer here -->
+
+
+<!--Footer-->
+<footer class="page-footer center-on-small-only">
+
+    <!--Footer Links-->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--First column-->
+            <div class="col-md-6">
+                <h5 class="title">Footer Content</h5>
+                <p>Here you can use rows and columns here to organize your footer content.</p>
+            </div>
+            <!--/.First column-->
+
+            <!--Second column-->
+            <div class="col-md-6">
+                <h5 class="title">Links</h5>
+                <ul>
+                    <li><a href="#!">Link 1</a></li>
+                    <li><a href="#!">Link 2</a></li>
+                    <li><a href="#!">Link 3</a></li>
+                    <li><a href="#!">Link 4</a></li>
+                </ul>
+            </div>
+            <!--/.Second column-->
+        </div>
+    </div>
+    <!--/.Footer Links-->
+
+    <!--Copyright-->
+    <div class="footer-copyright">
+        <div class="container-fluid">
+            © 2015 Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
+
+        </div>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+
 </body>
 </html>
