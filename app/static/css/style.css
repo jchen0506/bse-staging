@@ -4,7 +4,7 @@ body {
     -ms-transform: translateZ(0);
     transform: translateZ(0);
     background-color: #F5F7FA;
-    min-width: 850px;
+    min-width: 960px;
 }
 
 /* New from MDB */
@@ -15,13 +15,26 @@ body {
 }
 
 .divider-new, body, h1, h2, h3, h4, h5, h6 , .btn{
-    font-weight: 300;
+    font-weight: 400;
 }
 .card, .btn, .modal {
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     border-radius: .1rem;
 }
 
+.selectpicker_style {
+    background-color: white !important;
+    color: #2e2e2e !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    background-color: #1577D8;
+}
+
+.dropdown-item{
+    font-size: small;
+}
 
 /*.btn {*/
     /*font-size: .9rem;*/
@@ -36,6 +49,10 @@ body {
 
 /* New periodic table bootstrap 4 */
 
+#periodic_container{
+    background: #FFFFFF;
+}
+
 #periodic_table{
 }
 
@@ -43,17 +60,19 @@ body {
     display: none;
 }
 .cell{
-    padding: .15em;
+    padding: .05em .1em;
 }
 
+/* https://www.w3schools.com/colors/colors_brands.asp */
 .element{
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 85%;
     min-width: 23px;
-    min-height: 23px;
-    background-color: #9fa8da;
+    min-height: 20px;
+    /*background: linear-gradient(to bottom left, #c6d1db 42%, #ffffff 100%);*/
+    background-color: #E1E8ED; /*#E6E7BA; !*#B2CBF5;  !*#9fa8da;*/
     color: #2e2e2e;
-    font-family: Helvetica, sans-serif;
+    font-family:  "Times New Roman", Times, serif;
 }
 
 .empty_slot{
@@ -61,7 +80,7 @@ body {
 }
 
 .selected{
-   background-color: #4C75A3;
+    background-color: #588c7e; /*#4C75A3;*/
 }
 
 .available{
@@ -70,42 +89,41 @@ body {
     background-repeat: no-repeat;
 }
 .number {
-    font-size: 5px;
+    font-size: 8px;
+    font-weight: bold;
 }
 .symbol {
-font-size: 10px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 @media (min-width: 768px) {  /* medium */
-  .periodic {
-    height: 300px;
-  }
   .number {
-    font-size: 5px;
+    font-size: 8px;
   }
   .symbol {
-    font-size: 10px;
+    font-size: 14px;
   }
 }
 @media (min-width: 992px) {  /* large */
-  .periodic {
-    height: 350px;
-  }
   .number {
-    font-size: 5px;
+    font-size: 8px;
   }
   .symbol {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
 @media (min-width: 1200px) {  /* extra large */
-  .periodic {
-    height: 400px;
-  }
   .number {
-    font-size: 7px;
+    font-size: 8px;
   }
   .symbol {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
+
+.page-footer{
+   background-color: #333333;
+    color: #d6dce1;
+}
+

@@ -1,4 +1,23 @@
+/**
+ *
+ */
+
+// Load Basis set metadata
+jQuery.ajax({
+    url: "web_metadata/",
+    data: '',
+    contentType: "application/json",
+    dataType: "json",
+    success: function(result) {
+        console.log("Returned data", result);
+        window.bs_metadata = result['metadata'];
+        window.element_basis = result['element_basis'];
+    } // success
+}); // ajax
+
+
 $( document ).ready(function () {
+
     var table = [
         ["H", "Hydrogen", "1.00794", 1],
         ['empty', 16],
@@ -129,11 +148,8 @@ $( document ).ready(function () {
     ];
 
     table = expand_table(table);
-    console.log(table);
 
     var periodic_table = document.getElementById("periodic_table");
-    console.log(periodic_table);
-
     var ele_index = -1;
     for (var i=1; i<=10; i++){
 
@@ -176,7 +192,6 @@ $( document ).ready(function () {
         var element = document.createElement('button');
         element.id = 'element_' + ele_data[3];  // atomic number
         element.className = 'element';
-        // element.style.backgroundColor = 'rgba(0,127,127,0.5)';
         element.onclick = element_clicked;
         cell.appendChild(element);
 
@@ -201,7 +216,7 @@ $( document ).ready(function () {
     function expand_table(table) {
         var expanded = [];
         table.forEach(function (t) {
-            if (t[0] != "empty"){
+            if (t[0] !== "empty"){
                 expanded.push(t);
             } else {
                 for (var i=0; i<t[1]; i++) expanded.push(['empty']);
@@ -231,21 +246,153 @@ $( document ).ready(function () {
         return row;
     }
 
+    $('#basis_sets').change(function () {
+        basis_sets_selection_changed();
+    });
+
+    function basis_sets_selection_changed() {
+        // change the table based on new basis set selection
+
+        var selected = $('#basis_sets').find(":selected").val();
+        console.log('Selected bs: ', selected);
+
+        // update summary card
+        update_summary(selected);
+
+        if (! selected){
+            $(".element").removeClass('available');
+            return;
+        }
+        var elements = window.bs_metadata[selected][0].elements;
+
+        $(".element").removeClass('available');
+        elements.forEach(function (element) {
+           $('#element_'+element).addClass('available');
+        });
+
+    }
+
+    function update_summary(selected) {
+        // TODO: update summary card with bass set data
+        $('#basis_set_name').text(selected? selected : '');
+    }
+
     function element_clicked(e) {
         $(this).toggleClass('selected');
         e.preventDefault();
+        // update basis sets filter
+        if (! $(this).hasClass('available')){
+            filter_basis_set_names(true);
+        }else{
+            filter_basis_set_names(false);
+        }
     }
 
-    $('#reset_selection').click(function reset_selection() {
+    $('#reset_selection').click(function () {
         $(".element").removeClass('selected');
-        console.log('reset_selection');
+        filter_basis_set_names(false);
     });
 
 
-    $('#test_avail').click(function reset_selection() {
-        $(".element").toggleClass('available');
-        console.log('available');
+    $('#select_all_avail').click(function () {
+        // Only to available elements
+        $(".element.available").addClass('selected');
+        filter_basis_set_names(false);
     });
+
+    $('#search_name').keyup(function () {
+        filter_basis_set_names(true);
+    });
+
+    function filter_basis_set_names(reset_available) {
+        // show only the basis set that has the search filter keyword
+        // and available according to selected elements
+
+        // filtering
+        var id;
+        var filter = $('#search_name').val().toUpperCase();
+        var options = $('#basis_sets').find('option');
+        var available_bs = '';
+        var selected_elements = $('.element.selected');
+
+        if (selected_elements.length > 0){
+            // assign list to first element's basis sets
+            id = $(selected_elements[0]).prop('id').split('_')[1];
+            available_bs = window.element_basis[id];
+            selected_elements.each(function (e) {
+                id = $(this).prop('id').split('_')[1];  // get the number from "element_x"
+                available_bs = _.intersection(available_bs, window.element_basis[id]);
+            });
+        }
+
+        if (reset_available) {
+            // Remove available
+            $('.element').removeClass('available');
+            // remove selected basis sets
+            $('#basis_sets').val('');
+            basis_sets_selection_changed();  // event listener trigger is not working
+        }
+
+        var option;
+        for (var i=0; i< options.length; i++){
+            option = $(options[i]).text();
+            if (option.toUpperCase().indexOf(filter) === -1 ||
+                (selected_elements.length > 0 && available_bs.indexOf(option) === -1)) {
+                $(options[i]).addClass('d-none');
+            }else{
+                $(options[i]).removeClass('d-none');
+            }
+        }
+    }
+
+    $("#get_basis_sets").click(function (e) {
+
+        e.preventDefault();
+        var query = '';
+        var url = "get_basis_set/";
+        var basis_set = $('#basis_sets').val();
+        var format = $('#format').val();
+        var optimize = $('#optimize').val();
+        var elements = $('.element.selected');
+
+        if (! basis_set){
+            alert("Please click on the basis set you want to download.");
+            return;
+        }
+
+        if ( elements.length === 0){
+            alert("Please click on the element buttons to select/unselect elements you want to include for download.");
+            return;
+        }
+        var elements_ids = [];
+        elements.each(function (e) {
+            elements_ids.push($(this).prop('id').split('_')[1]);
+        });
+        console.log('after: ', elements_ids, 'toString: ', elements_ids.toString());
+
+        query += basis_set + '/elements/' + elements_ids.toString() + '/format/' + format + '/?';
+
+        if (optimize){
+            query += '&uncontract_general=' + optimize;
+        }
+
+        console.log('Download Basis set for query: ', query);
+        window.open(url + query, 'Basis Set ' + basis_set, "height=650,width=600");
+
+        // // ajax to get basis set
+        // jQuery.ajax({
+        //     url: url,
+        //     data: '',
+        //     contentType: "application/json",
+        //     success: function(result) {
+        //         console.log("Returned data", result);
+        //         // download data ---->
+        //     } // success
+        // }); // ajax
+
+    });
+
+
 });
 
 
