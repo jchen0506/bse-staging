@@ -6,7 +6,7 @@ import os
 class BaseConfig:
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    STATIC_FOLDER = 'static'
+    # STATIC_FOLDER = 'static'
     ADMINS = frozenset(['daltarawy@molssi.org'])
     SECRET_KEY = os.environ.get('SECRET_KEY', 'SecretKeyForSessionSigning')
 

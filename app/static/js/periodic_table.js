@@ -263,7 +263,8 @@ $( document ).ready(function () {
             $(".element").removeClass('available');
             return;
         }
-        var elements = window.bs_metadata[selected][0].elements;
+        var latest_version = window.bs_metadata[selected]['latest_version'];
+        var elements = window.bs_metadata[selected]['versions'][latest_version].elements;
 
         $(".element").removeClass('available');
         elements.forEach(function (element) {
@@ -275,6 +276,16 @@ $( document ).ready(function () {
     function update_summary(selected) {
         // TODO: update summary card with bass set data
         $('#basis_set_name').text(selected? selected : '');
+
+        if (selected){
+            var latest_version = window.bs_metadata[selected]['latest_version'];
+            $('#latest_version').text(latest_version);
+            $('#description').text(window.bs_metadata[selected]['versions'][latest_version]['description']);
+            console.log(window.bs_metadata[selected]['versions'][latest_version]['description']);
+        }else{
+            $('#latest_version').text('');
+            $('#description').text('');
+        }
     }
 
     function element_clicked(e) {
@@ -287,6 +298,23 @@ $( document ).ready(function () {
             filter_basis_set_names(false);
         }
     }
+
+    $('#get_citation').click(function (e) {
+        e.preventDefault();
+        var url = '/api/citation/';
+        var basis_set = $('#basis_sets').val();
+        if (! basis_set){
+            alert("Please click on the basis set you want to download.");
+            return;
+        }
+        console.log('Download citation for Basis set: ', basis_set);
+        window.open(url + basis_set, 'Basis Set ' + basis_set, "height=650,width=600");
+
+    });
+
+    $("#ecp").change(function () {
+        filter_basis_set_names(true);
+    });
 
     $('#reset_selection').click(function () {
         $(".element").removeClass('selected');
@@ -314,6 +342,7 @@ $( document ).ready(function () {
         var options = $('#basis_sets').find('option');
         var available_bs = '';
         var selected_elements = $('.element.selected');
+        var ecp = $('#ecp').val();
 
         if (selected_elements.length > 0){
             // assign list to first element's basis sets
@@ -333,11 +362,15 @@ $( document ).ready(function () {
             basis_sets_selection_changed();  // event listener trigger is not working
         }
 
-        var option;
+        var option, lastest, basis_ecp;
         for (var i=0; i< options.length; i++){
             option = $(options[i]).text();
+            lastest = window.bs_metadata[option]['latest_version'];
+            basis_ecp = window.bs_metadata[option]['versions'][lastest]['functiontypes'];
             if (option.toUpperCase().indexOf(filter) === -1 ||
-                (selected_elements.length > 0 && available_bs.indexOf(option) === -1)) {
+                (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
+                (ecp === 'ecp' && basis_ecp.indexOf('ECP') === -1) ||
+                (ecp === 'no_ecp' && basis_ecp.indexOf('ECP') > -1)) {
                 $(options[i]).addClass('d-none');
             }else{
                 $(options[i]).removeClass('d-none');
@@ -352,7 +385,7 @@ $( document ).ready(function () {
         var url = "get_basis_set/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
-        var optimize = $('#optimize').val();
+        var optimize = $('#optimize').prop('checked');
         var elements = $('.element.selected');
 
         if (! basis_set){
