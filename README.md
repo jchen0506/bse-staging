@@ -36,12 +36,23 @@ pip install -e git+https://github.com/MolSSI/basis_set_exchange.git#egg=basis_se
 pip install -e .
 ```
 
-6. Run the server
+6. Set environment variables in a file, then export it
+```bash
+export FLASK_CONFIG='production'
+export SECRET_KEY='SomeSecretKey'
+export APP_ADMIN='email@email.com'
+export MONGO_URI='mongodb://<user>:<password>@<database_url>:43231/bse_logging'
+# run the script with the export
+source private_env.sh
+```
+
+
+7. Run the server
 ```
 python bse_website.py
 ```
 
-6. Then access the website at the browser:
+8. Then access the website at the browser:
 ```
 http://localhost:5000
 ```

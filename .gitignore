@@ -105,3 +105,4 @@ ENV/
 src/
 
 .DS_Store
+private_env.sh
