@@ -11,6 +11,7 @@ Flask-Login==0.4.0
 Flask-Mail==0.9.1
 flask-mongoengine==0.9.3
 Flask-WTF==0.14.2
+Flask-Moment
 funcsigs==1.0.2
 idna==2.5
 itsdangerous==0.24
