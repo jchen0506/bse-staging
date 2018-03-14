@@ -36,5 +36,5 @@ wikipedia==1.4.0
 WTForms==2.1
 xlrd==1.0.0
 gunicorn
-git+git://github.com/MolSSI/basis_set_exchange.git#egg=basis_set_exchange
+-e git+git://github.com/doaa-altarawy/basis_set_exchange.git#egg=basis_set_exchange
 
