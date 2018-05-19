@@ -403,10 +403,10 @@ $( document ).ready(function () {
         });
         console.log('after: ', elements_ids, 'toString: ', elements_ids.toString());
 
-        query += basis_set + '/elements/' + elements_ids.toString() + '/format/' + format + '/?';
+        query += basis_set + '/format/' + format + '/?elements=' + elements_ids.toString();
 
         if (optimize){
-            query += '&uncontract_general=' + optimize;
+            query += '&optimize_general=' + optimize;
         }
 
         console.log('Download Basis set for query: ', query);

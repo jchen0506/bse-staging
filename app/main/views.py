@@ -58,17 +58,25 @@ def set_boolean(param: str) -> bool:
         return False
 
 
-@main.route('/api/get_basis/<name>/')
-@main.route('/api/get_basis/<name>/elements/<elements>/')
 @main.route('/api/get_basis/<name>/format/<bs_format>/')
-@main.route('/api/get_basis/<name>/elements/<elements>/format/<bs_format>/')
-def get_basis(name, elements=None, bs_format='gaussian94'):
+def get_basis(name, bs_format):
     """Get (download) specific basis set
-    Optional: elements (list of int), format (keywwords), uncontract_general (bool)
+    Optional: elements (list of int), uncontract_general (bool),
+              uncontract_segmented (bool), uncontract_spdf (bool),
+              optimize_general (bool)
     """
 
     uncontract_general = request.args.get('uncontract_general', default=False)
+    uncontract_segmented = request.args.get('uncontract_segmented', default=False)
+    uncontract_spdf = request.args.get('uncontract_spdf', default=False)
+    optimize_general = request.args.get('optimize_general', default=False)
+
     uncontract_general = set_boolean(uncontract_general)
+    uncontract_segmented = set_boolean(uncontract_segmented)
+    uncontract_spdf = set_boolean(uncontract_spdf)
+    optimize_general = set_boolean(optimize_general)
+
+    elements = request.args.get('elements', default=None)
 
     if elements is not None:
         elements = [int(e) for e in elements.split(',')]
@@ -76,21 +84,23 @@ def get_basis(name, elements=None, bs_format='gaussian94'):
     # Log this basis set download into logging DB
     logger.info('REQUESTED BASIS SET: name=%s, elements=%s, format=%s, uncontract_general=%s',
                 name, elements, bs_format, uncontract_general)
+
     # save_access(basis_set_name=name, basis_download=True, elements=elements, bs_format=bs_format)
     basis_set = bse.get_basis(name=name, elements=elements, fmt=bs_format,
-                              uncontract_general=uncontract_general)
+                              uncontract_general=uncontract_general,
+                              uncontract_segmented=uncontract_segmented,
+                              uncontract_spdf=uncontract_spdf,
+                              optimize_general=optimize_general)
 
     return basis_set
 
 
-@main.route('/get_basis/<name>/')
-@main.route('/get_basis/<name>/elements/<elements>/')
 @main.route('/get_basis/<name>/format/<bs_format>/')
 @main.route('/get_basis/<name>/elements/<elements>/format/<bs_format>/')
-def get_basis_html(name, elements=None, bs_format='gaussian94'):
+def get_basis_html(name, bs_format):
     """Returns basis set in an HTML file"""
 
-    data = get_basis(name, elements, bs_format)
+    data = get_basis(name, bs_format)
 
     return render_template('show_data.html', data=data)
 
