@@ -426,6 +426,48 @@ $( document ).ready(function () {
     });
 
 
+    $("#get_citations").click(function (e) {
+
+        e.preventDefault();
+        var query = '';
+        var url = "citation/";
+        var basis_set = $('#basis_sets').val();
+        var format = $('#cformat').val();
+        var elements = $('.element.selected');
+
+        if (! basis_set){
+            alert("Please click on the basis set you want to download.");
+            return;
+        }
+
+        if ( elements.length === 0){
+            alert("Please click on the element buttons to select/unselect elements you want to include for download.");
+            return;
+        }
+        var elements_ids = [];
+        elements.each(function (e) {
+            elements_ids.push($(this).prop('id').split('_')[1]);
+        });
+        console.log('after: ', elements_ids, 'toString: ', elements_ids.toString());
+
+        query += basis_set + '/format/' + format + '?elements=' + elements_ids.toString();
+
+        console.log('Getting citation for query: ', query);
+        window.open(url + query, 'Basis Set ' + basis_set, "height=650,width=600");
+
+        // // ajax to get basis set
+        // jQuery.ajax({
+        //     url: url,
+        //     data: '',
+        //     contentType: "application/json",
+        //     success: function(result) {
+        //         console.log("Returned data", result);
+        //         // download data ---->
+        //     } // success
+        // }); // ajax
+
+    });
+
 });
 
 

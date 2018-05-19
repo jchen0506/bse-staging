@@ -1,7 +1,6 @@
 from flask import request, render_template, flash, g, \
                 redirect, url_for, current_app
 import os
-import json
 from . import main
 from ..models.logs import save_access
 import logging
@@ -25,11 +24,13 @@ def index():
     """Returns the main page of the BSE website"""
 
     formats = data_loader.formats
+    ref_formats = data_loader.ref_formats
     basis_sets = data_loader.basis_sets
 
     # save_access(access=True, basis_download=False)
 
-    return render_template('index.html', basis_sets=basis_sets, formats=formats)
+    return render_template('index.html', basis_sets=basis_sets, formats=formats,
+                                         ref_formats=ref_formats)
 
 
 @main.route('/web_metadata/')
@@ -96,7 +97,6 @@ def get_basis(name, bs_format):
 
 
 @main.route('/get_basis/<name>/format/<bs_format>/')
-@main.route('/get_basis/<name>/elements/<elements>/format/<bs_format>/')
 def get_basis_html(name, bs_format):
     """Returns basis set in an HTML file"""
 
@@ -105,14 +105,15 @@ def get_basis_html(name, bs_format):
     return render_template('show_data.html', data=data)
 
 
-@main.route('/api/citation/<basis_set_name>/')
-@main.route('/api/citation/<basis_set_name>/format/<cformat>')
-def get_citations(basis_set_name, cformat=None):
+@main.route('/citation/<basis_set_name>/format/<cformat>')
+def get_citations(basis_set_name, cformat):
     """Get citations for a given basis set name"""
 
-    data = bse.get_references(basis_set_name, fmt=cformat)
+    elements = request.args.get('elements', default=None)
 
-    if cformat == 'json' or cformat is None:
-        data = json.dumps(data, indent=4)
+    if elements is not None:
+        elements = [int(e) for e in elements.split(',')]
+
+    data = bse.get_references(basis_set_name, elements=elements, fmt=cformat)
 
     return render_template('show_data.html', data=data)
