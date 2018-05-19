@@ -58,11 +58,11 @@ def set_boolean(param: str) -> bool:
         return False
 
 
-@main.route('/api/get_basis_set/<name>/')
-@main.route('/api/get_basis_set/<name>/elements/<elements>/')
-@main.route('/api/get_basis_set/<name>/format/<bs_format>/')
-@main.route('/api/get_basis_set/<name>/elements/<elements>/format/<bs_format>/')
-def get_basis_set(name, elements=None, bs_format='gaussian94'):
+@main.route('/api/get_basis/<name>/')
+@main.route('/api/get_basis/<name>/elements/<elements>/')
+@main.route('/api/get_basis/<name>/format/<bs_format>/')
+@main.route('/api/get_basis/<name>/elements/<elements>/format/<bs_format>/')
+def get_basis(name, elements=None, bs_format='gaussian94'):
     """Get (download) specific basis set
     Optional: elements (list of int), format (keywwords), uncontract_general (bool)
     """
@@ -77,20 +77,20 @@ def get_basis_set(name, elements=None, bs_format='gaussian94'):
     logger.info('REQUESTED BASIS SET: name=%s, elements=%s, format=%s, uncontract_general=%s',
                 name, elements, bs_format, uncontract_general)
     # save_access(basis_set_name=name, basis_download=True, elements=elements, bs_format=bs_format)
-    basis_set = bse.get_basis_set(name=name, elements=elements, fmt=bs_format,
-                                  uncontract_general=uncontract_general)
+    basis_set = bse.get_basis(name=name, elements=elements, fmt=bs_format,
+                              uncontract_general=uncontract_general)
 
     return basis_set
 
 
-@main.route('/get_basis_set/<name>/')
-@main.route('/get_basis_set/<name>/elements/<elements>/')
-@main.route('/get_basis_set/<name>/format/<bs_format>/')
-@main.route('/get_basis_set/<name>/elements/<elements>/format/<bs_format>/')
-def get_basis_set_html(name, elements=None, bs_format='gaussian94'):
+@main.route('/get_basis/<name>/')
+@main.route('/get_basis/<name>/elements/<elements>/')
+@main.route('/get_basis/<name>/format/<bs_format>/')
+@main.route('/get_basis/<name>/elements/<elements>/format/<bs_format>/')
+def get_basis_html(name, elements=None, bs_format='gaussian94'):
     """Returns basis set in an HTML file"""
 
-    data = get_basis_set(name, elements, bs_format)
+    data = get_basis(name, elements, bs_format)
 
     return render_template('show_data.html', data=data)
 

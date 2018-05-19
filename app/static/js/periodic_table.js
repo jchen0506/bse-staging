@@ -382,7 +382,7 @@ $( document ).ready(function () {
 
         e.preventDefault();
         var query = '';
-        var url = "get_basis_set/";
+        var url = "get_basis/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
         var optimize = $('#optimize').prop('checked');

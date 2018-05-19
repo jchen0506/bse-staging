@@ -64,8 +64,8 @@
 
                 <div class="w-100">
                     <select id="basis_sets" class="custom-select mb-1" size="22" style="overflow-y: scroll">
-                        {%  for basis_set in basis_sets -%}
-                            <option value="{{ basis_set }}">{{ basis_set }}</option>
+                        {%  for key, name in basis_sets -%}
+                            <option value="{{ key }}">{{ name }}</option>
                         {%- endfor %}
                     </select>
                 </div>
