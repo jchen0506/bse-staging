@@ -71,6 +71,7 @@ def get_basis(name, bs_format):
     uncontract_segmented = request.args.get('uncontract_segmented', default=False)
     uncontract_spdf = request.args.get('uncontract_spdf', default=False)
     optimize_general = request.args.get('optimize_general', default=False)
+    version = request.args.get('ver', default=None)
 
     uncontract_general = set_boolean(uncontract_general)
     uncontract_segmented = set_boolean(uncontract_segmented)
@@ -88,6 +89,7 @@ def get_basis(name, bs_format):
 
     # save_access(basis_set_name=name, basis_download=True, elements=elements, bs_format=bs_format)
     basis_set = bse.get_basis(name=name, elements=elements, fmt=bs_format,
+                              version=version,
                               uncontract_general=uncontract_general,
                               uncontract_segmented=uncontract_segmented,
                               uncontract_spdf=uncontract_spdf,
