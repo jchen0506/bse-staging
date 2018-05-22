@@ -299,16 +299,33 @@ $( document ).ready(function () {
         }
     }
 
-    $('#get_citation').click(function (e) {
+    $('#basis_notes').click(function (e) {
         e.preventDefault();
-        var url = '/api/citation/';
+        var url = '/notes/';
         var basis_set = $('#basis_sets').val();
         if (! basis_set){
             alert("Please click on the basis set you want to download.");
             return;
         }
-        console.log('Download citation for Basis set: ', basis_set);
-        window.open(url + basis_set, 'Basis Set ' + basis_set, "height=650,width=600");
+        console.log('Download notes for Basis set: ', basis_set);
+        window.open(url + basis_set, 'Notes for basis set ' + basis_set, "height=650,width=600");
+
+    });
+
+
+    $('#family_notes').click(function (e) {
+        e.preventDefault();
+        var url = '/family_notes/';
+        var basis_set = $('#basis_sets').val();
+
+        if (! basis_set){
+            alert("Please click on the basis set you want to download.");
+            return;
+        }
+
+        var family = window.bs_metadata[basis_set]['family'];
+        console.log('Download family notes for Basis set: ', basis_set, ', family ', family);
+        window.open(url + family, 'Notes for basis set ' + basis_set, "height=650,width=600");
 
     });
 
@@ -378,11 +395,11 @@ $( document ).ready(function () {
         }
     }
 
-    $("#get_basis_sets").click(function (e) {
+    $("#get_basis").click(function (e) {
 
         e.preventDefault();
         var query = '';
-        var url = "get_basis/";
+        var url = "basis/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
         var optimize = $('#optimize').prop('checked');
@@ -426,11 +443,11 @@ $( document ).ready(function () {
     });
 
 
-    $("#get_citations").click(function (e) {
+    $("#get_references").click(function (e) {
 
         e.preventDefault();
         var query = '';
-        var url = "citation/";
+        var url = "references/";
         var basis_set = $('#basis_sets').val();
         var format = $('#cformat').val();
         var elements = $('.element.selected');

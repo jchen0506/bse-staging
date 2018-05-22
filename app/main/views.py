@@ -14,10 +14,19 @@ logger = logging.getLogger(__name__)
 data_loader = DataLoader()
 
 
-@main.route('/api/available_formats/')
-def get_available_formats():
-    return jsonify(data_loader.formats)
+##########################
+# Helper functions
+##########################
+def set_boolean(param) -> bool:
+    if isinstance(param, bool):
+        return param
+    else:
+        return param.lower() in ('true', '1')
 
+
+#############################
+# API for the website itself
+#############################
 
 @main.route('/')
 def index():
@@ -29,13 +38,14 @@ def index():
 
     # save_access(access=True, basis_download=False)
 
-    return render_template('index.html', basis_sets=basis_sets, formats=formats,
+    return render_template('index.html', basis_sets=basis_sets,
+                                         formats=formats,
                                          ref_formats=ref_formats)
 
 
 @main.route('/web_metadata/')
-def get_website_metadata():
-    """Get Metadata of the whole basis sets
+def web_metadata():
+    """Get the metadata for all basis sets
     """
     logger.info("Getting website metada")
 
@@ -43,24 +53,27 @@ def get_website_metadata():
                     'element_basis': data_loader.element_basis})
 
 
-@main.route('/api/get_metadata/')
-def get_meta_data():
+
+###########################
+# Raw API
+###########################
+
+@main.route('/api/formats/')
+def api_formats():
+    return jsonify(data_loader.formats)
+
+
+@main.route('/api/metadata/')
+def api_metadata():
     """Get Metadata of the whole basis sets
     """
-    logger.info("Getting metada")
 
+    logger.info("Getting metada")
     return jsonify(data_loader.metadata)
 
 
-def set_boolean(param: str) -> bool:
-    if param in ('True', 'true', 1):
-        return True
-    else:
-        return False
-
-
-@main.route('/api/get_basis/<name>/format/<bs_format>/')
-def get_basis(name, bs_format):
+@main.route('/api/basis/<name>/format/<bs_format>/')
+def api_basis(name, bs_format):
     """Get (download) specific basis set
     Optional: elements (list of int), uncontract_general (bool),
               uncontract_segmented (bool), uncontract_spdf (bool),
@@ -98,24 +111,57 @@ def get_basis(name, bs_format):
     return basis_set
 
 
-@main.route('/get_basis/<name>/format/<bs_format>/')
-def get_basis_html(name, bs_format):
-    """Returns basis set in an HTML file"""
-
-    data = get_basis(name, bs_format)
-
-    return render_template('show_data.html', data=data)
-
-
-@main.route('/citation/<basis_set_name>/format/<cformat>')
-def get_citations(basis_set_name, cformat):
-    """Get citations for a given basis set name"""
+@main.route('/api/references/<basis_set_name>/format/<cformat>')
+def api_references(basis_set_name, cformat):
+    """Get the refrences for a given basis set name"""
 
     elements = request.args.get('elements', default=None)
 
     if elements is not None:
         elements = [int(e) for e in elements.split(',')]
 
-    data = bse.get_references(basis_set_name, elements=elements, fmt=cformat)
+    return bse.get_references(basis_set_name, elements=elements, fmt=cformat)
 
+
+@main.route('/api/notes/<basis_set_name>')
+def api_notes(basis_set_name):
+    return bse.get_basis_notes(basis_set_name)
+
+
+@main.route('/api/family_notes/<family>')
+def api_family_notes(family):
+    return bse.get_family_notes(family)
+
+
+###############################
+# API converted to HTML
+###############################
+
+@main.route('/basis/<name>/format/<bs_format>/')
+def html_basis(name, bs_format):
+    """Returns basis set in an HTML file"""
+
+    data = api_basis(name, bs_format)
+    return render_template('show_data.html', data=data)
+
+
+@main.route('/references/<basis_set_name>/format/<cformat>')
+def html_references(basis_set_name, cformat):
+    """Get citations for a given basis set name"""
+
+    data = api_references(basis_set_name, cformat)
+    return render_template('show_data.html', data=data)
+
+
+@main.route('/notes/<basis_set_name>')
+def html_notes(basis_set_name):
+    """Get citations for a given basis set name"""
+
+    data = api_notes(basis_set_name)
+    return render_template('show_data.html', data=data)
+
+
+@main.route('/family_notes/<family>')
+def html_family_notes(family):
+    data = api_family_notes(family)
     return render_template('show_data.html', data=data)
