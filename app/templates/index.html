@@ -53,24 +53,32 @@
 
     <!-- First row (panel and periodic) -->
     <div class="row px-3 py-1">
-        <nav class="col-lg-3 sidebar mr-lg-3">
-            <div class="row">
+        <nav class="col-lg-3 sidebar mr-lg-3 p-0">
+            <div class="row mb-2 no-gutters">
 
-                <select id="ecp" class="selectpicker mb-2 w-100" data-size="3" data-style="selectpicker_style btn-sm">
+                <select id="rules" class="selectpicker col-md-4 pr-md-1" data-size="3" data-style="selectpicker_style btn-sm">
+                  <option value="Orbital" selected>Orbital</option>
+                  <option value="MP2Fit">MP2Fit</option>
+                  <option value="JKFit">JKFit</option>
+                </select>
+
+                <select id="ecp" class="selectpicker col-md-8" data-size="3" data-style="selectpicker_style btn-sm">
                   <option value="" selected>All</option>
                   <option value="no_ecp">All Electron</option>
                   <option value="ecp">Orbital with effective core Potentials</option>
                 </select>
 
-                <div class="w-100">
-                    <select id="basis_sets" class="custom-select mb-1" size="22" style="overflow-y: scroll">
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <select id="basis_sets" class="custom-select mb-1" size="23" style="overflow-y: scroll">
                         {%  for key, name in basis_sets -%}
                             <option value="{{ key }}">{{ name }}</option>
                         {%- endfor %}
                     </select>
                 </div>
 
-                <div class="input-group text-align-bottom mb-1">
+                <div class="col-12 input-group text-align-bottom mb-1">
                     <input id="search_name" type="text" name="search" class="form-control" placeholder="search basis sets..." />
         {#                <div class="input-group-append" ><i class="fa fa-search"></i></div>#}
                 </div>
@@ -96,9 +104,32 @@
     <!-- Second row (summary, download, citation) -->
     <div class="row px-3 py-1 align-items-start"> <!-- removes same height of columns -->
 
-        <!-- Left column, BS Summary info -->
-        <div class="card col-lg-3 mr-lg-3 p-3">
-            <h5 class="card-title">Basis Set: <span id="basis_set_name"></span></h5>
+        <div class="col-lg-3 mr-lg-3"><div class="row">
+        <!-- Left column, BS Summary info, download references -->
+
+        <!-- Download References -->
+        <div class="card col-12 mb-2 p-3">
+            <h5 class="card-title">References for selected basis</h5>
+            <div class="card-block">
+                <form class="form-inline">
+                    <div class="form-group my-1 mr-sm-2">
+                      <label class="mr-sm-2" for="format">Format</label>
+                      <select id="cformat" class="custom-select form-control form-control-sm">
+                          {% for format, display_name in ref_formats.items() -%}
+                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
+                                  {{ display_name }}
+                              </option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  <button id="get_references" type="submit" class="btn unique-color">Get References</button>
+                </form>
+            </div>
+        </div><!-- download -->
+
+        <!-- Selected basis detail-->
+        <div class="card col-12 p-3">
+            <h5 class="card-title">Selected Basis Set: <span id="basis_set_name"></span></h5>
             <div class="card-block">
                 <b>Description: </b><span id="description"></span><br />
                 <b>Last Updated: </b><span id="last_updated"></span><br />
@@ -109,6 +140,8 @@
                 <a id="family_notes" href="#" class="card-link">Family Notes</a>
             </div>
         </div>
+
+        </div></div>
 
         <!-- Right column, download and citation -->
         <div class="col-lg-8">
@@ -129,36 +162,15 @@
                           {% endfor %}
                       </select>
                     </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input id="optimize" type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label" for="optimize">Optimize General Contractions</label>
-                      </div>
-                    </div>
 
-                  <button id="get_basis" type="submit" class="btn unique-color">Get Basis Set</button>
+                    <button id="get_basis" type="submit" class="btn unique-color">Get Basis Set</button>
+                    <!-- Advanced get basis -->
+                    <a type="button" href="#" class="card-link ml-3" data-toggle="modal" data-target="#advanced_basis">
+                      Advanced
+                    </a>
                 </form>
-
             </div>
-            <h5 class="card-title">References</h5>
-            <div class="card-block">
-                <form class="form-inline">
-                    <div class="form-group my-1 mr-sm-2">
-                      <label class="mr-sm-2" for="format">Format</label>
-                      <select id="cformat" class="custom-select form-control form-control-sm">
-                          {% for format, display_name in ref_formats.items() -%}
-                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
-                                  {{ display_name }}
-                              </option>
-                          {% endfor %}
-                      </select>
-                    </div>
-                  <button id="get_references" type="submit" class="btn unique-color">Get References</button>
-                </form>
-
-            </div>
-        </div><!-- download -->
-
+        </div>
 
         <!-- Cite this website-->
         <div class="card card-body col-lg hidden-xs-down p-3">
@@ -214,6 +226,69 @@
 
 </footer>
 
+
+
+
+<!-- Advanced get basis Modal -->
+<div id="advanced_basis" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="advanced_basis_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="advanced_basis_label">Advanced options</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group my-1">
+                      <label class="" for="format2">Format</label>
+                      <select id="format2" class="custom-select form-control form-control-sm">
+                          {% for format, display_name in formats.items() -%}
+                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
+                                  {{ display_name }}
+                              </option>
+                          {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="form-group my-1">
+                      <label class="mt-2" for="format">Version</label>
+                      <select id="version" class="custom-select form-control form-control-sm">
+                      </select>
+                    </div>
+
+                    <div class="form-group my-1">
+                        <label class="mt-2">Other options:</label>
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input id="optimize_general" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="optimize_general">Optimize General Contractions</label>
+                        </div>
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input id="uncontract_general" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="uncontract_general">Uncontract General</label>
+                        </div>
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input id="uncontract_spdf" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="uncontract_spdf">Uncontract SPDF</label>
+                        </div>
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input id="uncontract_segmented" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="uncontract_segmented">Uncontract Segmented</label>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn unique-color" data-dismiss="modal">Cencel</button>
+              <button id="get_basis_advanced" type="submit" class="btn unique-color">Get Basis Set</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

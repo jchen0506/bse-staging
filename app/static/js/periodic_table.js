@@ -258,6 +258,7 @@ $( document ).ready(function () {
 
         // update summary card
         update_summary(selected);
+        update_version_list(selected);
 
         if (! selected){
             $(".element").removeClass('available');
@@ -288,6 +289,10 @@ $( document ).ready(function () {
         }
     }
 
+    function update_version_list(selected) {
+        // TODO: update the #version select with new options
+
+    }
     function element_clicked(e) {
         $(this).toggleClass('selected');
         e.preventDefault();
@@ -381,7 +386,7 @@ $( document ).ready(function () {
 
         var option, lastest, basis_ecp;
         for (var i=0; i< options.length; i++){
-            option = $(options[i]).text();
+            option = $(options[i]).val();
             lastest = window.bs_metadata[option]['latest_version'];
             basis_ecp = window.bs_metadata[option]['versions'][lastest]['functiontypes'];
             if (option.toUpperCase().indexOf(filter) === -1 ||
@@ -402,7 +407,6 @@ $( document ).ready(function () {
         var url = "basis/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
-        var optimize = $('#optimize').prop('checked');
         var elements = $('.element.selected');
 
         if (! basis_set){
@@ -422,9 +426,6 @@ $( document ).ready(function () {
 
         query += basis_set + '/format/' + format + '/?elements=' + elements_ids.toString();
 
-        if (optimize){
-            query += '&optimize_general=' + optimize;
-        }
 
         console.log('Download Basis set for query: ', query);
         window.open(url + query, 'Basis Set ' + basis_set, "height=650,width=600");
