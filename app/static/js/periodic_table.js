@@ -282,7 +282,6 @@ $( document ).ready(function () {
             var latest_version = window.bs_metadata[selected]['latest_version'];
             $('#latest_version').text(latest_version);
             $('#description').text(window.bs_metadata[selected]['versions'][latest_version]['description']);
-            console.log(window.bs_metadata[selected]['versions'][latest_version]['description']);
         }else{
             $('#latest_version').text('');
             $('#description').text('');
@@ -395,6 +394,9 @@ $( document ).ready(function () {
         var ecp = $('#ecp').val();
         var role = $('#role').val();
 
+        console.log('Filter by: ', 'ecp:', ecp, ', role: ', role, ', filter text: ',
+            filter, ', elements: ', selected_elements);
+
         if (selected_elements.length > 0){
             // assign list to first element's basis sets
             id = $(selected_elements[0]).prop('id').split('_')[1];
@@ -419,8 +421,6 @@ $( document ).ready(function () {
             // lastest = window.bs_metadata[option]['latest_version'];
             basis_ecp = window.bs_metadata[option]['functiontypes'];
             basis_role = window.bs_metadata[option]['role'];
-            console.log(window.bs_metadata[option]);
-            console.log('ECP: ', ecp, ', Role: ', role);
             if (option.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
                 (ecp === 'ecp' && basis_ecp.indexOf('ecp') === -1) ||

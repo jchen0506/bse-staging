@@ -17,11 +17,7 @@ class DataLoader(object):
         self.element_basis = {str(i): [] for i in range(1, 119)}
         for element in self.element_basis:
             for basis in self.metadata:
-                logger.debug(basis)
                 latest = self.metadata[basis]['latest_version']
-                logger.debug(self.metadata[basis]['versions'][latest])
                 if element in self.metadata[basis]['versions'][latest]['elements']:
                     self.element_basis[element].append(basis)
-
-        logger.debug(self.element_basis)
 
