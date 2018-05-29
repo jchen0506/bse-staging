@@ -14,10 +14,14 @@ class DataLoader(object):
         self.basis_sets = sorted((k, v['display_name']) for k,v in self.metadata.items())
         logger.info(self.basis_sets)
 
-        self.element_basis = {i: [] for i in range(1, 119)}
+        self.element_basis = {str(i): [] for i in range(1, 119)}
         for element in self.element_basis:
             for basis in self.metadata:
+                logger.debug(basis)
                 latest = self.metadata[basis]['latest_version']
+                logger.debug(self.metadata[basis]['versions'][latest])
                 if element in self.metadata[basis]['versions'][latest]['elements']:
                     self.element_basis[element].append(basis)
+
+        logger.debug(self.element_basis)
 

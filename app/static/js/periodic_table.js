@@ -254,7 +254,7 @@ $( document ).ready(function () {
         // change the table based on new basis set selection
 
         var selected = $('#basis_sets').find(":selected").val();
-        console.log('Selected bs: ', selected);
+        console.log('Selected bs: ', window.bs_metadata[selected]);
 
         // update summary card
         update_summary(selected);
@@ -275,7 +275,7 @@ $( document ).ready(function () {
     }
 
     function update_summary(selected) {
-        // TODO: update summary card with bass set data
+        // TODO: update summary card with basis set data
         $('#basis_set_name').text(selected? selected : '');
 
         if (selected){
@@ -290,7 +290,31 @@ $( document ).ready(function () {
     }
 
     function update_version_list(selected) {
-        // TODO: update the #version select with new options
+        // Update the version select element (advanced download) with new options
+
+        var versions_select = $('#version');
+        if (!selected){
+            versions_select.empty();  // clear existing options
+            return;
+        }
+
+        var latest_version = window.bs_metadata[selected]['latest_version'];
+        var basis_versions = window.bs_metadata[selected]['versions'];
+        // From object to array with key only
+        basis_versions = $.makeArray(Object.keys(basis_versions));
+
+        // Sort descending
+        basis_versions.sort().reverse();
+
+        versions_select.empty();  // clear existing options
+
+        $.each(basis_versions, function(i, version){
+                var text = 'Version ' + version;
+                if (version === latest_version){
+                    text += ' (latest)';
+                }
+                versions_select.append(new Option(text, version));
+        });
 
     }
     function element_clicked(e) {
@@ -338,6 +362,10 @@ $( document ).ready(function () {
         filter_basis_set_names(true);
     });
 
+    $("#role").change(function () {
+        filter_basis_set_names(true);
+    });
+
     $('#reset_selection').click(function () {
         $(".element").removeClass('selected');
         filter_basis_set_names(false);
@@ -365,6 +393,7 @@ $( document ).ready(function () {
         var available_bs = '';
         var selected_elements = $('.element.selected');
         var ecp = $('#ecp').val();
+        var role = $('#role').val();
 
         if (selected_elements.length > 0){
             // assign list to first element's basis sets
@@ -384,15 +413,20 @@ $( document ).ready(function () {
             basis_sets_selection_changed();  // event listener trigger is not working
         }
 
-        var option, lastest, basis_ecp;
+        var option, lastest, basis_ecp, basis_role;
         for (var i=0; i< options.length; i++){
             option = $(options[i]).val();
-            lastest = window.bs_metadata[option]['latest_version'];
-            basis_ecp = window.bs_metadata[option]['versions'][lastest]['functiontypes'];
+            // lastest = window.bs_metadata[option]['latest_version'];
+            basis_ecp = window.bs_metadata[option]['functiontypes'];
+            basis_role = window.bs_metadata[option]['role'];
+            console.log(window.bs_metadata[option]);
+            console.log('ECP: ', ecp, ', Role: ', role);
             if (option.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
-                (ecp === 'ecp' && basis_ecp.indexOf('ECP') === -1) ||
-                (ecp === 'no_ecp' && basis_ecp.indexOf('ECP') > -1)) {
+                (ecp === 'ecp' && basis_ecp.indexOf('ecp') === -1) ||
+                (ecp === 'no_ecp' && basis_ecp.indexOf('ecp') > -1) ||
+                (role && basis_role !== role)
+            ) {
                 $(options[i]).addClass('d-none');
             }else{
                 $(options[i]).removeClass('d-none');
