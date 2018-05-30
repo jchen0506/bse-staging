@@ -1,23 +1,28 @@
-from flask import request, render_template, flash, g, \
-                redirect, url_for, current_app
 import os
-from . import main
-from ..models.logs import save_access
 import logging
-from flask import jsonify
-from .data_loader import DataLoader
 import bse
+from flask import request, render_template, Response, jsonify, json
+from . import main
+from .data_loader import DataLoader
+from ..models.logs import save_access
 
 logger = logging.getLogger(__name__)
 
 # Cached data for faster server load
 data_loader = DataLoader()
 
-
 ##########################
 # Helper functions
 ##########################
-def set_boolean(param) -> bool:
+def _set_boolean(param):
+    '''Converts param to a boolean
+
+    If `param` is a bool, then no conversion is performed.
+
+    If `param` is a string, the True is returned if the string
+    is 'true' or '1' (case insensitive).
+    '''
+
     if isinstance(param, bool):
         return param
     else:
@@ -30,7 +35,7 @@ def set_boolean(param) -> bool:
 
 @main.route('/')
 def index():
-    """Returns the main page of the BSE website"""
+    '''Returns the main page of the BSE website'''
 
     formats = data_loader.formats
     ref_formats = data_loader.ref_formats
@@ -45,123 +50,201 @@ def index():
 
 @main.route('/web_metadata/')
 def web_metadata():
-    """Get the metadata for all basis sets
-    """
-    logger.info("Getting website metada")
+    '''Get the metadata for all basis sets
 
+    The output is JSON
+    '''
+
+    logger.info('WEB: getting web metadata')
     return jsonify({'metadata': data_loader.metadata,
                     'element_basis': data_loader.element_basis})
 
 
 
-###########################
+##########################################
 # Raw API
-###########################
+# This API is expected to be used
+# programmatically, and not from a browser
+##########################################
 
 @main.route('/api/formats/')
 def api_formats():
+    '''Get the possible output formats for basis sets (as JSON)
+
+    The output is a key->value with the key being the format
+    key and the value being a human-readable name
+
+    The format key is passed into other API calls.
+    '''
+
+    logger.info('API: formats')
     return jsonify(data_loader.formats)
+
+
+@main.route('/api/reference_formats/')
+def api_reference_formats():
+    '''Get the possible output formats for references (as JSON)
+
+    The output is a key->value with the key being the format
+    key and the value being a human-readable name
+
+    The format key is passed into other API calls.
+    '''
+
+    logger.info('API: reference formats')
+    return jsonify(data_loader.ref_formats)
 
 
 @main.route('/api/metadata/')
 def api_metadata():
-    """Get Metadata of the whole basis sets
-    """
+    '''Get the metadata for all the basis sets (as JSON)
 
-    logger.info("Getting metada")
+    The metadata for a basis set contains the description, the versions,
+    function types, and elements defined by the basis set.
+    '''
+
+    logger.info('API: metadata')
     return jsonify(data_loader.metadata)
 
 
-@main.route('/api/basis/<name>/format/<bs_format>/')
-def api_basis(name, bs_format):
-    """Get (download) specific basis set
-    Optional: elements (list of int), uncontract_general (bool),
-              uncontract_segmented (bool), uncontract_spdf (bool),
-              optimize_general (bool)
-    """
+@main.route('/api/basis/<basis_name>/format/<fmt>/')
+def api_basis(basis_name, fmt):
+    '''Get a basis set
+
+    Available formats can found with `/api/formats`
+
+    The response mimetype depends on the format. If the format
+    is json, is is 'application/json'. Otherwise, it is 'text/plain'
+
+    Optional: elements (list of str),
+              uncontract_general (bool),
+              uncontract_segmented (bool),
+              uncontract_spdf (bool),
+              optimize_general (bool),
+              make_general (bool)
+              header (bool)
+    '''
 
     uncontract_general = request.args.get('uncontract_general', default=False)
     uncontract_segmented = request.args.get('uncontract_segmented', default=False)
     uncontract_spdf = request.args.get('uncontract_spdf', default=False)
     optimize_general = request.args.get('optimize_general', default=False)
+    make_general = request.args.get('make_general', default=False)
+    header = request.args.get('header', default=True)
+
+    uncontract_general = _set_boolean(uncontract_general)
+    uncontract_segmented = _set_boolean(uncontract_segmented)
+    uncontract_spdf = _set_boolean(uncontract_spdf)
+    optimize_general = _set_boolean(optimize_general)
+    make_general = _set_boolean(make_general)
+    header = _set_boolean(header)
+
     version = request.args.get('version', default=None)
-
-    uncontract_general = set_boolean(uncontract_general)
-    uncontract_segmented = set_boolean(uncontract_segmented)
-    uncontract_spdf = set_boolean(uncontract_spdf)
-    optimize_general = set_boolean(optimize_general)
-
     elements = request.args.get('elements', default=None)
 
     if elements is not None:
-        elements = [int(e) for e in elements.split(',')]
+        elements = elements.split(',')
 
-    # Log this basis set download into logging DB
-    logger.info('REQUESTED BASIS SET: name=%s, elements=%s, format=%s, uncontract_general=%s',
-                name, elements, bs_format, uncontract_general)
+    logger.info('API: basis: name=%s, ver=%s, elements=%s, format=%s, opts=%s,%s,%s,%s,%s',
+                basis_name, version, elements, fmt, uncontract_general, uncontract_segmented,
+                uncontract_spdf, optimize_general, make_general)
 
-    # save_access(basis_set_name=name, basis_download=True, elements=elements, bs_format=bs_format)
-    basis_set = bse.get_basis(name=name, elements=elements, fmt=bs_format,
+    basis_set = bse.get_basis(name=basis_name, elements=elements, fmt=fmt,
                               version=version,
                               uncontract_general=uncontract_general,
                               uncontract_segmented=uncontract_segmented,
                               uncontract_spdf=uncontract_spdf,
-                              optimize_general=optimize_general)
+                              optimize_general=optimize_general,
+                              make_general=make_general,
+                              header=header)
 
-    return basis_set
+    # save_access(basis_name=basis_name, basis_download=True, elements=elements, fmt=fmt)
+
+    if fmt.lower() == 'json':
+        return Response(basis_set, mimetype='application/json')
+    else:
+        return Response(basis_set, mimetype='text/plain')
 
 
-@main.route('/api/references/<basis_set_name>/format/<cformat>')
-def api_references(basis_set_name, cformat):
-    """Get the refrences for a given basis set name"""
+@main.route('/api/references/<basis_name>/format/<fmt>/')
+def api_references(basis_name, fmt):
+    '''Get the references/citations for a given basis set
+
+    The elements can also be specified.
+
+    Available reference formats can found with `/api/reference_formats`
+
+    The response mimetype depends on the format. If the format
+    is json, is is 'application/json'. Otherwise, it is 'text/plain'
+    '''
 
     elements = request.args.get('elements', default=None)
 
     if elements is not None:
-        elements = [int(e) for e in elements.split(',')]
+        elements = elements.split(',')
 
-    return bse.get_references(basis_set_name, elements=elements, fmt=cformat)
+    logger.info('API: references: name=%s elements=%s format=%s', basis_name, elements, fmt)
+
+    refs = bse.get_references(basis_name, elements=elements, fmt=fmt)
+
+    if fmt.lower() == 'json':
+        return Response(refs, mimetype='application/json')
+    else:
+        return Response(refs, mimetype='text/plain')
 
 
-@main.route('/api/notes/<basis_set_name>')
-def api_notes(basis_set_name):
-    return bse.get_basis_notes(basis_set_name)
+@main.route('/api/notes/<basis_name>')
+def api_notes(basis_name):
+    '''Get text notes about a basis set'''
+
+    logger.info('API: basis notes: %s', basis_name)
+    notes = bse.get_basis_notes(basis_name)
+    return Response(notes, mimetype='text/plain')
 
 
 @main.route('/api/family_notes/<family>')
 def api_family_notes(family):
-    return bse.get_family_notes(family)
+    '''Get text notes about a basis set family'''
+
+    logger.info('API: family notes: %s', family)
+    notes = bse.get_family_notes(family)
+    return Response(notes, mimetype='text/plain')
+
 
 
 ###############################
 # API converted to HTML
 ###############################
 
-@main.route('/basis/<name>/format/<bs_format>/')
-def html_basis(name, bs_format):
-    """Returns basis set in an HTML file"""
+@main.route('/basis/<name>/format/<fmt>/')
+def html_basis(name, fmt):
+    '''Render a page with basis set data'''
 
-    data = api_basis(name, bs_format)
+    data = api_basis(name, fmt).get_data(as_text=True)
+
+    # save_access(basis_name=name, basis_download=True, elements=elements, fmt=fmt)
     return render_template('show_data.html', data=data)
 
 
-@main.route('/references/<basis_set_name>/format/<cformat>')
-def html_references(basis_set_name, cformat):
-    """Get citations for a given basis set name"""
+@main.route('/references/<basis_name>/format/<fmt>')
+def html_references(basis_name, fmt):
+    '''Render a page with basis set reference data'''
 
-    data = api_references(basis_set_name, cformat)
+    data = api_references(basis_name, fmt).get_data(as_text=True)
     return render_template('show_data.html', data=data)
 
 
-@main.route('/notes/<basis_set_name>')
-def html_notes(basis_set_name):
-    """Get citations for a given basis set name"""
+@main.route('/notes/<basis_name>')
+def html_notes(basis_name):
+    '''Render a page with basis set notes'''
 
-    data = api_notes(basis_set_name)
+    data = api_notes(basis_name).get_data(as_text=True)
     return render_template('show_data.html', data=data)
 
 
 @main.route('/family_notes/<family>')
 def html_family_notes(family):
-    data = api_family_notes(family)
+    '''Render a page with basis set family notes'''
+
+    data = api_family_notes(family).get_data(as_text=True)
     return render_template('show_data.html', data=data)
