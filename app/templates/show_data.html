@@ -6,22 +6,57 @@
 	<title>BSE</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
+
+<script>
+function copyData() {
+    var x = document.querySelector("#bstext");
+    // Depending on which method is supported by browser
+    if (document.selection) {
+        // Create a range of text object
+        var range = document.body.createTextRange();
+        range.moveToElementText(x); // Apply range to element in question
+        range.select();  // Now, select will work
+    } else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(x);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+    }
+
+    // Actually copy to the clipboard
+    document.execCommand('copy')
+}
+</script>
 <body>
 
+<main class="container ml-2">
 
-<main class="container-fluid">
-<pre class="">
+<div class="row">
+    <div class="card mb-3">
+    <div class="card-body">
+    <p class="card-text">
+        <b>Web Link: </b><a id="web_link" href="{{ web_link }}">{{ web_link }}</a><br />
+        <b>API Link: </b><a id="api_link" href="{{ api_link }}">{{ api_link }}</a>
+    </p>
+
+    <a id="dl_link" href="{{ api_link }}" download="{{ dl_filename }}"><button class="btn btn-sm">Download</button></a>
+    <button onclick="copyData()" class="btn btn-sm">Copy to Clipboard</button>
+
+    </div>
+    </div>
+</div>
+
+<div class="row">
+<pre id="bstext" class="col-auto">
 {{ data }}
 </pre>
+</div>
+
 </main>
-
-
 </body>
 </html>

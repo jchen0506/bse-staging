@@ -216,14 +216,21 @@ def api_family_notes(family):
 # API converted to HTML
 ###############################
 
-@main.route('/basis/<name>/format/<fmt>/')
-def html_basis(name, fmt):
+@main.route('/basis/<basis_name>/format/<fmt>/')
+def html_basis(basis_name, fmt):
     '''Render a page with basis set data'''
 
-    data = api_basis(name, fmt).get_data(as_text=True)
+    data = api_basis(basis_name, fmt).get_data(as_text=True)
 
-    # save_access(basis_name=name, basis_download=True, elements=elements, fmt=fmt)
-    return render_template('show_data.html', data=data)
+    # save_access(basis_basis_name=basis_name, basis_download=True, elements=elements, fmt=fmt)
+    root = request.url_root
+    web_link = request.url
+    api_link = web_link.replace(root, root + 'api/')
+    dl_filename = basis_name + ".bas"
+    return render_template('show_data.html', data=data,
+                            api_link=api_link,
+                            web_link=web_link,
+                            dl_filename=dl_filename)
 
 
 @main.route('/references/<basis_name>/format/<fmt>')
@@ -231,7 +238,16 @@ def html_references(basis_name, fmt):
     '''Render a page with basis set reference data'''
 
     data = api_references(basis_name, fmt).get_data(as_text=True)
-    return render_template('show_data.html', data=data)
+
+    root = request.url_root
+    web_link = request.url
+    api_link = web_link.replace(root, root + 'api/')
+    dl_filename = basis_name + ".ref"
+
+    return render_template('show_data.html', data=data,
+                            api_link=api_link,
+                            web_link=web_link,
+                            dl_filename=dl_filename)
 
 
 @main.route('/notes/<basis_name>')
@@ -239,7 +255,16 @@ def html_notes(basis_name):
     '''Render a page with basis set notes'''
 
     data = api_notes(basis_name).get_data(as_text=True)
-    return render_template('show_data.html', data=data)
+
+    root = request.url_root
+    web_link = request.url
+    api_link = web_link.replace(root, root + 'api/')
+    dl_filename = basis_name + ".txt"
+
+    return render_template('show_data.html', data=data,
+                            api_link=api_link,
+                            web_link=web_link,
+                            dl_filename=dl_filename)
 
 
 @main.route('/family_notes/<family>')
@@ -247,4 +272,13 @@ def html_family_notes(family):
     '''Render a page with basis set family notes'''
 
     data = api_family_notes(family).get_data(as_text=True)
-    return render_template('show_data.html', data=data)
+
+    root = request.url_root
+    web_link = request.url
+    api_link = web_link.replace(root, root + 'api/')
+    dl_filename = family + ".txt"
+
+    return render_template('show_data.html', data=data,
+                            api_link=api_link,
+                            web_link=web_link,
+                            dl_filename=dl_filename)
