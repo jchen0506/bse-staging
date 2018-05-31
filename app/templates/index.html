@@ -3,9 +3,8 @@
 
 {% block main_contents %}
 <main class="container-fluid">
-
     <!-- First row (panel and periodic) -->
-    <div class="row px-3 py-1">
+    <div class="row justify-content-center px-3 py-1">
         <nav class="col-lg-3 sidebar mr-lg-3 p-0">
             <div class="row mb-2 no-gutters">
 
@@ -55,7 +54,7 @@
 
 
     <!-- Second row (summary, download, citation) -->
-    <div class="row px-3 py-1 align-items-start"> <!-- removes same height of columns -->
+    <div class="row justify-content-center px-3 py-1 align-items-start"> <!-- removes same height of columns -->
 
         <div class="col-lg-3 mr-lg-3"><div class="row">
         <!-- Left column, BS Summary info, download references -->
@@ -75,7 +74,7 @@
                           {% endfor %}
                       </select>
                     </div>
-                  <button id="get_references" type="submit" class="btn unique-color">Get References</button>
+                  <button id="get_references" type="submit" class="btn btn-sm unique-color">Get References</button>
                 </form>
             </div>
         </div><!-- download -->
