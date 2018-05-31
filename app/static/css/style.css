@@ -9,7 +9,7 @@ body {
 
 /* New from MDB */
 
-.btn {
+.unique-color {
     background-color: #3F729B!important;
     color: #FFF !important;
 }
@@ -122,8 +122,8 @@ body {
   }
 }
 
-.page-footer{
-   background-color: #333333;
-    color: #d6dce1;
-}
+/*.page-footer{*/
+   /*background-color: #333333;*/
+    /*color: #d6dce1;*/
+/*}*/
 

@@ -434,89 +434,135 @@ $( document ).ready(function () {
         }
     }
 
-    $("#get_basis").click(function (e) {
 
-        e.preventDefault();
-        var query = '';
-        var url = "basis/";
+    function is_basis_elements_seleced(){
+        // check if basis and elements are selected
         var basis_set = $('#basis_sets').val();
-        var format = $('#format').val();
         var elements = $('.element.selected');
 
         if (! basis_set){
             alert("Please click on the basis set you want to download.");
-            return;
+            return false;
         }
 
         if ( elements.length === 0){
             alert("Please click on the element buttons to select/unselect elements you want to include for download.");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    $('#advanced_download_link').click(function (e) {
+        // Advanced download link clicked, check if basis and elements are selected
+        // then show modal of advanced search
+        console.log('Advanced link clicked');
+        e.preventDefault();
+        if (! is_basis_elements_seleced()){
+
             return;
         }
+        window.scrollTo(0, 0);
+        $('#advanced_basis').modal();
+
+    });
+
+    function get_selected_elements() {
+        // Get list of selected elements as a String
+
+        var elements = $('.element.selected');
         var elements_ids = [];
         elements.each(function (e) {
             elements_ids.push($(this).prop('id').split('_')[1]);
         });
-        console.log('after: ', elements_ids, 'toString: ', elements_ids.toString());
+        return elements_ids.toString();
+    }
 
-        query += basis_set + '/format/' + format + '/?elements=' + elements_ids.toString();
-
+    function show_basis_window(basis_set, query) {
 
         console.log('Download Basis set for query: ', query);
-        window.open(url + query, 'Basis Set ' + basis_set, "height=650,width=600");
+        window.open(query, 'Basis Set ' + basis_set, "height=650,width=600");
+    }
 
-        // // ajax to get basis set
-        // jQuery.ajax({
-        //     url: url,
-        //     data: '',
-        //     contentType: "application/json",
-        //     success: function(result) {
-        //         console.log("Returned data", result);
-        //         // download data ---->
-        //     } // success
-        // }); // ajax
+    $("#get_basis").click(function (e) {
 
+        e.preventDefault();
+
+        if (! is_basis_elements_seleced()){
+            return;
+        }
+
+        var url = "basis/";
+        var basis_set = $('#basis_sets').val();
+        var format = $('#format').val();
+        var elements_ids = get_selected_elements();
+
+        var query = url + basis_set + '/format/' + format + '/?elements=' + elements_ids;
+
+        show_basis_window(basis_set, query);
+
+    });
+
+
+    $("#get_basis_advanced").click(function (e) {
+
+        e.preventDefault();
+
+        if (! is_basis_elements_seleced()){
+            return;
+        }
+
+        var url = "basis/";
+        var basis_set = $('#basis_sets').val();
+        var format = $('#format2').val();
+        var elements_ids = get_selected_elements();
+        var version = $('#version').val();
+        var optimize_general = $('#optimize_general').is(":checked");
+        var uncontract_general = $('#uncontract_general').is(":checked");
+        var uncontract_spdf = $('#uncontract_spdf').is(":checked");
+        var uncontract_segmented = $('#uncontract_segmented').is("checked");
+
+
+        var query = url + basis_set + '/format/' + format + '/?elements=' + elements_ids
+                        + '&version=' + version;
+
+        if (optimize_general){
+            query += '&uncontract_segmented=' + uncontract_segmented;
+        }
+        if (uncontract_general){
+            query += '&uncontract_general=' + uncontract_general;
+        }
+        if (uncontract_spdf){
+            query += '&uncontract_spdf=' + uncontract_spdf;
+        }
+        if (uncontract_segmented){
+            query += '&uncontract_segmented=' + uncontract_segmented;
+        }
+
+        $('#advanced_basis').modal('toggle');
+        show_basis_window(basis_set, query);
     });
 
 
     $("#get_references").click(function (e) {
 
         e.preventDefault();
+
+        if (! is_basis_elements_seleced()){
+            return;
+        }
+
         var query = '';
         var url = "references/";
         var basis_set = $('#basis_sets').val();
         var format = $('#cformat').val();
-        var elements = $('.element.selected');
 
-        if (! basis_set){
-            alert("Please click on the basis set you want to download.");
-            return;
-        }
+        var elements_ids = get_selected_elements();
 
-        if ( elements.length === 0){
-            alert("Please click on the element buttons to select/unselect elements you want to include for download.");
-            return;
-        }
-        var elements_ids = [];
-        elements.each(function (e) {
-            elements_ids.push($(this).prop('id').split('_')[1]);
-        });
-        console.log('after: ', elements_ids, 'toString: ', elements_ids.toString());
+        query += url + basis_set + '/format/' + format + '?elements=' + elements_ids;
 
-        query += basis_set + '/format/' + format + '?elements=' + elements_ids.toString();
-
-        console.log('Getting citation for query: ', query);
-        window.open(url + query, 'Basis Set ' + basis_set, "height=650,width=600");
-
-        // // ajax to get basis set
-        // jQuery.ajax({
-        //     url: url,
-        //     data: '',
-        //     contentType: "application/json",
-        //     success: function(result) {
-        //         console.log("Returned data", result);
-        //         // download data ---->
-        //     } // success
-        // }); // ajax
+        show_basis_window(basis_set, query);
 
     });
 

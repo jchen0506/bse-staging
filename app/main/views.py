@@ -84,7 +84,7 @@ def api_basis(name, bs_format):
     uncontract_segmented = request.args.get('uncontract_segmented', default=False)
     uncontract_spdf = request.args.get('uncontract_spdf', default=False)
     optimize_general = request.args.get('optimize_general', default=False)
-    version = request.args.get('ver', default=None)
+    version = request.args.get('version', default=None)
 
     uncontract_general = set_boolean(uncontract_general)
     uncontract_segmented = set_boolean(uncontract_segmented)
