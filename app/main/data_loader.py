@@ -14,6 +14,9 @@ class DataLoader(object):
         self.basis_sets = sorted((k, v['display_name']) for k,v in self.metadata.items())
         logger.info(self.basis_sets)
 
+        self.format_ext = { k: v['extension'] for k,v in bse.converters.converter_map.items() }
+        self.ref_format_ext = { k: v['extension'] for k,v in bse.refconverters.converter_map.items() }
+
         self.element_basis = {str(i): [] for i in range(1, 119)}
         for element in self.element_basis:
             for basis in self.metadata:

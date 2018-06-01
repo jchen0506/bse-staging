@@ -29,6 +29,15 @@ def _set_boolean(param):
         return param.lower() in ('true', '1')
 
 
+def _get_basis_extension(fmt):
+    '''Obtain the extension for a basis set file based on format'''
+    return data_loader.format_ext[fmt.lower()]
+
+def _get_ref_extension(fmt):
+    '''Obtain the extension for a references file based on format'''
+    return data_loader.ref_format_ext[fmt.lower()]
+
+
 #############################
 # API for the website itself
 #############################
@@ -226,11 +235,12 @@ def html_basis(basis_name, fmt):
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
-    dl_filename = basis_name + ".bas"
+    dl_filename = basis_name + _get_basis_extension(fmt)
     return render_template('show_data.html', data=data,
                             api_link=api_link,
                             web_link=web_link,
                             dl_filename=dl_filename)
+
 
 
 @main.route('/references/<basis_name>/format/<fmt>')
@@ -242,7 +252,7 @@ def html_references(basis_name, fmt):
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
-    dl_filename = basis_name + ".ref"
+    dl_filename = basis_name + _get_ref_extension(fmt)
 
     return render_template('show_data.html', data=data,
                             api_link=api_link,
