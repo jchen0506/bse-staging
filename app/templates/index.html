@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <select id="basis_sets" class="custom-select mb-1" size="23" style="overflow-y: scroll">
+                    <select id="basis_sets" class="custom-select mb-1" size="23" style="overflow-y: scroll; min-height: 382px">
                         {%  for key, name in basis_sets -%}
                             <option value="{{ key }}">{{ name }}</option>
                         {%- endfor %}
