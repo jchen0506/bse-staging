@@ -166,6 +166,9 @@ $( document ).ready(function () {
 
     }
 
+    // TODO: update found count in listener
+    $('#total_found').text($('#basis_sets').find('option').length + ' basis sets');
+
     function add_6_elements(subrow){
         for (var j=1; j<=6; j++) {
             ele_index++;
@@ -381,6 +384,16 @@ $( document ).ready(function () {
         filter_basis_set_names(true);
     });
 
+    function get_full_basis_sets() {
+        // cache the full basis set if not cloned already
+        if (! window.options) {
+            window.options = $('#basis_sets').find('option').clone();
+            console.log('cahed: ', window.options);
+        }
+        // return the full cached copy
+        return window.options;
+    }
+
     function filter_basis_set_names(reset_available) {
         // show only the basis set that has the search filter keyword
         // and available according to selected elements
@@ -388,7 +401,7 @@ $( document ).ready(function () {
         // filtering
         var id;
         var filter = $('#search_name').val().toUpperCase();
-        var options = $('#basis_sets').find('option');
+        var options = $('#basis_sets');
         var available_bs = '';
         var selected_elements = $('.element.selected');
         var ecp = $('#ecp').val();
@@ -415,25 +428,31 @@ $( document ).ready(function () {
             basis_sets_selection_changed();  // event listener trigger is not working
         }
 
-        var option, lastest, basis_ecp, basis_role;
-        for (var i=0; i< options.length; i++){
-            option = $(options[i]).val();
-            // lastest = window.bs_metadata[option]['latest_version'];
+        var option, basis_ecp, basis_role;
+        var options_list = get_full_basis_sets();
+        console.log('Option_list original: ', options_list);
+
+        // reset options list
+        options.empty();
+
+        for (var i=0; i<options_list.length; i++){
+            option = $(options_list[i]).val();
             basis_ecp = window.bs_metadata[option]['functiontypes'];
             basis_role = window.bs_metadata[option]['role'];
-            if (option.toUpperCase().indexOf(filter) === -1 ||
+            if (!(option.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
                 (ecp === 'ecp' && basis_ecp.indexOf('ecp') === -1) ||
                 (ecp === 'no_ecp' && basis_ecp.indexOf('ecp') > -1) ||
-                (role && basis_role !== role)
+                (role && basis_role !== role))
             ) {
-                $(options[i]).addClass('d-none');
-            }else{
-                $(options[i]).removeClass('d-none');
+                options.append(options_list[i]);
             }
         }
-    }
+        console.log('Basis after filtering: ', options);
 
+        // update found count
+        $('#total_found').text($(options).find('option').length + ' basis sets');
+    }
 
     function is_basis_elements_seleced(){
         // check if basis and elements are selected
