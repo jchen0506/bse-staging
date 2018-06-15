@@ -1,7 +1,7 @@
 import os
 import logging
 import bse
-from flask import request, render_template, Response, jsonify, json
+from flask import request, render_template, Response, jsonify, json, current_app
 from . import main
 from .data_loader import DataLoader
 from ..models.logs import save_access
@@ -292,3 +292,22 @@ def html_family_notes(family):
                             api_link=api_link,
                             web_link=web_link,
                             dl_filename=dl_filename)
+
+
+#################################
+# Help pages, documentation, etc
+#################################
+@main.route('/help/<page>')
+def html_help_page(page):
+    '''Render a help page'''
+
+    # Read in the partial HTML
+    app_root = current_app.root_path
+    html_file = os.path.join(app_root, 'help', page + '.html')
+    if not os.path.isfile(html_file):
+        raise RuntimeError("Help page {} does not exist".format(page))
+
+    with open(html_file, 'r') as f:
+        html_data = f.read()
+
+    return render_template('help_page.html',  help_contents=html_data)
