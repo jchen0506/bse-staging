@@ -301,6 +301,10 @@ def html_family_notes(family):
 def html_help_page(page):
     '''Render a help page'''
 
+    help_pages = ['about', 'basis_info']
+    if not page in help_pages:
+        raise RuntimeError("Help page {} does not exist".format(page))
+
     # Read in the partial HTML
     app_root = current_app.root_path
     html_file = os.path.join(app_root, 'help', page + '.html')
