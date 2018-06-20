@@ -1,4 +1,4 @@
-import bse
+import basis_set_exchange as bse
 import logging
 logger = logging.getLogger(__name__)
 

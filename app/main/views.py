@@ -1,6 +1,6 @@
 import os
 import logging
-import bse
+import basis_set_exchange as bse
 from flask import request, render_template, Response, jsonify, json, current_app
 from . import main
 from .data_loader import DataLoader
