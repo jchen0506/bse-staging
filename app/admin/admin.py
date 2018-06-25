@@ -45,7 +45,7 @@ class LogView(ModelView):
     column_type_formatters = MY_DEFAULT_FORMATTERS
     # column_list = ['access', 'bs_download', 'basis_set_name', 'bs_format', 'ip_address']
     column_exclude_list = ['elements']
-    column_filters = ['basis_set_name', 'bs_format']
+    column_filters = ['bs_name', 'bs_format']
 
     form_widget_args = dict(
         basis_set_name={'readonly': True},

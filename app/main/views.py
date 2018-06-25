@@ -167,7 +167,8 @@ def api_basis(basis_name, fmt):
                               make_general=make_general,
                               header=header)
 
-    # save_access(basis_name=basis_name, basis_download=True, elements=elements, fmt=fmt)
+    if current_app.config['DB_LOGGING']:
+        save_access(download=True, bs_name=basis_name, elements=elements, bs_format=fmt)
 
     if fmt.lower() == 'json':
         return Response(basis_set, mimetype='application/json')
@@ -231,7 +232,6 @@ def html_basis(basis_name, fmt):
 
     data = api_basis(basis_name, fmt).get_data(as_text=True)
 
-    # save_access(basis_basis_name=basis_name, basis_download=True, elements=elements, fmt=fmt)
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
