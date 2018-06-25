@@ -5,6 +5,7 @@ from app import logger
 
 # Determine config settings from environment variables
 config_name = os.getenv('FLASK_CONFIG') or 'development'
+print('Running Flask with config: ', config_name)
 
 # Setup logging levels
 logger.setup_logging(config_name=config_name)

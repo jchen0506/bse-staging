@@ -34,6 +34,7 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = False
+    DB_LOGGING = False
     MONGODB_SETTINGS = {
         'host': os.environ.get('MONGO_URI',
                                "mongodb://<user>:<dbpassword>@ds14323111.mlab.com:43231/bse_logging"),  # URI
@@ -43,6 +44,7 @@ class DevelopmentConfig(BaseConfig):
 class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
+    DB_LOGGING = True
     MONGODB_SETTINGS = {
         'host': os.environ.get('MONGO_URI',
                                "mongodb://<user>:<dbpassword>@ds14323111.mlab.com:43231/bse_logging")
@@ -52,6 +54,7 @@ class TestingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     DEBUG = False
     TESTING = False
+    DB_LOGGING = True
     MONGODB_SETTINGS = {
         'host': os.environ.get('MONGO_URI',
                                "mongodb://<user>:<dbpassword>@ds14323111.mlab.com:43231/bse_logging"),
