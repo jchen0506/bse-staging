@@ -36,4 +36,4 @@ wikipedia==1.4.0
 WTForms==2.1
 xlrd==1.0.0
 gunicorn
--e git+git://github.com/MolSSI-BSE/basis_set_exchange.git@v0.2#egg=basis_set_exchange
+basis_set_exchange
