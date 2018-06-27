@@ -4,14 +4,33 @@ from flask import request
 
 
 class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
+    """
+    Stores searches and downloads of basis sets by users.
+    Each Log is an access to specific basis set, basis format, and optionally
+    list of elements.
 
-    access = db.BooleanField(default=True)
-    download = db.BooleanField(default=False)
+    Attributes
+    ----------
+    download : bool
+        if this access is a download request
+    bs_name: str
+        Basis set name
+    bs_format: str
+        Basis set format
+    ip_address: str
+        IP address of the cclient requesting the basis set
+    date: datetime
+        date of the search/download in the server local time
+
+    """
+
+    download = db.BooleanField()
     bs_name = db.StringField(max_length=100)
     elements = db.ListField(db.IntField())
     bs_format = db.StringField(max_length=100)
     date = db.DateTimeField(default=datetime.datetime.now)
     ip_address = db.StringField(max_length=100)
+    comment = db.StringField(max_length=100)
 
     meta = {
         'strict': False,     # allow extra fields
@@ -29,18 +48,15 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
                 self.bs_format + ', IP_address: ' + self.ip_address
 
 
-def save_access(access=True, download=False, bs_name=None,
+def save_access(download=False, bs_name=None,
                 elements=None, bs_format=None):
 
     if elements is None:
         elements = []
 
-    try:
-        ip_address = ip_address = request.environ['REMOTE_ADDR']
-    except:
-        ip_address = None
+    ip_address = request.environ.get('REMOTE_ADDR', None)
 
-    log = Log(access=access, download=download,
+    log = Log(download=download,
               ip_address=ip_address,
               bs_name=bs_name, elements=elements,
               bs_format=bs_format)

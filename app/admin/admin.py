@@ -26,9 +26,9 @@ class UserView(ModelView):
     inline_models = (Role, )
 
     form_widget_args = dict(
-        email={'disabled': True},
-        username={'disabled': True},
-        member_since={'disabled': True}
+        email={'readonly': True},
+        username={'readonly': True},
+        member_since={'readonly': True}
     )
 
     def is_accessible(self):
@@ -38,19 +38,21 @@ class UserView(ModelView):
 class LogView(ModelView):
 
     can_create = False
-    can_edit = False
+    can_edit = True
     can_export = True
     can_view_details = True
 
     column_type_formatters = MY_DEFAULT_FORMATTERS
-    # column_list = ['access', 'bs_download', 'basis_set_name', 'bs_format', 'ip_address']
     column_exclude_list = ['elements']
     column_filters = ['bs_name', 'bs_format']
 
+    # Bug in Flask admin, don't use disabled: True
+    # Bug in Flask admin, readonly doesn't work with boolean and ListFields
     form_widget_args = dict(
-        basis_set_name={'readonly': True},
+        download={'readonly': True},
+        bs_name={'readonly': True},
         elements={'readonly': True},
-        bas_format={'readonly': True},
+        bs_format={'readonly': True},
         ip_address={'readonly': True},
         date={'readonly': True}
     )
