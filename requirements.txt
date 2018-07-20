@@ -36,4 +36,4 @@ wikipedia==1.4.0
 WTForms==2.1
 xlrd==1.0.0
 gunicorn
-basis_set_exchange
+basis_set_exchange==0.4.3
