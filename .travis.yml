@@ -26,7 +26,7 @@ install:
     # Build out the environment
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
+#  - conda update -q conda
   - conda info -a
   - conda create -q -n bse_env python=$TRAVIS_PYTHON_VERSION pip
   - source activate bse_env
@@ -36,6 +36,9 @@ before_script:
   - python -V
   - pip install -e .[tests] -v
   - pip freeze
+  - sleep 15    # fixes an issue with travis,
+                # MongoDB does not accept connections immediately.
+  - mongo test_db --eval ';' # --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 
 script:
   - pytest -v --cov=app/ --durations=5

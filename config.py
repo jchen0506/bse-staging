@@ -42,13 +42,17 @@ class DevelopmentConfig(BaseConfig):
 
 
 class TestingConfig(BaseConfig):
-    DEBUG = True
+    DEBUG = False
     TESTING = True
-    DB_LOGGING = True
+    EMAIL_CONFIRMATION_ENABLED = True
+    # disable CSRF protection in testing
+    WTF_CSRF_ENABLED = False
     MONGODB_SETTINGS = {
-        'host': os.environ.get('MONGO_URI',
-                               "mongodb://<user>:<dbpassword>@ds14323111.mlab.com:43231/bse_logging")
+        'db': "test_db",
+        # 'username': 'travis',
+        # 'password': 'test'
     }
+    DB_LOGGING = True
 
 
 class ProductionConfig(BaseConfig):
