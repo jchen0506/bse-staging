@@ -4,7 +4,7 @@
 language: python
 
 # Run jobs on container-based infrastructure, can be overridden per job
-sudo: false
+sudo: true
 
 python:
     - 3.5
@@ -34,7 +34,7 @@ install:
 
 before_script:
   - python -V
-  - pip install -e .[tests] -v
+  - pip install -e .[tests]
   - pip freeze
   - sleep 15    # fixes an issue with travis,
                 # MongoDB does not accept connections immediately.
