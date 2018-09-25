@@ -41,7 +41,7 @@ before_script:
   - pip freeze
   - sleep 15    # fixes an issue with travis,
                 # MongoDB does not accept connections immediately.
-  - mongo test_db --eval ';' # --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+  - mongo test_bse_db --eval ';' # --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 
 script:
   - pytest -v --cov=app/ --durations=5

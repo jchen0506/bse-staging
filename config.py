@@ -48,7 +48,7 @@ class TestingConfig(BaseConfig):
     WTF_CSRF_ENABLED = False
     DB_LOGGING = True
     MONGODB_SETTINGS = {
-        'db': "test_db",
+        'db': "test_bse_db",
         # 'username': 'travis',
         # 'password': 'test'
     }
