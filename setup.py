@@ -22,7 +22,7 @@ if __name__ == "__main__":
         description='Website for the Quantum Chemistry Basis Set Exchange',
         author='The Molecular Sciences Software Institute',
         author_email='daltarawy@vt.edu',
-        url="https://github.com/doaa-altarawy/BSE_website",
+        url="https://github.com/MolSSI-BSE/BSE_website",
         license='BSD-3C',
 
         packages=setuptools.find_packages(),
