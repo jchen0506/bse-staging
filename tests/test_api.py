@@ -2,11 +2,14 @@ from flask import current_app
 import pytest
 import json
 from base64 import b64encode
-from os.path import join, dirname, abspath
-import pymongo
+import basis_set_exchange as bse
 
 
 headers = {'Content-Type': 'application/json'}
+
+
+def get_ref_formats():
+    return [(format) for format in bse.get_reference_formats()]
 
 
 @pytest.mark.usefixtures("app", "client", autouse=True)   # to use fixtures from conftest
@@ -93,6 +96,20 @@ class TestAPIs(object):
         data = response.get_data(as_text=True)
         assert 'Basis set: 3-21G' in data
         assert 'H' in data and 'Li' in data
+
+    @pytest.mark.parametrize('rf_format', get_ref_formats())
+    def test_get_references(self, rf_format, client):
+        """Get references for a basis set with different formats"""
+
+        bs_name = '3-21g'
+        params = dict(elements='1,3')
+        url = self.api_url + 'references/{}/format/{}/'.format(bs_name, rf_format)
+        response = client.get(url, query_string=params)
+        assert response.status_code == 200
+        data = response.get_data(as_text=True)
+        assert data
+        if rf_format == 'json':
+            assert json.loads(data)
 
 
 
