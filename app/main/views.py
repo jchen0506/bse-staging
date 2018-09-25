@@ -214,7 +214,7 @@ def api_notes(basis_name):
     return Response(notes, mimetype='text/plain')
 
 
-@main.route('/api/family_notes/<family>')
+@main.route('/api/family_notes/<family>/')
 def api_family_notes(family):
     """Get text notes about a basis set family"""
 
@@ -281,7 +281,7 @@ def html_notes(basis_name):
                            dl_filename=dl_filename)
 
 
-@main.route('/family_notes/<family>')
+@main.route('/family_notes/<family>/')
 def html_family_notes(family):
     """Render a page with basis set family notes"""
 

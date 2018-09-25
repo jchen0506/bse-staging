@@ -81,3 +81,28 @@ class TestWebAPIs(object):
         response = client.get(url)
         assert response.status_code == 200
         assert response.get_data(as_text=True)
+
+    @pytest.mark.parametrize('family_name', ['pople', 'sto'])
+    def test_bs_family_notes(self, family_name, client):
+        """Get basis set family notes"""
+
+        url = self.template_url + 'family_notes/{}/'.format(family_name)
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.get_data(as_text=True)
+
+    def test_help_about(self, client):
+        """Test if about page exists"""
+
+        url = self.template_url + 'help/about'
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.get_data(as_text=True)
+
+    def test_help_bs_inf(self, client):
+        """Test if basis set info page exists"""
+
+        url = self.template_url + 'help/basis_info'
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.get_data(as_text=True)
