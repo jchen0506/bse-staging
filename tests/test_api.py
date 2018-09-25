@@ -23,7 +23,6 @@ class TestAPIs(object):
     def test_app_exists(self):
         assert current_app is not None
 
-
     def get_api_headers(self, username, password):
         return {
             'Authorization': 'Basic ' + b64encode(
@@ -64,7 +63,6 @@ class TestAPIs(object):
         # get the basis data of any basis set
         basis_set_name = list(data.keys())[0]
         basis_set = data[basis_set_name]
-        assert 'filebase' in basis_set
         assert 'auxiliaries' in basis_set
         assert 'functiontypes' in basis_set
         assert 'latest_version' in basis_set

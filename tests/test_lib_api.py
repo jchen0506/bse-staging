@@ -4,7 +4,6 @@ Tests for the BSE main API
 
 import random
 
-import basis_set_exchange as bse
 import pytest
 from basis_set_exchange import lut
 
@@ -12,6 +11,7 @@ from .common_testvars import *
 
 # Use random for getting sets of elements
 random.seed(rand_seed, version=2)
+
 
 @pytest.mark.parametrize('basis_name', bs_names)
 def test_get_basis_1(basis_name):
@@ -108,3 +108,4 @@ def test_notes(basis_name):
     bse.get_basis_notes(basis_name)
     fam = bse.get_basis_family(basis_name)
     bse.get_family_notes(fam)
+
