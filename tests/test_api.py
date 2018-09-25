@@ -73,16 +73,21 @@ class TestAPIs(object):
         assert 'family' in basis_set
         assert 'role' in basis_set
 
-    def test_get_simple_basis(self, client):
+    @pytest.mark.parametrize('bs_format,output',[
+        ('gaussian94', 'Basis set: 3-21G'),
+        ('json', '"basis_set_name": "3-21G"')
+    ])
+    def test_get_simple_basis(self, bs_format, output, client):
         """Get a simple basis set"""
 
         bs_name = '3-21g'
-        bs_format = 'gaussian94'
         url = self.api_url + 'basis/{}/format/{}/'.format(bs_name, bs_format)
         response = client.get(url)
         assert response.status_code == 200
         data = response.get_data(as_text=True)
-        assert 'Basis set: 3-21G' in data
+        assert output in data
+        if bs_format == 'json':
+            assert json.loads(data)
 
     def test_get_basis_elements(self, client):
         """Get a simple basis set"""
@@ -111,5 +116,15 @@ class TestAPIs(object):
         if rf_format == 'json':
             assert json.loads(data)
 
+        # without elements
+        response = client.get(url)
+        assert response.status_code == 200
 
+    def test_get_notes(self, client):
+        """Get notes of a basis set"""
 
+        bs_name = '3-21g'
+        url = self.api_url + 'notes/{}/'.format(bs_name)
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.get_data(as_text=True)

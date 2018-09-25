@@ -42,3 +42,42 @@ class TestWebAPIs(object):
 
         # print(json_data['metadata'])
         # print(json_data['element_basis'])
+
+
+    def test_get_basis_elements(self, client):
+        """Get a simple basis set"""
+
+        bs_name = '3-21g'
+        bs_format = 'gaussian94'
+        params = dict(elements='1,3')
+        url = self.template_url + 'basis/{}/format/{}/'.format(bs_name, bs_format)
+        response = client.get(url, query_string=params)
+        assert response.status_code == 200
+        data = response.get_data(as_text=True)
+        assert 'Basis set: 3-21G' in data
+        assert 'H' in data and 'Li' in data
+
+    def test_get_references(self, client):
+        """Get references for a basis set with different formats"""
+
+        bs_name = '3-21g'
+        params = dict(elements='1,3')
+        rf_format = 'json'
+        url = self.template_url + 'references/{}/format/{}/'.format(bs_name, rf_format)
+        response = client.get(url, query_string=params)
+        assert response.status_code == 200
+        data = response.get_data(as_text=True)
+        assert data
+
+        # without elements
+        response = client.get(url)
+        assert response.status_code == 200
+
+    def test_get_notes(self, client):
+        """Get notes of a basis set"""
+
+        bs_name = '3-21g'
+        url = self.template_url + 'notes/{}/'.format(bs_name)
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.get_data(as_text=True)
