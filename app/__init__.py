@@ -32,7 +32,6 @@ def create_app(config_name):
     bootstrap.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
-    app_admin.init_app(app)
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
@@ -43,6 +42,9 @@ def create_app(config_name):
     # To avoid circular import
     from app.admin import add_admin_views
     add_admin_views()
+
+    # Then init the app
+    app_admin.init_app(app)
 
     return app
 
