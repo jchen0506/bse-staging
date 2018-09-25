@@ -14,7 +14,6 @@ class BaseConfig:
 
     THREADS_PER_PAGE = 8
 
-
     # email
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
@@ -24,7 +23,7 @@ class BaseConfig:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'pass')
     MAIL_SUBJECT_PREFIX = '[MolSSI CMS Software DB]'
     MAIL_SENDER = 'BSE Website <info@molssi.org>'
-    APP_ADMIN = os.environ.get('APP_ADMIN', 'admin@molssi.org')
+    APP_ADMIN = os.environ.get('APP_ADMIN', 'daltarawy@vt.edu')
     EMAIL_CONFIRMATION_ENABLED = False
 
     # Client-side config
@@ -47,12 +46,12 @@ class TestingConfig(BaseConfig):
     EMAIL_CONFIRMATION_ENABLED = True
     # disable CSRF protection in testing
     WTF_CSRF_ENABLED = False
+    DB_LOGGING = True
     MONGODB_SETTINGS = {
         'db': "test_db",
         # 'username': 'travis',
         # 'password': 'test'
     }
-    DB_LOGGING = True
 
 
 class ProductionConfig(BaseConfig):

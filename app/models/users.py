@@ -77,7 +77,7 @@ class User(UserMixin, db.Document):
     """Users with different access roles"""
 
     email = db.EmailField(max_length=120, unique=True)
-    username = db.StringField(max_length=64, unique=True)
+    username = db.StringField(max_length=64)
     role = db.ReferenceField(Role)   #####
     password_hash = db.StringField(max_length=128)
     confirmed = db.BooleanField(default=False)
@@ -88,7 +88,7 @@ class User(UserMixin, db.Document):
     meta = {
         'allow_inheritance': True,
         'indexes': [
-            'email', 'username'
+            'email',
         ]
     }
 
@@ -123,10 +123,9 @@ class User(UserMixin, db.Document):
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        if data.get('confirm') != self.id:
+        if data.get('confirm') != str(self.id):
             return False
         self.confirmed = True
-        # db.session.add(self)
         self.save()
         return True
 
@@ -141,7 +140,7 @@ class User(UserMixin, db.Document):
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        user = User.objects(id=data.get('reset'))  ### id or what?
+        user = User.objects(id=data.get('reset')).first()
         if user is None:
             return False
         user.password = new_password
@@ -159,16 +158,11 @@ class User(UserMixin, db.Document):
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        if data.get('change_email') != self.id:
+        if data.get('change_email') != str(self.id):
             return False
-        new_email = data.get('new_email')
-        if new_email is None:
-            return False
-        if self.objects(email=new_email).first() is not None:
-            return False
-        self.email = new_email
+
+        self.email = data.get('new_email')
         self.avatar_hash = self.gravatar_hash()
-        # db.session.add(self)
         self.save()
         return True
 
@@ -189,8 +183,8 @@ class User(UserMixin, db.Document):
 
     def to_json(self):
         json_user = {
-            'url': url_for('api.get_user', id=self.id),
-            'username': self.username,
+            'id': str(self.id),
+            'email': self.email,
             'member_since': self.member_since,
         }
         return json_user
@@ -210,10 +204,10 @@ class User(UserMixin, db.Document):
         return User.objects(id=data['id'])
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.email
 
     def __str__(self):
-        return 'username=%s' % self.username
+        return 'username=%s' % self.email
 
 
 class AnonymousUser(AnonymousUserMixin):
@@ -239,6 +233,4 @@ def update_roles():
     """create or update user roles"""
     Role.insert_roles()
 
-
-update_roles()
 

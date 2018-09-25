@@ -43,7 +43,7 @@ def login():
             if next_page is None or not next_page.startswith('/'):
                 next_page = url_for('admin.index')
             return redirect(next_page)
-        flash('Invalid username or password.')
+        flash('Invalid email or password.')
     return render_template('auth/login.html', form=form)
 
 
@@ -135,7 +135,6 @@ def password_reset(token):
     form = PasswordResetForm()
     if form.validate_on_submit():
         if User.reset_password(token, form.password.data):
-            current_user.save()   ###
             flash('Your password has been updated.')
             return redirect(url_for('auth.login'))
         else:
@@ -158,7 +157,7 @@ def change_email_request():
                   'address has been sent to you.')
             return redirect(url_for('admin.index'))
         else:
-            flash('Invalid email or password.')
+            flash('Invalid password.')
     return render_template("auth/change_email.html", form=form)
 
 
@@ -166,7 +165,6 @@ def change_email_request():
 @login_required
 def change_email(token):
     if current_user.change_email(token):
-        current_user.save()  ##
         flash('Your email address has been updated.')
     else:
         flash('Invalid request.')
