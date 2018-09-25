@@ -205,7 +205,7 @@ def api_references(basis_name, fmt):
         return Response(refs, mimetype='text/plain')
 
 
-@main.route('/api/notes/<basis_name>')
+@main.route('/api/notes/<basis_name>/')
 def api_notes(basis_name):
     """Get text notes about a basis set"""
 
@@ -245,7 +245,7 @@ def html_basis(basis_name, fmt):
                            dl_filename=dl_filename)
 
 
-@main.route('/references/<basis_name>/format/<fmt>')
+@main.route('/references/<basis_name>/format/<fmt>/')
 def html_references(basis_name, fmt):
     """Render a page with basis set reference data"""
 
@@ -263,7 +263,7 @@ def html_references(basis_name, fmt):
                            dl_filename=dl_filename)
 
 
-@main.route('/notes/<basis_name>')
+@main.route('/notes/<basis_name>/')
 def html_notes(basis_name):
     """Render a page with basis set notes"""
 
