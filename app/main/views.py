@@ -11,17 +11,18 @@ logger = logging.getLogger(__name__)
 # Cached data for faster server load
 data_loader = DataLoader()
 
+
 ##########################
 # Helper functions
 ##########################
 def _set_boolean(param):
-    '''Converts param to a boolean
+    """Converts param to a boolean
 
     If `param` is a bool, then no conversion is performed.
 
     If `param` is a string, the True is returned if the string
     is 'true' or '1' (case insensitive).
-    '''
+    """
 
     if isinstance(param, bool):
         return param
@@ -30,11 +31,12 @@ def _set_boolean(param):
 
 
 def _get_basis_extension(fmt):
-    '''Obtain the extension for a basis set file based on format'''
+    """Obtain the extension for a basis set file based on format"""
     return data_loader.format_ext[fmt.lower()]
 
+
 def _get_ref_extension(fmt):
-    '''Obtain the extension for a references file based on format'''
+    """Obtain the extension for a references file based on format"""
     return data_loader.ref_format_ext[fmt.lower()]
 
 
@@ -44,7 +46,7 @@ def _get_ref_extension(fmt):
 
 @main.route('/')
 def index():
-    '''Returns the main page of the BSE website'''
+    """Returns the main page of the BSE website"""
 
     formats = data_loader.formats
     ref_formats = data_loader.ref_formats
@@ -52,22 +54,22 @@ def index():
 
     # save_access(access=True, basis_download=False)
 
-    return render_template('index.html', basis_sets=basis_sets,
-                                         formats=formats,
-                                         ref_formats=ref_formats)
+    return render_template('index.html',
+                           basis_sets=basis_sets,
+                           formats=formats,
+                           ref_formats=ref_formats)
 
 
 @main.route('/web_metadata/')
 def web_metadata():
-    '''Get the metadata for all basis sets
+    """Get the metadata for all basis sets
 
     The output is JSON
-    '''
+    """
 
     logger.info('WEB: getting web metadata')
     return jsonify({'metadata': data_loader.metadata,
                     'element_basis': data_loader.element_basis})
-
 
 
 ##########################################
@@ -78,13 +80,13 @@ def web_metadata():
 
 @main.route('/api/formats/')
 def api_formats():
-    '''Get the possible output formats for basis sets (as JSON)
+    """Get the possible output formats for basis sets (as JSON)
 
     The output is a key->value with the key being the format
     key and the value being a human-readable name
 
     The format key is passed into other API calls.
-    '''
+    """
 
     logger.info('API: formats')
     return jsonify(data_loader.formats)
@@ -92,13 +94,13 @@ def api_formats():
 
 @main.route('/api/reference_formats/')
 def api_reference_formats():
-    '''Get the possible output formats for references (as JSON)
+    """Get the possible output formats for references (as JSON)
 
     The output is a key->value with the key being the format
     key and the value being a human-readable name
 
     The format key is passed into other API calls.
-    '''
+    """
 
     logger.info('API: reference formats')
     return jsonify(data_loader.ref_formats)
@@ -106,11 +108,11 @@ def api_reference_formats():
 
 @main.route('/api/metadata/')
 def api_metadata():
-    '''Get the metadata for all the basis sets (as JSON)
+    """Get the metadata for all the basis sets (as JSON)
 
     The metadata for a basis set contains the description, the versions,
     function types, and elements defined by the basis set.
-    '''
+    """
 
     logger.info('API: metadata')
     return jsonify(data_loader.metadata)
@@ -118,7 +120,7 @@ def api_metadata():
 
 @main.route('/api/basis/<basis_name>/format/<fmt>/')
 def api_basis(basis_name, fmt):
-    '''Get a basis set
+    """Get a basis set
 
     Available formats can found with `/api/formats`
 
@@ -132,7 +134,7 @@ def api_basis(basis_name, fmt):
               optimize_general (bool),
               make_general (bool)
               header (bool)
-    '''
+    """
 
     uncontract_general = request.args.get('uncontract_general', default=False)
     uncontract_segmented = request.args.get('uncontract_segmented', default=False)
@@ -178,7 +180,7 @@ def api_basis(basis_name, fmt):
 
 @main.route('/api/references/<basis_name>/format/<fmt>/')
 def api_references(basis_name, fmt):
-    '''Get the references/citations for a given basis set
+    """Get the references/citations for a given basis set
 
     The elements can also be specified.
 
@@ -186,7 +188,7 @@ def api_references(basis_name, fmt):
 
     The response mimetype depends on the format. If the format
     is json, is is 'application/json'. Otherwise, it is 'text/plain'
-    '''
+    """
 
     elements = request.args.get('elements', default=None)
 
@@ -205,7 +207,7 @@ def api_references(basis_name, fmt):
 
 @main.route('/api/notes/<basis_name>')
 def api_notes(basis_name):
-    '''Get text notes about a basis set'''
+    """Get text notes about a basis set"""
 
     logger.info('API: basis notes: %s', basis_name)
     notes = bse.get_basis_notes(basis_name)
@@ -214,21 +216,21 @@ def api_notes(basis_name):
 
 @main.route('/api/family_notes/<family>')
 def api_family_notes(family):
-    '''Get text notes about a basis set family'''
+    """Get text notes about a basis set family"""
 
     logger.info('API: family notes: %s', family)
     notes = bse.get_family_notes(family)
     return Response(notes, mimetype='text/plain')
 
 
-
 ###############################
 # API converted to HTML
 ###############################
 
+
 @main.route('/basis/<basis_name>/format/<fmt>/')
 def html_basis(basis_name, fmt):
-    '''Render a page with basis set data'''
+    """Render a page with basis set data"""
 
     data = api_basis(basis_name, fmt).get_data(as_text=True)
 
@@ -236,16 +238,16 @@ def html_basis(basis_name, fmt):
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
     dl_filename = basis_name + _get_basis_extension(fmt)
-    return render_template('show_data.html', data=data,
-                            api_link=api_link,
-                            web_link=web_link,
-                            dl_filename=dl_filename)
-
+    return render_template('show_data.html',
+                           data=data,
+                           api_link=api_link,
+                           web_link=web_link,
+                           dl_filename=dl_filename)
 
 
 @main.route('/references/<basis_name>/format/<fmt>')
 def html_references(basis_name, fmt):
-    '''Render a page with basis set reference data'''
+    """Render a page with basis set reference data"""
 
     data = api_references(basis_name, fmt).get_data(as_text=True)
 
@@ -254,15 +256,16 @@ def html_references(basis_name, fmt):
     api_link = web_link.replace(root, root + 'api/')
     dl_filename = basis_name + _get_ref_extension(fmt)
 
-    return render_template('show_data.html', data=data,
-                            api_link=api_link,
-                            web_link=web_link,
-                            dl_filename=dl_filename)
+    return render_template('show_data.html',
+                           data=data,
+                           api_link=api_link,
+                           web_link=web_link,
+                           dl_filename=dl_filename)
 
 
 @main.route('/notes/<basis_name>')
 def html_notes(basis_name):
-    '''Render a page with basis set notes'''
+    """Render a page with basis set notes"""
 
     data = api_notes(basis_name).get_data(as_text=True)
 
@@ -271,15 +274,16 @@ def html_notes(basis_name):
     api_link = web_link.replace(root, root + 'api/')
     dl_filename = basis_name + ".txt"
 
-    return render_template('show_data.html', data=data,
-                            api_link=api_link,
-                            web_link=web_link,
-                            dl_filename=dl_filename)
+    return render_template('show_data.html',
+                           data=data,
+                           api_link=api_link,
+                           web_link=web_link,
+                           dl_filename=dl_filename)
 
 
 @main.route('/family_notes/<family>')
 def html_family_notes(family):
-    '''Render a page with basis set family notes'''
+    """Render a page with basis set family notes"""
 
     data = api_family_notes(family).get_data(as_text=True)
 
@@ -288,10 +292,11 @@ def html_family_notes(family):
     api_link = web_link.replace(root, root + 'api/')
     dl_filename = family + ".txt"
 
-    return render_template('show_data.html', data=data,
-                            api_link=api_link,
-                            web_link=web_link,
-                            dl_filename=dl_filename)
+    return render_template('show_data.html',
+                           data=data,
+                           api_link=api_link,
+                           web_link=web_link,
+                           dl_filename=dl_filename)
 
 
 #################################
@@ -299,10 +304,10 @@ def html_family_notes(family):
 #################################
 @main.route('/help/<page>')
 def html_help_page(page):
-    '''Render a help page'''
+    """Render a help page"""
 
     help_pages = ['about', 'basis_info']
-    if not page in help_pages:
+    if page not in help_pages:
         raise RuntimeError("Help page {} does not exist".format(page))
 
     # Read in the partial HTML
