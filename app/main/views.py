@@ -52,7 +52,8 @@ def index():
     ref_formats = data_loader.ref_formats
     basis_sets = data_loader.basis_sets
 
-    # save_access(access=True, basis_download=False)
+    if current_app.config['DB_LOGGING']:
+        save_access(download=False)  # just homepage access, no download yet
 
     return render_template('index.html',
                            basis_sets=basis_sets,

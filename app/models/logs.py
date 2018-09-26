@@ -39,13 +39,11 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
         ]
     }
 
-    def __unicode__(self):
-        return self.bs_name
-
     def __str__(self):
-        return 'Download:' + self.download + ', basis_set_name: ' \
-               + self.bs_name + ', bs_format: ' + \
-                self.bs_format + ', IP_address: ' + self.ip_address
+        return 'Download:' + str(self.download) \
+               + ', basis_set_name: ' + str(self.bs_name) \
+               + ', bs_format: ' + str(self.bs_format) \
+               + ', IP_address: ' + str(self.ip_address)
 
 
 def save_access(download=False, bs_name=None,
