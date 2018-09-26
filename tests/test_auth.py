@@ -139,7 +139,6 @@ class TestAuth(object):
                               follow_redirects=True)
         assert '/admin/' in response.get_data(as_text=True)
 
-
     def test_wrong_sign_in(self, client):
         data = dict(email='daltarawy@vt.edu', password='wrongPass')
         response = client.post(self.auth_url+'/login', data=data,
@@ -223,7 +222,6 @@ class TestAuth(object):
         response = client.get(url, follow_redirects=True)
         assert 'Your email address has been updated' in response.get_data(as_text=True)
 
-
     def test_reset_password(self, client):
         # if already logged in, redirect to home
         self.login_admin(client)
@@ -252,3 +250,8 @@ class TestAuth(object):
                                follow_redirects=True)
         assert 'Your password has been updated' in response.get_data(as_text=True)
 
+    def test_auth_token(self):
+        user = User.objects(email='daltarawy@vt.edu').first()
+        token = user.generate_auth_token()
+        assert User.verify_auth_token(token).id == user.id
+        assert not User.verify_auth_token('wrong token')
