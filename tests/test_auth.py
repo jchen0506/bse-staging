@@ -1,4 +1,5 @@
 from flask import current_app, url_for
+from flask_login import current_user
 import pytest
 import json
 from base64 import b64encode
@@ -65,6 +66,18 @@ class TestAuth(object):
             'Content-Type': 'application/json'
         }
 
+    def test_anonymous_user(self, client):
+        """Test the deafult anonymous user without login"""
+
+        # must be in a client context
+        with client:
+            client.get(self.auth_url+'/logout', follow_redirects=True)
+            response = client.get('/admin', follow_redirects=True)
+            assert response.status_code == 200
+            assert 'BSE Logging Admin' in response.get_data(as_text=True)
+            assert not current_user.is_administrator()
+            assert not current_user.can(Permission.READ)
+
     def login_admin(self, client):
         client.get(self.auth_url+'/logout', follow_redirects=True)
         data = dict(email='daltarawy@vt.edu', password='fakePass')
@@ -124,7 +137,6 @@ class TestAuth(object):
         assert response.status_code == 200
         assert 'Email already registered' in response.get_data(as_text=True)
 
-    def test_sign_in(self, client):
         data = dict(email='daltarawy@vt.edu', password='fakePass')
         response = client.post(self.auth_url+'/login', data=data,
                                     follow_redirects=True)
@@ -208,6 +220,12 @@ class TestAuth(object):
         assert response.status_code == 200
         assert 'Invalid password' in response.get_data(as_text=True)
 
+        # Wrong Confirm changed email
+        token = 'Wrong token'
+        url = self.auth_url + '/change_email/' + token
+        response = client.get(url, follow_redirects=True)
+        assert 'Your email address has been updated' not in response.get_data(as_text=True)
+
         # correct entry to change email
         data = dict(email='daltarawy2@vt.edu', password='fakePass')
         response = client.post(self.auth_url+'/change_email', data=data,
@@ -252,6 +270,8 @@ class TestAuth(object):
 
     def test_auth_token(self):
         user = User.objects(email='daltarawy@vt.edu').first()
+        assert str(user) == 'username=daltarawy@vt.edu'
+        assert repr(user) == "<User 'daltarawy@vt.edu'>"
         token = user.generate_auth_token()
         assert User.verify_auth_token(token).id == user.id
         assert not User.verify_auth_token('wrong token')
