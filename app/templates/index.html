@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <select id="basis_sets" class="custom-select mb-1" size="23" style="overflow-y: scroll; min-height: 382px">
+                    <select id="basis_sets" class="custom-select mb-1" size="23">
                         {%  for key, name in basis_sets -%}
                             <option value="{{ key }}">{{ name }}</option>
                         {%- endfor %}
@@ -40,8 +40,8 @@
 
     <div id="periodic_container" class="col-lg-8 py-3 px-4 border">
         <div id="periodic_header" class="row px-2 pb-2">
-            <div class="col-7 pl-1"><b>Total found: <span id="total_found"></span></b></div>
-            <div class="col-5 text-right pr-2">
+            <div class="col-6 pl-1"><b>Total found: <span id="total_found"></span></b></div>
+            <div class="col-6 text-right pr-0">
                 <button id="select_all_avail" class="btn btn-sm unique-color mr-2">Select All</button>
                 <button id="reset_selection" class="btn btn-sm btn-danger">Reset Selection</button>
             </div>
@@ -65,7 +65,7 @@
             <div class="card-block">
                 <form class="form-inline">
                     <div class="form-group my-1 mr-sm-2">
-                      <label class="mr-sm-2" for="format">Format</label>
+{#                      <label class="mr-sm-2" for="format">Format</label>#}
                       <select id="cformat" class="custom-select form-control form-control-sm">
                           {% for format, display_name in ref_formats.items() -%}
                               <option value="{{ format }}">
@@ -117,7 +117,7 @@
 
                     <button id="get_basis" type="submit" class="btn unique-color">Get Basis Set</button>
                     <!-- Advanced get basis -->
-                    <a id="advanced_download_link" type="button" href="#" class="card-link ml-3">
+                    <a id="advanced_download_link" href="#" class="card-link ml-3">
                       Advanced
                     </a>
                 </form>
@@ -126,11 +126,13 @@
 
         <!-- Cite this website-->
         <div class="card card-body col-lg hidden-xs-down p-3">
-            <h5 class="card-title">Citation</h5>
+            <h5 id="headingOne">
+                <a class="card-title card-link" href="#" data-toggle="collapse" data-target="#citationCollapse"
+                        aria-expanded="true" aria-controls="citationCollapse">Citation </a>
+            </h5>
             <hr class="mt-1">
-            <div class="card-block">
-                <p class="card-text">When publishing results obtained from use of the Basis Set Exchange (BSE) software and the EMSL Basis Set Library, please cite: </p>
-
+            <div id="citationCollapse" class="card-block collapse show" aria-labelledby="headingOne">
+                <p class="card-text m-1">When publishing results obtained from use of the Basis Set Exchange (BSE) software and the EMSL Basis Set Library, please cite: </p>
                 <ul>
                     <li><em>The Role of Databases in Support of Computational Chemistry Calculations.</em>
                         Feller, D., J. Comp. Chem., 17(13), 1571-1586, 1996.
@@ -162,7 +164,7 @@
                 <form class="form">
                     <div class="form-group my-1">
                       <label class="font-weight-bold" for="format2">Format</label>
-                      <select id="format2" class="custom-select form-control form-control-sm">
+                      <select id="format2" class="custom-select custom-select-sm form-control">
                           {% for format, display_name in formats.items() -%}
                               <option value="{{ format }}">
                                   {{ display_name }}
@@ -173,7 +175,7 @@
 
                     <div class="form-group my-1">
                       <label class="mt-2 font-weight-bold" for="format">Version</label>
-                      <select id="version" class="custom-select form-control form-control-sm">
+                      <select id="version" class="custom-select custom-select-sm form-control">
                       </select>
                     </div>
 

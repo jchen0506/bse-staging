@@ -1,5 +1,6 @@
 body {
-    font-size: small;
+    /*font-size: 62.5%;  !* Makes 1em to equal 10 pixels trick*!*/
+    font-size: 90%;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
@@ -31,9 +32,11 @@ body {
     color: #fff;
     background-color: #1577D8;
 }
-
+h5{
+    font-size: 1.3rem;
+}
 .dropdown-item{
-    font-size: small;
+    font-size: .9rem;
 }
 
 /*.btn {*/
@@ -60,13 +63,16 @@ body {
     display: none;
 }
 .cell{
-    padding: 1px 2px;
+    /*padding: 1px 2px;*/
+    padding: .2rem .1rem;
 }
 
 /* https://www.w3schools.com/colors/colors_brands.asp */
 .element{
-    width: 90%;
-    height: 85%;
+    /*width: 90%;*/
+    /*height: 85%;*/
+    width: 100%;
+    height: 100%;
     min-width: 23px;
     min-height: 23px;
     /*background: linear-gradient(to bottom left, #c6d1db 42%, #ffffff 100%);*/
@@ -89,41 +95,46 @@ body {
     background-repeat: no-repeat;
 }
 .number {
-    font-size: 8px;
+    font-size: .5rem;
     font-weight: bold;
 }
 .symbol {
-    font-size: 14px;
+    font-size: .8rem;
     font-weight: bold;
 }
 
-@media (min-width: 768px) {  /* medium */
-  .number {
-    font-size: 8px;
-  }
-  .symbol {
-    font-size: 14px;
-  }
-}
-@media (min-width: 992px) {  /* large */
-  .number {
-    font-size: 8px;
-  }
-  .symbol {
-    font-size: 14px;
-  }
-}
-@media (min-width: 1200px) {  /* extra large */
-  .number {
-    font-size: 8px;
-  }
-  .symbol {
-    font-size: 14px;
-  }
-}
+/*@media (min-width: 768px) {  !* medium *!*/
+  /*!*.number {*!*/
+    /*!*font-size: 8px;*!*/
+  /*!*}*!*/
+  /*.symbol {*/
+    /*font-size: 14px;*/
+  /*}*/
+/*}*/
+/*@media (min-width: 992px) {  !* large *!*/
+  /*!*.number {*!*/
+    /*!*font-size: 8px;*!*/
+  /*!*}*!*/
+  /*.symbol {*/
+    /*font-size: 14px;*/
+  /*}*/
+/*}*/
+/*@media (min-width: 1200px) {  !* extra large *!*/
+  /*!*.number {*!*/
+    /*!*font-size: 8px;*!*/
+  /*!*}*!*/
+  /*.symbol {*/
+    /*font-size: 14px;*/
+  /*}*/
+/*}*/
 
 /*.page-footer{*/
    /*background-color: #333333;*/
     /*color: #d6dce1;*/
 /*}*/
 
+
+#basis_sets{
+    overflow-y: scroll;
+    /*min-height: 382px*/
+}
