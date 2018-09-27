@@ -388,7 +388,7 @@ $( document ).ready(function () {
         // cache the full basis set if not cloned already
         if (! window.options) {
             window.options = $('#basis_sets').find('option').clone();
-            console.log('cahed: ', window.options);
+            //console.log('cahed: ', window.options);
         }
         // return the full cached copy
         return window.options;
@@ -406,6 +406,7 @@ $( document ).ready(function () {
         var selected_elements = $('.element.selected');
         var ecp = $('#ecp').val();
         var role = $('#role').val();
+        var current_selected_bs = options.val()
 
         console.log('Filter by: ', 'ecp:', ecp, ', role: ', role, ', filter text: ',
             filter, ', elements: ', selected_elements);
@@ -430,7 +431,6 @@ $( document ).ready(function () {
 
         var option, basis_ecp, basis_role;
         var options_list = get_full_basis_sets();
-        console.log('Option_list original: ', options_list);
 
         // reset options list
         options.empty();
@@ -448,8 +448,12 @@ $( document ).ready(function () {
                 options.append(options_list[i]);
             }
         }
-        console.log('Basis after filtering: ', options);
 
+        // Re-select basis set if it is still found after filtering (fix init bug)
+        var basis_exist = options.find('option[value="'+current_selected_bs +'"]');
+        if (basis_exist.length > 0){
+            $("#basis_sets").val(current_selected_bs);
+        }
         // update found count
         $('#total_found').text($(options).find('option').length + ' basis sets');
     }
