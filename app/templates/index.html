@@ -68,7 +68,7 @@
                       <label class="mr-sm-2" for="format">Format</label>
                       <select id="cformat" class="custom-select form-control form-control-sm">
                           {% for format, display_name in ref_formats.items() -%}
-                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
+                              <option value="{{ format }}">
                                   {{ display_name }}
                               </option>
                           {% endfor %}
@@ -108,7 +108,7 @@
                       <label class="mr-sm-2" for="format">Format</label>
                       <select id="format" class="custom-select form-control form-control-sm">
                           {% for format, display_name in formats.items() -%}
-                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
+                              <option value="{{ format }}">
                                   {{ display_name }}
                               </option>
                           {% endfor %}
@@ -164,7 +164,7 @@
                       <label class="font-weight-bold" for="format2">Format</label>
                       <select id="format2" class="custom-select form-control form-control-sm">
                           {% for format, display_name in formats.items() -%}
-                              <option value="{{ format }}" {% if format == 'gaussian94' %} selected {% endif %}>
+                              <option value="{{ format }}">
                                   {{ display_name }}
                               </option>
                           {% endfor %}

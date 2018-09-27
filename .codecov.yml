@@ -12,7 +12,7 @@ coverage:
 
   range: 80..90     # First number represents red, and second represents green
                     # (default is 70..100)
-  round: up       # up, down, or nearest
+  round: nearest    # up, down, or nearest
   precision: 2      # Number of decimal places, between 0 and 5
 
 # Ignoring Paths

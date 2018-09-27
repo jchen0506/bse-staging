@@ -1,4 +1,5 @@
 import basis_set_exchange as bse
+from basis_set_exchange import converters, refconverters
 import logging
 logger = logging.getLogger(__name__)
 
@@ -14,8 +15,10 @@ class DataLoader(object):
         self.basis_sets = sorted((k, v['display_name']) for k,v in self.metadata.items())
         logger.info(self.basis_sets)
 
-        self.format_ext = { k: v['extension'] for k,v in bse.converters.converter_map.items() }
-        self.ref_format_ext = { k: v['extension'] for k,v in bse.refconverters.converter_map.items() }
+        self.format_ext = {fmt: converters.get_format_extension(fmt)
+                           for fmt in self.formats}
+        self.ref_format_ext = {fmt: refconverters.get_format_extension(fmt)
+                               for fmt in self.ref_formats}
 
         self.element_basis = {str(i): [] for i in range(1, 119)}
         for element in self.element_basis:
