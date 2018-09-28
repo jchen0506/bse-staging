@@ -1,8 +1,6 @@
 from flask import current_app
 import pytest
 import json
-from base64 import b64encode
-from os.path import join, dirname, abspath
 
 
 @pytest.mark.usefixtures("app", "client", autouse=True)   # to use fixtures from conftest

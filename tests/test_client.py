@@ -1,5 +1,4 @@
 import pytest
-import json
 
 
 @pytest.mark.usefixtures("app", "client")
