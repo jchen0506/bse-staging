@@ -324,9 +324,9 @@ $( document ).ready(function () {
         e.preventDefault();
         // update basis sets filter
         if (! $(this).hasClass('available')){
-            filter_basis_set_names(true);
+            filter_basis_set_names();
         }else{
-            filter_basis_set_names(false);
+            filter_basis_set_names();
         }
     }
 
@@ -361,27 +361,27 @@ $( document ).ready(function () {
     });
 
     $("#ecp").change(function () {
-        filter_basis_set_names(true);
+        filter_basis_set_names();
     });
 
     $("#role").change(function () {
-        filter_basis_set_names(true);
+        filter_basis_set_names();
     });
 
     $('#reset_selection').click(function () {
         $(".element").removeClass('selected');
-        filter_basis_set_names(false);
+        filter_basis_set_names();
     });
 
 
     $('#select_all_avail').click(function () {
         // Only to available elements
         $(".element.available").addClass('selected');
-        filter_basis_set_names(false);
+        filter_basis_set_names();
     });
 
     $('#search_name').keyup(function () {
-        filter_basis_set_names(true);
+        filter_basis_set_names();
     });
 
     function get_full_basis_sets() {
@@ -394,7 +394,7 @@ $( document ).ready(function () {
         return window.options;
     }
 
-    function filter_basis_set_names(reset_available) {
+    function filter_basis_set_names() {
         // show only the basis set that has the search filter keyword
         // and available according to selected elements
 
@@ -406,10 +406,10 @@ $( document ).ready(function () {
         var selected_elements = $('.element.selected');
         var ecp = $('#ecp').val();
         var role = $('#role').val();
-        var current_selected_bs = options.val()
+        var current_selected_bs = options.val();
 
         console.log('Filter by: ', 'ecp:', ecp, ', role: ', role, ', filter text: ',
-            filter, ', elements: ', selected_elements);
+            filter);
 
         if (selected_elements.length > 0){
             // assign list to first element's basis sets
@@ -421,13 +421,13 @@ $( document ).ready(function () {
             });
         }
 
-        if (reset_available) {
-            // Remove available
-            $('.element').removeClass('available');
-            // remove selected basis sets
-            $('#basis_sets').val('');
-            basis_sets_selection_changed();  // event listener trigger is not working
-        }
+        // if (reset_available) {
+        //     // Remove available
+        //     $('.element').removeClass('available');
+        //     // remove selected basis sets
+        //     $('#basis_sets').val('');
+        //     basis_sets_selection_changed();  // event listener trigger is not working
+        // }
 
         var option, basis_ecp, basis_role;
         var options_list = get_full_basis_sets();
@@ -453,6 +453,13 @@ $( document ).ready(function () {
         var basis_exist = options.find('option[value="'+current_selected_bs +'"]');
         if (basis_exist.length > 0){
             $("#basis_sets").val(current_selected_bs);
+        } else {
+            // Reset element selection
+            // Remove available
+            $('.element').removeClass('available');
+            // remove selected basis sets
+            $('#basis_sets').val('');
+            basis_sets_selection_changed();  // event listener trigger is not working
         }
         // update found count
         $('#total_found').text($(options).find('option').length + ' basis sets');
