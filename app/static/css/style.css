@@ -8,6 +8,18 @@ body {
     min-width: 960px;
 }
 
+main {
+     max-width: 2500px;
+}
+
+nav.navbar-dark {
+    background-color: #3F729B!important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
+    font-weight: bold;
+}
 /* New from MDB */
 
 .unique-color {
@@ -93,6 +105,7 @@ h5{
     background-image: url("../images/basismark.gif");
     background-position: left bottom;
     background-repeat: no-repeat;
+    background-size:25%;
 }
 .number {
     font-size: .5rem;

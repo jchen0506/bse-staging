@@ -24,14 +24,14 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <select id="basis_sets" class="custom-select mb-1" size="23">
+                    <select id="basis_sets" class="custom-select mb-2" size="24">
                         {%  for key, name in basis_sets -%}
                             <option value="{{ key }}">{{ name }}</option>
                         {%- endfor %}
                     </select>
                 </div>
 
-                <div class="col-12 input-group text-align-bottom mb-1">
+                <div class="col-12 input-group text-align-bottom">
                     <input id="search_name" type="text" name="search" class="form-control" placeholder="search basis sets..." />
                 </div>
 
@@ -134,9 +134,9 @@
             <div id="citationCollapse" class="card-block collapse show" aria-labelledby="headingOne">
                 <p class="card-text m-1">When publishing results obtained from use of the Basis Set Exchange (BSE) software and the EMSL Basis Set Library, please cite: </p>
                 <ul>
-                    <li><em>The Role of Databases in Support of Computational Chemistry Calculations.</em>
-                        Feller, D., J. Comp. Chem., 17(13), 1571-1586, 1996.
-                    </li>
+{#                    <li><em>The Role of Databases in Support of Computational Chemistry Calculations.</em>#}
+{#                        Feller, D., J. Comp. Chem., 17(13), 1571-1586, 1996.#}
+{#                    </li>#}
                     <li><em>Basis Set Exchange: A Community Database for Computational Sciences.</em>
                         Schuchardt, K.L., Didier, B.T., Elsethagen, T., Sun, L., Gurumoorthi, V., Chase, J., Li, J., and Windus, T.L.
                         J. Chem. Inf. Model., 47(3), 1045-1052, 2007, doi:10.1021/ci600510j.
