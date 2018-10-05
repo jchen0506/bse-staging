@@ -15,4 +15,4 @@ WTForms==2.1
 Flask-DebugToolbar
 flask-ckeditor
 gunicorn
-basis_set_exchange==0.5.1
+basis_set_exchange==0.5.3

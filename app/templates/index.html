@@ -8,17 +8,17 @@
         <nav class="col-lg-3 sidebar mr-lg-3 p-0">
             <div class="row mb-2 no-gutters">
 
-                <select id="role" class="selectpicker col-md-4 pr-md-1" data-size="4" data-style="selectpicker_style btn-sm">
+                <select id="role" class="selectpicker col-md-6 pr-md-1" data-style="selectpicker_style btn-sm">
                     <option value="" selected>All roles</option>
-                    <option value="orbital">Orbital</option>
-                    <option value="mp2fit">MP2Fit</option>
-                    <option value="jkfit">JKFit</option>
+                    {%  for key, name in roles.items() -%}
+                        <option value="{{ key }}">{{ name }}</option>
+                    {%- endfor %}
                 </select>
 
-                <select id="ecp" class="selectpicker col-md-8" data-size="3" data-style="selectpicker_style btn-sm">
+                <select id="ecp" class="selectpicker col-md-6" data-size="3" data-style="selectpicker_style btn-sm">
                     <option value="" selected>All</option>
                     <option value="no_ecp">All Electron</option>
-                    <option value="ecp">Orbital with effective core Potentials</option>
+                    <option value="ecp">Orbital with ECP</option>
                 </select>
 
             </div>
@@ -68,10 +68,8 @@
 {#                      <label class="mr-sm-2" for="format">Format</label>#}
                       <select id="cformat" class="custom-select form-control form-control-sm">
                           {% for format, display_name in ref_formats.items() -%}
-                              <option value="{{ format }}">
-                                  {{ display_name }}
-                              </option>
-                          {% endfor %}
+                              <option value="{{ format }}">{{ display_name }}</option>
+                          {% endfor -%}
                       </select>
                     </div>
                   <button id="get_references" type="submit" class="btn btn-sm unique-color">Get References</button>

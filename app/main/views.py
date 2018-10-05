@@ -51,6 +51,7 @@ def index():
     formats = data_loader.formats
     ref_formats = data_loader.ref_formats
     basis_sets = data_loader.basis_sets
+    roles = data_loader.roles
 
     if current_app.config['DB_LOGGING']:
         save_access(download=False)  # just homepage access, no download yet
@@ -58,7 +59,8 @@ def index():
     return render_template('index.html',
                            basis_sets=basis_sets,
                            formats=formats,
-                           ref_formats=ref_formats)
+                           ref_formats=ref_formats,
+                           roles=roles)
 
 
 @main.route('/web_metadata/')
