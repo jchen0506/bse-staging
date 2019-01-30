@@ -284,7 +284,7 @@ $( document ).ready(function () {
         if (selected){
             var latest_version = window.bs_metadata[selected]['latest_version'];
             $('#latest_version').text(latest_version);
-            $('#description').text(window.bs_metadata[selected]['versions'][latest_version]['description']);
+            $('#description').text(window.bs_metadata[selected]['description']);
         }else{
             $('#latest_version').text('');
             $('#description').text('');
