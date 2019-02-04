@@ -309,7 +309,7 @@ def html_family_notes(family):
 def html_help_page(page):
     """Render a help page"""
 
-    help_pages = ['about', 'basis_info']
+    help_pages = ['about', 'feedback', 'using', 'api']
     if page not in help_pages:
         raise RuntimeError("Help page {} does not exist".format(page))
 
