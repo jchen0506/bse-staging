@@ -60,7 +60,8 @@ def index():
                            basis_sets=basis_sets,
                            formats=formats,
                            ref_formats=ref_formats,
-                           roles=roles)
+                           roles=roles,
+                           bselibver=bse.version())
 
 
 @main.route('/web_metadata/')
@@ -154,10 +155,7 @@ def api_basis(basis_name, fmt):
     header = _set_boolean(header)
 
     version = request.args.get('version', default=None)
-    elements = request.args.get('elements', default=None)
-
-    if elements is not None:
-        elements = elements.split(',')
+    elements = request.args.getlist('elements')
 
     logger.info('API: basis: name=%s, ver=%s, elements=%s, format=%s, opts=%s,%s,%s,%s,%s',
                 basis_name, version, elements, fmt, uncontract_general, uncontract_segmented,
