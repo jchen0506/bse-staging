@@ -171,7 +171,8 @@ def api_basis(basis_name, fmt):
                               header=header)
 
     if current_app.config['DB_LOGGING']:
-        save_access(download=True, bs_name=basis_name, elements=elements, bs_format=fmt)
+        element_list = bse.misc.expand_elements(elements)
+        save_access(download=True, bs_name=basis_name, elements=element_list, bs_format=fmt)
 
     if fmt.lower() == 'json':
         return Response(basis_set, mimetype='application/json')
