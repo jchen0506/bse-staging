@@ -14,7 +14,6 @@ class DataLoader(object):
         self.ref_formats = bse.get_reference_formats()
         self.roles = bse.get_roles()
         self.basis_sets = sorted((k, v['display_name']) for k, v in self.metadata.items())
-        logger.info(self.basis_sets)
 
         self.format_ext = {fmt: converters.get_format_extension(fmt)
                            for fmt in self.formats}
