@@ -26,9 +26,7 @@ class TestWebAPIs(object):
         assert 'Download basis set' in response.get_data(as_text=True)
 
     def test_web_get_metadata(self, client):
-        """Default (empty) search results in all none pending software
-         in the DB
-         """
+        """Test getting the metadatavia web interface"""
 
         response = client.get('/web_metadata/')
         assert response.status_code == 200
@@ -89,18 +87,11 @@ class TestWebAPIs(object):
         assert response.status_code == 200
         assert response.get_data(as_text=True)
 
-    def test_help_about(self, client):
-        """Test if about page exists"""
+    @pytest.mark.parametrize('page', ['about', 'feedback', 'using', 'api'])
+    def test_help_page(self, page, client):
+        """Test if help pages exist"""
 
-        url = self.template_url + 'help/about'
-        response = client.get(url)
-        assert response.status_code == 200
-        assert response.get_data(as_text=True)
-
-    def test_help_bs_inf(self, client):
-        """Test if basis set info page exists"""
-
-        url = self.template_url + 'help/basis_info'
+        url = self.template_url + 'help/' + page
         response = client.get(url)
         assert response.status_code == 200
         assert response.get_data(as_text=True)
