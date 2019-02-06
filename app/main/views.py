@@ -192,10 +192,7 @@ def api_references(basis_name, fmt):
     is json, is is 'application/json'. Otherwise, it is 'text/plain'
     """
 
-    elements = request.args.get('elements', default=None)
-
-    if elements is not None:
-        elements = elements.split(',')
+    elements = request.args.getlist('elements')
 
     logger.info('API: references: name=%s elements=%s format=%s', basis_name, elements, fmt)
 
