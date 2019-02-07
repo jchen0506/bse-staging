@@ -210,6 +210,9 @@ def api_notes(basis_name):
 
     logger.info('API: basis notes: %s', basis_name)
     notes = bse.get_basis_notes(basis_name)
+    if notes == '':
+        notes = 'Notes for the basis set "{}" do not exist'.format(basis_name)
+
     return Response(notes, mimetype='text/plain')
 
 
@@ -219,6 +222,9 @@ def api_family_notes(family):
 
     logger.info('API: family notes: %s', family)
     notes = bse.get_family_notes(family)
+    if notes == '':
+        notes = 'Notes for the family "{}" do not exist'.format(family)
+
     return Response(notes, mimetype='text/plain')
 
 
