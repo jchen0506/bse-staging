@@ -59,8 +59,7 @@ def index():
                            basis_sets=basis_sets,
                            formats=formats,
                            ref_formats=ref_formats,
-                           roles=roles,
-                           bselibver=bse.version())
+                           roles=roles)
 
 
 @main.route('/web_metadata/')

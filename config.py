@@ -1,7 +1,7 @@
 """Flask app configuration
 """
 import os
-
+import basis_set_exchange as bse
 
 class BaseConfig:
 
@@ -28,6 +28,9 @@ class BaseConfig:
 
     # Client-side config
     OLD_VERSION_SELECTION_STYLE = False
+
+    # Version of the BSE library
+    BSE_LIBRARY_VERSION = bse.version()
 
 
 class DevelopmentConfig(BaseConfig):
