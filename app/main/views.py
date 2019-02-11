@@ -79,6 +79,7 @@ def web_metadata():
 # programmatically, and not from a browser
 ##########################################
 
+
 @main.route('/api/formats/')
 def api_formats():
     """Get the possible output formats for basis sets (as JSON)

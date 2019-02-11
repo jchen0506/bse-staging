@@ -3,14 +3,13 @@
 import os
 import basis_set_exchange as bse
 
+
 class BaseConfig:
 
     basedir = os.path.abspath(os.path.dirname(__file__))
     # STATIC_FOLDER = 'static'
     ADMINS = frozenset(['daltarawy@molssi.org'])
     SECRET_KEY = os.environ.get('SECRET_KEY', 'SecretKeyForSessionSigning')
-
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 
     THREADS_PER_PAGE = 8
 
@@ -36,20 +35,20 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = False
-    DB_LOGGING = False
+    DB_LOGGING = True
     MONGODB_SETTINGS = {
         'host': os.environ.get('MONGO_URI',
-                               "mongodb://<user>:<dbpassword>@ds14323111.mlab.com:43231/bse_logging"),  # URI
+                               "mongodb://user:pass@ds131905.mlab.com:31905/bse_staging"),  # URI
     }
 
 
 class TestingConfig(BaseConfig):
     DEBUG = False
     TESTING = True
+    DB_LOGGING = True
     EMAIL_CONFIRMATION_ENABLED = True
     # disable CSRF protection in testing
     WTF_CSRF_ENABLED = False
-    DB_LOGGING = True
     MONGODB_SETTINGS = {
         'db': "test_bse_db",
         # 'username': 'travis',

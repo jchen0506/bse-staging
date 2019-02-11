@@ -34,7 +34,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     ref_fmt = db.StringField(max_length=100)
     help_page = db.StringField(max_length=100)
     user_agent = db.StringField(max_length=256)
-    header_from = db.StringField(max_length=100)
+    header_email = db.StringField(max_length=100)
     ip_address = db.StringField(max_length=100)
     date = db.DateTimeField(default=datetime.datetime.now)
 
@@ -55,7 +55,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
                + ', ref_fmt: ' + str(self.ref_fmt) \
                + ', help_page: ' + str(self.help_page) \
                + ', user_agent: ' + str(self.user_agent) \
-               + ', header_from: ' + str(self.header_from) \
+               + ', header_email: ' + str(self.header_email) \
                + ', ip_address: ' + str(self.ip_address) \
                + ', date: ' + str(self.date)
 
@@ -74,7 +74,7 @@ def save_access(access_type, bs_name=None, fam_name=None,
 
     ip_address = request.environ.get('REMOTE_ADDR', None)
     user_agent = request.environ.get('HTTP_USER_AGENT', None)
-    header_from = request.environ.get('HTTP_FROM', None)
+    header_email = request.environ.get('HTTP_FROM', None)
 
     # Check to see if this was requested directly via the api
     api = request.path.lower().startswith('/api/')
@@ -88,7 +88,7 @@ def save_access(access_type, bs_name=None, fam_name=None,
               ref_fmt=ref_fmt,
               help_page=help_page,
               user_agent=user_agent,
-              header_from=header_from,
+              header_email=header_email,
               ip_address=ip_address
               )
 

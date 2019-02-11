@@ -58,7 +58,7 @@ class LogView(ModelView):
         ref_fmt={'readonly': True},
         help_page={'readonly': True},
         user_agent={'readonly': True},
-        header_from={'readonly': True},
+        header_email={'readonly': True},
         ip_address={'readonly': True},
         date={'readonly': True}
     )
