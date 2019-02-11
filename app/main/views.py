@@ -53,8 +53,7 @@ def index():
     basis_sets = data_loader.basis_sets
     roles = data_loader.roles
 
-    if current_app.config['DB_LOGGING']:
-        save_access(download=False)  # just homepage access, no download yet
+    save_access(access_type='homepage')  # just homepage access
 
     return render_template('index.html',
                            basis_sets=basis_sets,
@@ -71,7 +70,6 @@ def web_metadata():
     The output is JSON
     """
 
-    logger.info('WEB: getting web metadata')
     return jsonify({'metadata': data_loader.metadata,
                     'element_basis': data_loader.element_basis})
 
@@ -92,7 +90,7 @@ def api_formats():
     The format key is passed into other API calls.
     """
 
-    logger.info('API: formats')
+    save_access(access_type='get_formats')
     return jsonify(data_loader.formats)
 
 
@@ -106,7 +104,7 @@ def api_reference_formats():
     The format key is passed into other API calls.
     """
 
-    logger.info('API: reference formats')
+    save_access(access_type='get_ref_formats')
     return jsonify(data_loader.ref_formats)
 
 
@@ -118,7 +116,7 @@ def api_metadata():
     function types, and elements defined by the basis set.
     """
 
-    logger.info('API: metadata')
+    save_access(access_type='get_metadata')
     return jsonify(data_loader.metadata)
 
 
@@ -170,9 +168,7 @@ def api_basis(basis_name, fmt):
                               make_general=make_general,
                               header=header)
 
-    if current_app.config['DB_LOGGING']:
-        element_list = bse.misc.expand_elements(elements)
-        save_access(download=True, bs_name=basis_name, elements=element_list, bs_format=fmt)
+    save_access(access_type='get_basis', bs_name=basis_name, elements=elements, bs_fmt=fmt)
 
     if fmt.lower() == 'json':
         return Response(basis_set, mimetype='application/json')
@@ -193,10 +189,9 @@ def api_references(basis_name, fmt):
     """
 
     elements = request.args.getlist('elements')
-
-    logger.info('API: references: name=%s elements=%s format=%s', basis_name, elements, fmt)
-
     refs = bse.get_references(basis_name, elements=elements, fmt=fmt)
+
+    save_access(access_type='get_references', bs_name=basis_name, elements=elements, ref_fmt=fmt)
 
     if fmt.lower() == 'json':
         return Response(refs, mimetype='application/json')
@@ -208,11 +203,11 @@ def api_references(basis_name, fmt):
 def api_notes(basis_name):
     """Get text notes about a basis set"""
 
-    logger.info('API: basis notes: %s', basis_name)
     notes = bse.get_basis_notes(basis_name)
     if notes == '':
         notes = 'Notes for the basis set "{}" do not exist'.format(basis_name)
 
+    save_access(access_type='get_notes', bs_name=basis_name)
     return Response(notes, mimetype='text/plain')
 
 
@@ -220,11 +215,11 @@ def api_notes(basis_name):
 def api_family_notes(family):
     """Get text notes about a basis set family"""
 
-    logger.info('API: family notes: %s', family)
     notes = bse.get_family_notes(family)
     if notes == '':
         notes = 'Notes for the family "{}" do not exist'.format(family)
 
+    save_access(access_type='get_family_notes', fam_name=family)
     return Response(notes, mimetype='text/plain')
 
 
@@ -323,5 +318,7 @@ def html_help_page(page):
 
     with open(html_file, 'r') as f:
         html_data = f.read()
+
+    save_access(access_type='help_page', help_page=page)
 
     return render_template('help_page.html',  help_contents=html_data)

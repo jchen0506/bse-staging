@@ -43,16 +43,22 @@ class LogView(ModelView):
     can_view_details = True
 
     column_type_formatters = MY_DEFAULT_FORMATTERS
-    column_exclude_list = ['elements']
-    column_filters = ['bs_name', 'bs_format']
+    column_exclude_list = []
+    column_filters = ['access_type', 'bs_name', 'bs_fmt']
 
     # Bug in Flask admin, don't use disabled: True
     # Bug in Flask admin, readonly doesn't work with boolean and ListFields
     form_widget_args = dict(
-        download={'readonly': True},
+        access_type={'readonly': True},
+        api={'readonly': True},
         bs_name={'readonly': True},
+        fam_name={'readonly': True},
         elements={'readonly': True},
-        bs_format={'readonly': True},
+        bs_fmt={'readonly': True},
+        ref_fmt={'readonly': True},
+        help_page={'readonly': True},
+        user_agent={'readonly': True},
+        header_from={'readonly': True},
         ip_address={'readonly': True},
         date={'readonly': True}
     )
@@ -66,4 +72,3 @@ def add_admin_views():
     from .. import app_admin
     app_admin.add_view(LogView(Log, name='Access Log'))
     app_admin.add_view(UserView(User, name='Users'))
-
