@@ -4,7 +4,7 @@
 
 // Load Basis set metadata
 jQuery.ajax({
-    url: "web_metadata/",
+    url: "/web_metadata/",
     data: '',
     contentType: "application/json",
     dataType: "json",

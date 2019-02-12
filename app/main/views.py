@@ -1,7 +1,7 @@
 import os
 import logging
 import basis_set_exchange as bse
-from flask import request, render_template, Response, jsonify, json, current_app
+from flask import request, render_template, Response, jsonify, json, current_app, send_from_directory, safe_join
 from . import main
 from .data_loader import DataLoader
 from ..models.logs import save_access
@@ -322,3 +322,31 @@ def html_help_page(page):
     save_access(access_type='help_page', help_page=page)
 
     return render_template('help_page.html',  help_contents=html_data)
+
+
+
+###################################
+# Downloads
+###################################
+@main.route('/download/<ver>/<fmt>/<archive_type>')
+def download_file(fmt, archive_type, ver):
+    if not fmt in data_loader.formats:
+        raise RuntimeError("'{}' is not a valid format".format(fmt))
+
+    if archive_type == 'zip':
+        ext = '.zip'
+    elif archive_type == 'tbz':
+        ext = '.tar.bz2'
+    else:
+        raise RuntimeError("'{}' is not a valid archive type".format(archive_type))
+
+    if ver == 'current':
+        ver = bse.version()
+    filename = 'basis_sets-' + fmt + '-' + ver + ext
+    filedir = safe_join(data_loader.dl_dir, ver)
+    fullpath = safe_join(filedir, filename)
+
+    if os.path.isfile(fullpath):
+        save_access(access_type='download_all', bs_fmt=fmt)
+
+    return send_from_directory(filedir, filename, as_attachment=True, attachment_filename=filename)
