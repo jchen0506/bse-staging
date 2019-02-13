@@ -321,7 +321,7 @@ def html_help_page(page):
 
     save_access(access_type='help_page', help_page=page)
 
-    return render_template('help_page.html',  help_contents=html_data)
+    return render_template('help_page.html',  help_contents=html_data, formats=data_loader.formats)
 
 
 

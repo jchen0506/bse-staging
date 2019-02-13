@@ -523,7 +523,7 @@ $( document ).ready(function () {
             return;
         }
 
-        var url = "basis/";
+        var url = "/basis/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
         var elements_ids = get_selected_elements();
@@ -543,7 +543,7 @@ $( document ).ready(function () {
             return;
         }
 
-        var url = "basis/";
+        var url = "/basis/";
         var basis_set = $('#basis_sets').val();
         var format = $('#format2').val();
         var elements_ids = get_selected_elements();
@@ -584,7 +584,7 @@ $( document ).ready(function () {
         }
 
         var query = '';
-        var url = "references/";
+        var url = "/references/";
         var basis_set = $('#basis_sets').val();
         var format = $('#cformat').val();
 
