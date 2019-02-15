@@ -15,4 +15,5 @@ WTForms==2.1
 Flask-DebugToolbar
 flask-ckeditor
 gunicorn
-basis_set_exchange==0.5.7
+basis_set_exchange==0.5.8
+https://www.bennyp.org/basis_set_exchange_archive-v0.5.8.tar.bz2

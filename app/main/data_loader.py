@@ -27,21 +27,3 @@ class DataLoader(object):
                 latest = self.metadata[basis]['latest_version']
                 if element in self.metadata[basis]['versions'][latest]['elements']:
                     self.element_basis[element].append(basis)
-
-
-        # Create download files for all formats
-        self.dl_dir = os.path.realpath(os.environ.get('BSE_DOWNLOAD_DIR', 'downloads'))
-        self.dl_dir_ver = os.path.join(self.dl_dir, bse.version())
-
-        if not os.path.isdir(self.dl_dir_ver):
-            os.makedirs(self.dl_dir_ver)
-
-        for fmt in self.formats:
-            base = 'basis_sets-' + fmt + '-' + bse.version()
-            for ext in ['.zip', '.tar.bz2']:
-                fname = base + ext
-                fpath = os.path.join(self.dl_dir_ver, fname)
-
-                if not os.path.isfile(fpath):
-                    logger.info('Creating bundle ' + fpath)
-                    bse.create_bundle(fpath, fmt, 'bib')

@@ -1,6 +1,7 @@
 import os
 import logging
 import basis_set_exchange as bse
+import basis_set_exchange_archive as bsea
 from flask import request, render_template, Response, jsonify, json, current_app, send_from_directory, safe_join
 from . import main
 from .data_loader import DataLoader
@@ -342,8 +343,9 @@ def download_file(fmt, archive_type, ver):
 
     if ver == 'current':
         ver = bse.version()
+
     filename = 'basis_sets-' + fmt + '-' + ver + ext
-    filedir = safe_join(data_loader.dl_dir, ver)
+    filedir = safe_join(bsea.get_data_ver_dir())
     fullpath = safe_join(filedir, filename)
 
     if os.path.isfile(fullpath):
