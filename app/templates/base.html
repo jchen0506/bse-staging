@@ -61,7 +61,7 @@
             <div class="modal-body">
                 <form class="form">
                     <div class="form-group my-1">
-                      <label class="font-weight-bold" for="format2">Format</label>
+                      <label class="font-weight-bold" for="bsformat">Basis Set Format</label>
                       <select id="format2" class="custom-select custom-select-sm form-control">
                           {% for format, display_name in formats.items() -%}
                               <option value="{{ format }}">
@@ -71,7 +71,7 @@
                       </select>
                     </div>
                     <div class="form-group my-1">
-                      <label class="font-weight-bold" for="format2">Format</label>
+                      <label class="font-weight-bold" for="archformat">Archive Type</label>
                       <select id="archive_type" class="custom-select custom-select-sm form-control">
                           <option value="tbz">tar + bzip2</option>
                           <option value="zip">Zip</option>
