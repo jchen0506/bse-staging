@@ -329,6 +329,7 @@ def html_help_page(page):
 ###################################
 # Downloads
 ###################################
+@main.route('/api/download/<ver>/<fmt>/<archive_type>')
 @main.route('/download/<ver>/<fmt>/<archive_type>')
 def download_file(fmt, archive_type, ver):
     if not fmt in data_loader.formats:

@@ -138,4 +138,12 @@ class TestAPIs(object):
         assert response.status_code == 200
         assert response.get_data(as_text=True)
 
+    @pytest.mark.parametrize('bs_format', bse.get_formats().keys())
+    @pytest.mark.parametrize('archive_type', bse.get_archive_types().keys())
+    def test_download(self, bs_format, archive_type, client):
+        """Get basis set family notes"""
 
+        ver = bse.version()
+        url = self.api_url + 'download/{}/{}/{}'.format(ver, bs_format, archive_type)
+        response = client.head(url)
+        assert response.status_code == 200
