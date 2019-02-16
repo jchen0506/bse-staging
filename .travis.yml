@@ -2,43 +2,33 @@
 #   http://lint.travis-ci.org/
 
 language: python
-
-# Run jobs on container-based infrastructure, can be overridden per job
-sudo: true
+sudo: false
 
 services:
   - mongodb
 
-python:
-    - 3.5
-#    - 3.6
+matrix:
+  include:
+      - python: 3.5
+      - python: 3.6
+      - python: 3.7
+        dist: xenial
+        after_success:
+          - codecov
+
 
 before_install:
   - uname -a
   - free -m
   - df -h
+  - pip -V
   - ulimit -a
-  - pip install --upgrade pip setuptools
 
 install:
-    # Pull down a miniconda
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-
-    # Build out the environment
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-#  - conda update -q conda
-  - conda info -a
-  - conda create -q -n bse_env python=$TRAVIS_PYTHON_VERSION pip
-  - source activate bse_env
-  - conda list
+  - pip install -r requirements.txt
+  - pip install pytest-cov codecov
 
 before_script:
-  - python -V
-  - pip install -e .[tests]
-  - pip freeze
   - sleep 15    # fixes an issue with travis,
                 # MongoDB does not accept connections immediately.
   - mongo test_bse_db --eval ';' # --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
@@ -48,6 +38,3 @@ script:
 
 notifications:
   email: false
-
-after_success:
-  - codecov
