@@ -36,7 +36,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     user_agent = db.StringField(max_length=256)
     header_email = db.StringField(max_length=100)
     ip_address = db.StringField(max_length=100)
-    date = db.DateTimeField(default=datetime.datetime.now)
+    date = db.DateTimeField(default=datetime.datetime.utcnow)
 
     meta = {
         'strict': False,     # allow extra fields
