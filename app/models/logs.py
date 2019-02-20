@@ -72,10 +72,14 @@ def save_access(access_type, bs_name=None, fam_name=None,
     else:
         elements = expand_elements(elements)
 
-
     # The IP address is the last address listed in access_route, which
     # comes from the X-FORWARDED-FOR header
-    ip_address = request.access_route[-1]
+    # (If access_route is empty, use the original request ip)
+    if len(request.access_route) > 0:
+        ip_address = request.access_route[-1]
+    else:
+        ip_address = request.remote_addr
+
     user_agent = request.environ.get('HTTP_USER_AGENT', None)
     header_email = request.environ.get('HTTP_FROM', None)
 
