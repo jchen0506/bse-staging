@@ -53,6 +53,7 @@ def index():
     ref_formats = data_loader.ref_formats
     basis_sets = data_loader.basis_sets
     roles = data_loader.roles
+    help_data = data_loader.help_data
 
     save_access(access_type='homepage')  # just homepage access
 
@@ -60,7 +61,8 @@ def index():
                            basis_sets=basis_sets,
                            formats=formats,
                            ref_formats=ref_formats,
-                           roles=roles)
+                           roles=roles,
+                           help_data=help_data)
 
 
 @main.route('/web_metadata/')
@@ -299,7 +301,6 @@ def html_family_notes(family):
                            web_link=web_link,
                            dl_filename=dl_filename)
 
-
 #################################
 # Help pages, documentation, etc
 #################################
@@ -307,7 +308,8 @@ def html_family_notes(family):
 def html_help_page(page):
     """Render a help page"""
 
-    help_pages = ['about', 'feedback', 'using', 'api']
+    # Left for future uses
+    help_pages = []
     if page not in help_pages:
         raise RuntimeError("Help page {} does not exist".format(page))
 
@@ -322,7 +324,7 @@ def html_help_page(page):
 
     save_access(access_type='help_page', help_page=page)
 
-    return render_template('help_page.html',  help_contents=html_data, formats=data_loader.formats)
+    return render_template('help_page.html',  help_contents=html_data, formats=data_loader.formats, help_data=data_loader.help_data)
 
 
 

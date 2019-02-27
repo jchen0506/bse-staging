@@ -28,4 +28,19 @@ $( document ).ready(function () {
         $('#download_all').modal('toggle');
     });
 
+
+    $('#feedback_link').click(function (e) {
+        console.log('Feedback link clicked');
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        $('#help_box_feedback').modal();
+    });
+
+    $('#about_link').click(function (e) {
+        console.log('Feedback link clicked');
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        $('#help_box_about').modal();
+    });
+
 });

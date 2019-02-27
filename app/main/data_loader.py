@@ -10,6 +10,8 @@ class DataLoader(object):
 
     def __init__(self):
         logger.info('Creating cached data')
+        self.my_dir = os.path.dirname(os.path.abspath(__file__))
+
         self.metadata = bse.get_metadata()
         self.formats = bse.get_formats()
         self.ref_formats = bse.get_reference_formats()
@@ -27,3 +29,18 @@ class DataLoader(object):
                 latest = self.metadata[basis]['latest_version']
                 if element in self.metadata[basis]['versions'][latest]['elements']:
                     self.element_basis[element].append(basis)
+
+
+        # Load contents of help, feedback, etc
+        self.help_data = {'feedback':
+                               { 'title': 'Feedback',
+                               },
+                          'about':
+                               { 'title': 'About',
+                               },
+                         }
+
+        for k,v in self.help_data.items():
+            help_path = os.path.join(self.my_dir, 'help', k + '.html')
+            with open(help_path, 'r') as hf:
+                v['contents'] =  hf.read()

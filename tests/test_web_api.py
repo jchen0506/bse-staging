@@ -87,7 +87,8 @@ class TestWebAPIs(object):
         assert response.status_code == 200
         assert response.get_data(as_text=True)
 
-    @pytest.mark.parametrize('page', ['about', 'feedback', 'using', 'api'])
+    # Left for future uses
+    @pytest.mark.parametrize('page', [])
     def test_help_page(self, page, client):
         """Test if help pages exist"""
 
