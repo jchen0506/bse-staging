@@ -19,11 +19,11 @@ $( document ).ready(function () {
         var url = "/download/";
         var format = $('#format2').val();
         var version = 'current';
-        var archive_type = $('#archive_type').val()
+        var archive_type = $('#archive_type').val();
 
         var query = url + version + '/' + format + '/' + archive_type;
-        console.log(query)
-        window.location = query
+        console.log(query);
+        window.location = query;
 
         $('#download_all').modal('toggle');
     });
@@ -33,7 +33,9 @@ $( document ).ready(function () {
         console.log('Feedback link clicked');
         e.preventDefault();
         window.scrollTo(0, 0);
+
         $('#help_box_feedback').modal();
+
     });
 
     $('#about_link').click(function (e) {
@@ -41,6 +43,7 @@ $( document ).ready(function () {
         e.preventDefault();
         window.scrollTo(0, 0);
         $('#help_box_about').modal();
+
     });
 
 });

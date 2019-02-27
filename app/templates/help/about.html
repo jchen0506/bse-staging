@@ -1,77 +1,98 @@
-<div class="row header-top justify-content-center">
-  <div class="col-auto">
-      <a class="navbar-brand" href="https://molssi.org/" target="_blank">
-        <img src="/static/images/molssi_logo_small.png" height="75" class="d-inline-block" alt="">
-      </a>
-  </div>
-  <div class="col-auto">
-      <a class="navbar-brand" href="https://www.emsl.pnl.gov/emslweb/" target="_blank">
-        <img src="/static/images/emsl_logo_small.png" height="50" class="d-inline-block" alt="">
-      </a>
-  </div>
-  <div class="col-auto">
-      <a class="navbar-brand" href="https://nsf.gov" target="_blank">
-        <img src="/static/images/nsf_logo_small.png" height="75" class="d-inline-block" alt="">
-      </a>
-  </div>
+<!-- About modal -->
+<div id="help_box_about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="help_box_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">About</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row header-top justify-content-center mb-4">
+                  <div class="col-auto">
+                      <a class="navbar-brand" href="https://molssi.org/" target="_blank">
+                        <img src="/static/images/molssi_logo_small.png" height="75" class="d-inline-block" alt="">
+                      </a>
+                  </div>
+                  <div class="col-auto">
+                      <a class="navbar-brand" href="https://www.emsl.pnl.gov/emslweb/" target="_blank">
+                        <img src="/static/images/emsl_logo_small.png" height="50" class="d-inline-block" alt="">
+                      </a>
+                  </div>
+                  <div class="col-auto">
+                      <a class="navbar-brand" href="https://nsf.gov" target="_blank">
+                        <img src="/static/images/nsf_logo_small.png" height="75" class="d-inline-block" alt="">
+                      </a>
+                  </div>
+                </div>
+
+                <p>The Basis Set Exchange is developed as a collaboration between the Molecular Sciences Software Institute (MolSSI)
+                and the Pacific Northwest National Lab/Environmental Molecular Sciences Laboratory (PNNL/EMSL)</p>
+
+                <p>MolSSI is funded by the National Science Foundation, grant ACI-1547580</p>
+
+                <h5>Primary Developers</h5>
+
+                <p>The BSE is primarily developed by
+                <a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-benjamin-pritchard/">Benjamin Pritchard</a>
+                and
+                <a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-doaa-altarawy/">Doaa Altarawy</a>
+                both at MolSSI. Oversight is provided by Theresa Windus.</p>
+
+                <p>Basis set curation is primarily done by
+                <a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-benjamin-pritchard/">Benjamin Pritchard</a>
+                </p>
+
+                <h5>EMSL Staff</h5>
+
+                <p>Members of EMSL that have contributed to the project include:</p>
+
+                <table>
+                <tr>
+                  <td>
+                    <ul>
+                      <li>Eric Bylaska</li>
+                      <li>Brett Didier</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li>Phil Gackle</li>
+                      <li>Tara Gibson</li>
+                    </ul>
+                  </td>
+                </tr>
+                </table>
+
+                <h5>Contributors</h5>
+
+                <p>We would like to thank the following for their contributions of basis set data, as well
+                as their advice concerning curation</p>
+
+                <table>
+                <tr>
+                  <td>
+                    <ul>
+                      <li>Grant Hill</li>
+                      <li>Frank Jensen</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li>Arnim Hellweg</li>
+                      <li>Lori Burns</li>
+                    </ul>
+                  </td>
+                </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn uniqe-color" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<p>The Basis Set Exchange is developed as a collaboration between the Molecular Sciences Software Institute (MolSSI)
-and the Pacific Northwest National Lab/Environmental Molecular Sciences Laboratory (PNNL/EMSL)</p>
 
-<p>MolSSI is funded by the National Science Foundation, grant ACI-1547580</p>
-
-<h5>Primary Developers</h5>
-
-<p>The BSE is primarily developed by
-<a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-benjamin-pritchard/">Benjamin Pritchard</a>
-and
-<a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-doaa-altarawy/">Doaa Altarawy</a>
-both at MolSSI. Oversight is provided by Theresa Windus.</p>
-
-<p>Basis set curation is primarily done by
-<a target="_blank" href="http://molssi.org/molssi-software-scientist-dr-benjamin-pritchard/">Benjamin Pritchard</a>
-</p>
-
-<h5>EMSL Staff</h5>
-
-<p>Members of EMSL that have contributed to the project include:</p>
-
-<table>
-<tr>
-  <td>
-    <ul>
-      <li>Eric Bylaska</li>
-      <li>Brett Didier</li>
-    </ul>
-  </td>
-  <td>
-    <ul>
-      <li>Phil Gackle</li>
-      <li>Tara Gibson</li>
-    </ul>
-  </td>
-</tr>
-</table>
-
-<h5>Contributors</h5>
-
-<p>We would like to thank the following for their contributions of basis set data, as well
-as their advice concerning curation</p>
-
-<table>
-<tr>
-  <td>
-    <ul>
-      <li>Grant Hill</li>
-      <li>Frank Jensen</li>
-    </ul>
-  </td>
-  <td>
-    <ul>
-      <li>Arnim Hellweg</li>
-      <li>Lori Burns</li>
-    </ul>
-  </td>
-</tr>
-</table>

@@ -53,16 +53,14 @@ def index():
     ref_formats = data_loader.ref_formats
     basis_sets = data_loader.basis_sets
     roles = data_loader.roles
-    help_data = data_loader.help_data
 
-    save_access(access_type='homepage')  # just homepage access
+    save_access(access_type='homepage')
 
     return render_template('index.html',
                            basis_sets=basis_sets,
                            formats=formats,
                            ref_formats=ref_formats,
-                           roles=roles,
-                           help_data=help_data)
+                           roles=roles)
 
 
 @main.route('/web_metadata/')
@@ -304,33 +302,27 @@ def html_family_notes(family):
 #################################
 # Help pages, documentation, etc
 #################################
+
 @main.route('/help/<page>')
 def html_help_page(page):
     """Render a help page"""
 
     # Left for future uses
-    help_pages = []
+    help_pages = ['help_page']
     if page not in help_pages:
         raise RuntimeError("Help page {} does not exist".format(page))
 
-    # Read in the partial HTML
-    app_root = current_app.root_path
-    html_file = os.path.join(app_root, 'help', page + '.html')
-    if not os.path.isfile(html_file):
-        raise RuntimeError("Help page {} does not exist".format(page))
-
-    with open(html_file, 'r') as f:
-        html_data = f.read()
+    page_name = page + '.html'
 
     save_access(access_type='help_page', help_page=page)
 
-    return render_template('help_page.html',  help_contents=html_data, formats=data_loader.formats, help_data=data_loader.help_data)
-
+    return render_template('help/' + page_name)
 
 
 ###################################
 # Downloads
 ###################################
+
 @main.route('/api/download/<ver>/<fmt>/<archive_type>')
 @main.route('/download/<ver>/<fmt>/<archive_type>')
 def download_file(fmt, archive_type, ver):

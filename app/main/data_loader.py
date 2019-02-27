@@ -31,16 +31,16 @@ class DataLoader(object):
                     self.element_basis[element].append(basis)
 
 
-        # Load contents of help, feedback, etc
-        self.help_data = {'feedback':
-                               { 'title': 'Feedback',
-                               },
-                          'about':
-                               { 'title': 'About',
-                               },
-                         }
-
-        for k,v in self.help_data.items():
-            help_path = os.path.join(self.my_dir, 'help', k + '.html')
-            with open(help_path, 'r') as hf:
-                v['contents'] =  hf.read()
+        # # Load contents of help, feedback, etc
+        # self.help_data = {'feedback':
+        #                        { 'title': 'Feedback',
+        #                        },
+        #                   'about':
+        #                        { 'title': 'About',
+        #                        },
+        #                  }
+        #
+        # for k,v in self.help_data.items():
+        #     help_path = os.path.join(self.my_dir, 'help', k + '.html')
+        #     with open(help_path, 'r') as hf:
+        #         v['contents'] =  hf.read()
