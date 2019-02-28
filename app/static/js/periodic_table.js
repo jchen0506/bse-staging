@@ -441,8 +441,8 @@ $( document ).ready(function () {
             basis_role = window.bs_metadata[option]['role'];
             if (!(option.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
-                (ecp === 'ecp' && basis_ecp.indexOf('ecp') === -1) ||
-                (ecp === 'no_ecp' && basis_ecp.indexOf('ecp') > -1) ||
+                (ecp === 'ecp' && basis_ecp.indexOf('scalar_ecp') === -1 && basis_ecp.indexOf('spinorbit_ecp') === -1) ||
+                (ecp === 'no_ecp' && (basis_ecp.indexOf('scalar_ecp') > -1) || basis_ecp.indexOf('spinorbit_ecp') > -1) ||
                 (role && basis_role !== role))
             ) {
                 options.append(options_list[i]);
