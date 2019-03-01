@@ -293,18 +293,16 @@ $( document ).ready(function () {
 
             if (notes[0]){
                 $('#basis_notes').attr('href', '#');
-                $('#basis_notes').on('click');
+                $('#basis_notes').attr('title', 'View notes for this basis set');
             }else{
                 $('#basis_notes').removeAttr('href');
-                $('#basis_notes').off('click');
                 $('#basis_notes').attr('title', 'Notes do not exist for this basis');
             }
             if (notes[1]){
                 $('#family_notes').attr('href', '#');
-                $('#family_notes').on('click');
+                $('#family_notes').attr('title', 'View notes for this basis set family');
             }else{
-                $('#familiy_notes').removeAttr('href');
-                $('#family_notes').off('click');
+                $('#family_notes').removeAttr('href');
                 $('#family_notes').attr('title', 'Notes do not exist for this family');
             }
         }else{
@@ -364,11 +362,15 @@ $( document ).ready(function () {
         var url = '/notes/';
         var basis_set = $('#basis_sets').val();
         if (! basis_set){
-            alert("Please click on the basis set you want to download.");
             return;
         }
-        //console.log('Download notes for Basis set: ', basis_set);
-        window.open(url + basis_set, 'Notes for basis set ' + basis_set, "height=650,width=600");
+
+        var notes = window.bs_metadata[basis_set]['notes_exist'];
+
+        if (notes[0]){
+            //console.log('Download notes for Basis set: ', basis_set);
+            window.open(url + basis_set, 'Notes for basis set ' + basis_set, "height=650,width=800");
+        }
 
     });
 
@@ -379,13 +381,17 @@ $( document ).ready(function () {
         var basis_set = $('#basis_sets').val();
 
         if (! basis_set){
-            alert("Please click on the basis set you want to download.");
             return;
         }
+        
+        var md = window.bs_metadata[basis_set];
+        var family = md['family'];
+        var notes = md['notes_exist'];
 
-        var family = window.bs_metadata[basis_set]['family'];
-        //console.log('Download family notes for Basis set: ', basis_set, ', family ', family);
-        window.open(url + family, 'Notes for basis set ' + basis_set, "height=650,width=600");
+        if (notes[1]){
+            //console.log('Download family notes for Basis set: ', basis_set, ', family ', family);
+            window.open(url + family, 'Notes for family ' + family, "height=650,width=800");
+        }
 
     });
 
