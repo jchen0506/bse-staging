@@ -243,7 +243,8 @@ def html_basis(basis_name, fmt):
                            data=data,
                            api_link=api_link,
                            web_link=web_link,
-                           dl_filename=dl_filename)
+                           dl_filename=dl_filename,
+                           show_topbox=True)
 
 
 @main.route('/references/<basis_name>/format/<fmt>/')
@@ -261,7 +262,8 @@ def html_references(basis_name, fmt):
                            data=data,
                            api_link=api_link,
                            web_link=web_link,
-                           dl_filename=dl_filename)
+                           dl_filename=dl_filename,
+                           show_topbox=True)
 
 
 @main.route('/notes/<basis_name>/')
@@ -279,7 +281,8 @@ def html_notes(basis_name):
                            data=data,
                            api_link=api_link,
                            web_link=web_link,
-                           dl_filename=dl_filename)
+                           dl_filename=dl_filename,
+                           show_topbox=False)
 
 
 @main.route('/family_notes/<family>/')
@@ -297,7 +300,8 @@ def html_family_notes(family):
                            data=data,
                            api_link=api_link,
                            web_link=web_link,
-                           dl_filename=dl_filename)
+                           dl_filename=dl_filename,
+                           show_topbox=False)
 
 #################################
 # Help pages, documentation, etc
