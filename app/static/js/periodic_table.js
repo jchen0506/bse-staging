@@ -282,12 +282,31 @@ $( document ).ready(function () {
             var md = window.bs_metadata[selected];
             var latest_version = md['latest_version'];
             var verdesc = ' (' + md['versions'][latest_version]['revdesc'] + ')';
+            var notes = md['notes_exist']
+
             $('#basis_set_name').text(md['display_name']);
             $('#latest_version').text(latest_version + verdesc);
             $('#description').text(md['description']);
             $('#basis_family').text(md['family']);
             $('#basis_role').text(md['role']);
             $('#basis_functions').text(md['functiontypes'].join(', '));
+
+            if (notes[0]){
+                $('#basis_notes').attr('href', '#');
+                $('#basis_notes').on('click');
+            }else{
+                $('#basis_notes').removeAttr('href');
+                $('#basis_notes').off('click');
+                $('#basis_notes').attr('title', 'Notes do not exist for this basis');
+            }
+            if (notes[1]){
+                $('#family_notes').attr('href', '#');
+                $('#family_notes').on('click');
+            }else{
+                $('#familiy_notes').removeAttr('href');
+                $('#family_notes').off('click');
+                $('#family_notes').attr('title', 'Notes do not exist for this family');
+            }
         }else{
             $('#basis_set_name').text('');
             $('#latest_version').text('');
@@ -295,6 +314,9 @@ $( document ).ready(function () {
             $('#basis_family').text('');
             $('#basis_role').text('');
             $('#basis_functions').text('');
+
+            $('#basis_notes').removeAttr('href');
+            $('#family_notes').removeAttr('href');
         }
     }
 

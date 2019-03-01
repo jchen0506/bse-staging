@@ -23,6 +23,11 @@ class DataLoader(object):
         self.ref_format_ext = {fmt: refconverters.get_format_extension(fmt)
                                for fmt in self.ref_formats}
 
+        # Store whether notes exist for basis sets/families
+        for bs in self.metadata.keys():
+            fam = self.metadata[bs]['family']
+            self.metadata[bs]['notes_exist'] = (bse.has_basis_notes(bs), bse.has_family_notes(fam))
+
         self.element_basis = {str(i): [] for i in range(1, 119)}
         for element in self.element_basis:
             for basis in self.metadata:
