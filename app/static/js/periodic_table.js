@@ -278,16 +278,17 @@ $( document ).ready(function () {
     }
 
     function update_summary(selected) {
-        // TODO: update summary card with basis set data
-        $('#basis_set_name').text(selected? selected : '');
-
         if (selected){
-            var latest_version = window.bs_metadata[selected]['latest_version'];
-            $('#latest_version').text(latest_version);
-            $('#description').text(window.bs_metadata[selected]['description']);
+            var md = window.bs_metadata[selected];
+            var latest_version = md['latest_version'];
+            var verdesc = ' (' + md['versions'][latest_version]['revdesc'] + ')';
+            $('#basis_set_name').text(md['display_name']);
+            $('#latest_version').text(latest_version + verdesc);
+            $('#description').text(md['description']);
         }else{
-            $('#latest_version').text('');
-            $('#description').text('');
+            $('#basis_set_name').text('(no basis set selected)');
+            $('#latest_version').text('(no basis set selected)');
+            $('#description').text('(no basis set selected)');
         }
     }
 
