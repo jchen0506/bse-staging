@@ -257,7 +257,7 @@ $( document ).ready(function () {
         // change the table based on new basis set selection
 
         var selected = $('#basis_sets').find(":selected").val();
-        console.log('Selected bs: ', window.bs_metadata[selected]);
+        //console.log('Selected bs: ', window.bs_metadata[selected]);
 
         // update summary card
         update_summary(selected);
@@ -345,7 +345,7 @@ $( document ).ready(function () {
             alert("Please click on the basis set you want to download.");
             return;
         }
-        console.log('Download notes for Basis set: ', basis_set);
+        //console.log('Download notes for Basis set: ', basis_set);
         window.open(url + basis_set, 'Notes for basis set ' + basis_set, "height=650,width=600");
 
     });
@@ -362,7 +362,7 @@ $( document ).ready(function () {
         }
 
         var family = window.bs_metadata[basis_set]['family'];
-        console.log('Download family notes for Basis set: ', basis_set, ', family ', family);
+        //console.log('Download family notes for Basis set: ', basis_set, ', family ', family);
         window.open(url + family, 'Notes for basis set ' + basis_set, "height=650,width=600");
 
     });
@@ -415,8 +415,8 @@ $( document ).ready(function () {
         var role = $('#role').val();
         var current_selected_bs = options.val();
 
-        console.log('Filter by: ', 'ecp:', ecp, ', role: ', role, ', filter text: ',
-            filter);
+        //console.log('Filter by: ', 'ecp:', ecp, ', role: ', role, ', filter text: ',
+        //    filter);
 
         if (selected_elements.length > 0){
             // assign list to first element's basis sets
@@ -494,7 +494,7 @@ $( document ).ready(function () {
     $('#advanced_download_link').click(function (e) {
         // Advanced download link clicked, check if basis and elements are selected
         // then show modal of advanced search
-        console.log('Advanced link clicked');
+        //console.log('Advanced link clicked');
         e.preventDefault();
         if (! is_basis_elements_seleced()){
 
@@ -518,7 +518,7 @@ $( document ).ready(function () {
 
     function show_basis_window(basis_set, query) {
 
-        console.log('Download Basis set for query: ', query);
+        //console.log('Download Basis set for query: ', query);
         window.open(query, 'Basis Set ' + basis_set, "height=650,width=600");
     }
 
