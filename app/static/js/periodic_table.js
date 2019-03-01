@@ -285,10 +285,16 @@ $( document ).ready(function () {
             $('#basis_set_name').text(md['display_name']);
             $('#latest_version').text(latest_version + verdesc);
             $('#description').text(md['description']);
+            $('#basis_family').text(md['family']);
+            $('#basis_role').text(md['role']);
+            $('#basis_functions').text(md['functiontypes'].join(', '));
         }else{
-            $('#basis_set_name').text('(no basis set selected)');
-            $('#latest_version').text('(no basis set selected)');
-            $('#description').text('(no basis set selected)');
+            $('#basis_set_name').text('');
+            $('#latest_version').text('');
+            $('#description').text('');
+            $('#basis_family').text('');
+            $('#basis_role').text('');
+            $('#basis_functions').text('');
         }
     }
 
