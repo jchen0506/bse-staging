@@ -28,6 +28,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     access_type = db.StringField(max_length=32)
     api = db.BooleanField()
     bs_name = db.StringField(max_length=100)
+    bs_version = db.StringField(max_length=10)
     fam_name = db.StringField(max_length=100)
     elements = db.ListField(db.IntField())
     bs_fmt = db.StringField(max_length=100)
@@ -49,6 +50,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
         return 'access:' + str(self.access_type) \
                + ', api: ' + str(self.api) \
                + ', bs_name: ' + str(self.bs_name) \
+               + ', bs_version: ' + str(self.bs_version) \
                + ', fam_name: ' + str(self.fam_name) \
                + ', elements: ' + str(self.elements) \
                + ', bs_fmt: ' + str(self.bs_fmt) \
@@ -60,7 +62,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
                + ', date: ' + str(self.date)
 
 
-def save_access(access_type, bs_name=None, fam_name=None,
+def save_access(access_type, bs_name=None, bs_version=None, fam_name=None,
                 elements=None, bs_fmt=None, ref_fmt=None,
                 help_page=None):
 
@@ -89,6 +91,7 @@ def save_access(access_type, bs_name=None, fam_name=None,
     log = Log(access_type=access_type,
               api=api,
               bs_name=bs_name,
+              bs_version=bs_version,
               fam_name=fam_name,
               elements=elements,
               bs_fmt=bs_fmt,

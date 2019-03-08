@@ -169,7 +169,7 @@ def api_basis(basis_name, fmt):
                               make_general=make_general,
                               header=header)
 
-    save_access(access_type='get_basis', bs_name=basis_name, elements=elements, bs_fmt=fmt)
+    save_access(access_type='get_basis', bs_name=basis_name, bs_version=version, elements=elements, bs_fmt=fmt)
 
     if fmt.lower() == 'json':
         return Response(basis_set, mimetype='application/json')
@@ -190,9 +190,10 @@ def api_references(basis_name, fmt):
     """
 
     elements = request.args.getlist('elements')
-    refs = bse.get_references(basis_name, elements=elements, fmt=fmt)
+    version = request.args.get('version', default=None)
+    refs = bse.get_references(basis_name, elements=elements, fmt=fmt, version=version)
 
-    save_access(access_type='get_references', bs_name=basis_name, elements=elements, ref_fmt=fmt)
+    save_access(access_type='get_references', bs_name=basis_name, bs_version=version, elements=elements, ref_fmt=fmt)
 
     if fmt.lower() == 'json':
         return Response(refs, mimetype='application/json')

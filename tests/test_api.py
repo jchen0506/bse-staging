@@ -109,6 +109,7 @@ class TestAPIs(object):
         bs_name = '3-21g'
         params = dict(elements='1,3')
         url = self.api_url + 'references/{}/format/{}/'.format(bs_name, rf_format)
+        print(url)
         response = client.get(url, query_string=params)
         assert response.status_code == 200
         data = response.get_data(as_text=True)

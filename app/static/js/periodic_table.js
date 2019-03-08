@@ -338,7 +338,8 @@ $( document ).ready(function () {
         versions_select.empty();  // clear existing options
 
         $.each(basis_versions, function(i, version){
-                var text = 'Version ' + version;
+                var revdesc = window.bs_metadata[selected]['versions'][version]['revdesc']
+                var text = 'Version ' + version + ' [' + revdesc + ']';
                 if (version === latest_version){
                     text += ' (latest)';
                 }
@@ -562,8 +563,9 @@ $( document ).ready(function () {
         var basis_set = $('#basis_sets').val();
         var format = $('#format').val();
         var elements_ids = get_selected_elements();
+        var version = window.bs_metadata[basis_set]['latest_version'];
 
-        var query = url + basis_set + '/format/' + format + '/?elements=' + elements_ids;
+        var query = url + basis_set + '/format/' + format + '/?version=' + version + '&elements=' + elements_ids;
 
         show_basis_window(basis_set, query);
 
