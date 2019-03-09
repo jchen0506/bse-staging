@@ -29,7 +29,7 @@ class TestDatabase(object):
             expect = r'access:test_access, api: False, bs_name: 3-21g, bs_version: None, '\
                      r'fam_name: None, elements: \[1, 3\], bs_fmt: gaussian94, '\
                      r'ref_fmt: None, help_page: None, '\
-                     r'user_agent: None, header_email: None, ip_address: None, ' \
+                     r'user_agent: None, header_email: None, ip_address: None, referrer: None, ' \
                      r'date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6})'\
 
             assert bool(re.match(expect, str(log)))
@@ -44,7 +44,7 @@ class TestDatabase(object):
             expect = r'access:homepage, api: False, bs_name: None, bs_version: None, '\
                      r'fam_name: None, elements: \[\], bs_fmt: None, '\
                      r'ref_fmt: None, help_page: None, '\
-                     r'user_agent: None, header_email: None, ip_address: None, ' \
+                     r'user_agent: None, header_email: None, ip_address: None, referrer: None, ' \
                      r'date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6})'\
 
             assert bool(re.match(expect, str(log)))
