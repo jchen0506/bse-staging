@@ -27,54 +27,60 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
 
     access_type = db.StringField(max_length=32)
     api = db.BooleanField()
-    bs_name = db.StringField(max_length=100)
-    bs_version = db.StringField(max_length=10)
-    fam_name = db.StringField(max_length=100)
+    basis_name = db.StringField(max_length=100)
+    basis_version = db.StringField(max_length=10)
+    family_name = db.StringField(max_length=100)
     elements = db.ListField(db.IntField())
-    bs_fmt = db.StringField(max_length=100)
-    ref_fmt = db.StringField(max_length=100)
+    basis_format = db.StringField(max_length=100)
+    reference_format = db.StringField(max_length=100)
     help_page = db.StringField(max_length=100)
     user_agent = db.StringField(max_length=256)
     header_email = db.StringField(max_length=100)
     ip_address = db.StringField(max_length=100)
     referrer = db.StringField(max_length=256)
+    uncontract_general = db.BooleanField(default=False)
+    uncontract_segmented = db.BooleanField(default=False)
+    uncontract_spdf = db.BooleanField(default=False)
+    optimize_general = db.BooleanField(default=False)
+    make_general = db.BooleanField(default=False)
     date = db.DateTimeField(default=datetime.datetime.utcnow)
 
     meta = {
         'strict': False,     # allow extra fields
         'indexes': [
-            "bs_name", "bs_fmt"
+            "basis_name", "basis_format"
         ]
     }
 
     def __str__(self):
-        return 'access:' + str(self.access_type) \
+        return 'access: ' + str(self.access_type) \
                + ', api: ' + str(self.api) \
-               + ', bs_name: ' + str(self.bs_name) \
-               + ', bs_version: ' + str(self.bs_version) \
-               + ', fam_name: ' + str(self.fam_name) \
+               + ', basis_name: ' + str(self.basis_name) \
+               + ', basis_version: ' + str(self.basis_version) \
+               + ', family_name: ' + str(self.family_name) \
                + ', elements: ' + str(self.elements) \
-               + ', bs_fmt: ' + str(self.bs_fmt) \
-               + ', ref_fmt: ' + str(self.ref_fmt) \
+               + ', basis_format: ' + str(self.basis_format) \
+               + ', reference_format: ' + str(self.reference_format) \
                + ', help_page: ' + str(self.help_page) \
                + ', user_agent: ' + str(self.user_agent) \
                + ', header_email: ' + str(self.header_email) \
                + ', ip_address: ' + str(self.ip_address) \
                + ', referrer: ' + str(self.referrer) \
+               + ', uncontract_general: ' + str(self.uncontract_general) \
+               + ', uncontract_segmented: ' + str(self.uncontract_segmented) \
+               + ', uncontract_spdf: ' + str(self.uncontract_spdf) \
+               + ', make_general: ' + str(self.make_general) \
+               + ', optimize_general: ' + str(self.optimize_general) \
                + ', date: ' + str(self.date)
 
 
-def save_access(access_type, bs_name=None, bs_version=None, fam_name=None,
-                elements=None, bs_fmt=None, ref_fmt=None,
-                help_page=None):
+def save_access(access_type, **kwargs):
 
     if not current_app.config['DB_LOGGING']:
         return
 
-    if elements is None:
-        elements = []
-    else:
-        elements = expand_elements(elements)
+    if 'elements' in kwargs:
+        kwargs['elements'] = expand_elements(kwargs['elements'])
 
     # The IP address is the last address listed in access_route, which
     # comes from the X-FORWARDED-FOR header
@@ -93,17 +99,10 @@ def save_access(access_type, bs_name=None, bs_version=None, fam_name=None,
 
     log = Log(access_type=access_type,
               api=api,
-              bs_name=bs_name,
-              bs_version=bs_version,
-              fam_name=fam_name,
-              elements=elements,
-              bs_fmt=bs_fmt,
-              ref_fmt=ref_fmt,
-              help_page=help_page,
+              ip_address=ip_address,
               user_agent=user_agent,
               header_email=header_email,
-              ip_address=ip_address,
-              referrer=referrer
-              )
+              referrer=referrer,
+              **kwargs)
 
     log.save()

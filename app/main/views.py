@@ -176,7 +176,9 @@ def api_basis(basis_name, fmt):
                               make_general=make_general,
                               header=header)
 
-    save_access(access_type='get_basis', bs_name=basis_name, bs_version=version, elements=elements, bs_fmt=fmt)
+    save_access(access_type='get_basis', basis_name=basis_name, basis_version=version, elements=elements, basis_format=fmt,
+                uncontract_general=uncontract_general, uncontract_segmented=uncontract_general,
+                uncontract_spdf=uncontract_spdf, make_general=make_general, optimize_general=optimize_general)
 
     if fmt.lower() == 'json':
         return Response(basis_set, mimetype='application/json')
@@ -200,7 +202,7 @@ def api_references(basis_name, fmt):
     version = request.args.get('version', default=None)
     refs = bse.get_references(basis_name, elements=elements, fmt=fmt, version=version)
 
-    save_access(access_type='get_references', bs_name=basis_name, bs_version=version, elements=elements, ref_fmt=fmt)
+    save_access(access_type='get_references', basis_name=basis_name, basis_version=version, elements=elements, reference_format=fmt)
 
     # Force the latest version if none
     if version is None:
@@ -222,7 +224,7 @@ def api_notes(basis_name):
     if notes == '':
         notes = 'Notes for the basis set "{}" do not exist'.format(basis_name)
 
-    save_access(access_type='get_notes', bs_name=basis_name)
+    save_access(access_type='get_notes', basis_name=basis_name)
     return Response(notes, mimetype='text/plain')
 
 
@@ -234,7 +236,7 @@ def api_family_notes(family):
     if notes == '':
         notes = 'Notes for the family "{}" do not exist'.format(family)
 
-    save_access(access_type='get_family_notes', fam_name=family)
+    save_access(access_type='get_family_notes', family_name=family)
     return Response(notes, mimetype='text/plain')
 
 
@@ -362,6 +364,6 @@ def download_file(fmt, archive_type, ver):
     fullpath = safe_join(filedir, filename)
 
     if os.path.isfile(fullpath):
-        save_access(access_type='download_all', bs_fmt=fmt)
+        save_access(access_type='download_all', basis_format=fmt)
 
     return send_from_directory(filedir, filename, as_attachment=True, attachment_filename=filename)

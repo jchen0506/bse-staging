@@ -44,18 +44,24 @@ class LogView(ModelView):
 
     column_type_formatters = MY_DEFAULT_FORMATTERS
     column_exclude_list = []
-    column_filters = ['access_type', 'bs_name', 'bs_fmt']
+    column_filters = ['access_type', 'basis_name', 'basis_format']
 
     # Bug in Flask admin, don't use disabled: True
     # Bug in Flask admin, readonly doesn't work with boolean and ListFields
     form_widget_args = dict(
         access_type={'readonly': True},
         api={'readonly': True},
-        bs_name={'readonly': True},
-        fam_name={'readonly': True},
+        basis_name={'readonly': True},
+        basis_version={'readonly': True},
+        family_name={'readonly': True},
         elements={'readonly': True},
-        bs_fmt={'readonly': True},
-        ref_fmt={'readonly': True},
+        basis_format={'readonly': True},
+        reference_format={'readonly': True},
+        uncontract_general={'readonly': True},
+        uncontract_segmented={'readonly': True},
+        uncontract_spdf={'readonly': True},
+        make_general={'readonly': True},
+        optimize_general={'readonly': True},
         help_page={'readonly': True},
         user_agent={'readonly': True},
         header_email={'readonly': True},
