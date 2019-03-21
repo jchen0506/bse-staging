@@ -154,6 +154,13 @@ def api_basis(basis_name, fmt):
     header = _set_boolean(header)
 
     version = request.args.get('version', default=None)
+
+    # Force the latest version if none
+    if version is None:
+        basis_name = bse.misc.transform_basis_name(basis_name)
+        basis_md = data_loader.metadata[basis_name]
+        version = basis_md['latest_version']
+
     elements = request.args.getlist('elements')
 
     logger.info('API: basis: name=%s, ver=%s, elements=%s, format=%s, opts=%s,%s,%s,%s,%s',
@@ -194,6 +201,12 @@ def api_references(basis_name, fmt):
     refs = bse.get_references(basis_name, elements=elements, fmt=fmt, version=version)
 
     save_access(access_type='get_references', bs_name=basis_name, bs_version=version, elements=elements, ref_fmt=fmt)
+
+    # Force the latest version if none
+    if version is None:
+        basis_name = bse.misc.transform_basis_name(basis_name)
+        basis_md = data_loader.metadata[basis_name]
+        version = basis_md['latest_version']
 
     if fmt.lower() == 'json':
         return Response(refs, mimetype='application/json')

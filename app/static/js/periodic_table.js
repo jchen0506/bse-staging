@@ -590,9 +590,7 @@ $( document ).ready(function () {
         var uncontract_spdf = $('#uncontract_spdf').is(":checked");
         var uncontract_segmented = $('#uncontract_segmented').is("checked");
 
-
-        var query = url + basis_set + '/format/' + format + '/?elements=' + elements_ids
-                        + '&version=' + version;
+        var query = url + basis_set + '/format/' + format + '/?version=' + version + '&elements=' + elements_ids;
 
         if (optimize_general){
             query += '&uncontract_segmented=' + uncontract_segmented;
@@ -624,10 +622,11 @@ $( document ).ready(function () {
         var url = "/references/";
         var basis_set = $('#basis_sets').val();
         var format = $('#cformat').val();
+        var version = window.bs_metadata[basis_set]['latest_version'];
 
         var elements_ids = get_selected_elements();
 
-        query += url + basis_set + '/format/' + format + '?elements=' + elements_ids;
+        query += url + basis_set + '/format/' + format + '?version=' + version + '&elements=' + elements_ids;
 
         show_basis_window(basis_set, query);
 
