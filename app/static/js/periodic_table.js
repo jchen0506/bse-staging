@@ -339,7 +339,7 @@ $( document ).ready(function () {
 
         $.each(basis_versions, function(i, version){
                 var revdesc = window.bs_metadata[selected]['versions'][version]['revdesc']
-                var text = 'Version ' + version + ' [' + revdesc + ']';
+                var text = 'Version ' + version + ': ' + revdesc;
                 if (version === latest_version){
                     text += ' (latest)';
                 }
