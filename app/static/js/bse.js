@@ -17,7 +17,7 @@ $( document ).ready(function () {
         e.preventDefault();
 
         var url = "/download/";
-        var format = $('#format2').val();
+        var format = $('#format3').val();
         var version = 'current';
         var archive_type = $('#archive_type').val();
 
