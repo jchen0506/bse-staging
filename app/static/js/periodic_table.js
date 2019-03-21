@@ -588,12 +588,13 @@ $( document ).ready(function () {
         var optimize_general = $('#optimize_general').is(":checked");
         var uncontract_general = $('#uncontract_general').is(":checked");
         var uncontract_spdf = $('#uncontract_spdf').is(":checked");
-        var uncontract_segmented = $('#uncontract_segmented').is("checked");
+        var uncontract_segmented = $('#uncontract_segmented').is(":checked");
+        var make_general = $('#make_general').is(":checked");
 
         var query = url + basis_set + '/format/' + format + '/?version=' + version + '&elements=' + elements_ids;
 
         if (optimize_general){
-            query += '&uncontract_segmented=' + uncontract_segmented;
+            query += '&optimize_general=' + optimize_general;
         }
         if (uncontract_general){
             query += '&uncontract_general=' + uncontract_general;
@@ -603,6 +604,9 @@ $( document ).ready(function () {
         }
         if (uncontract_segmented){
             query += '&uncontract_segmented=' + uncontract_segmented;
+        }
+        if (make_general){
+            query += '&make_general=' + make_general;
         }
 
         $('#advanced_basis').modal('toggle');
