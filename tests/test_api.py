@@ -75,7 +75,7 @@ class TestAPIs(object):
 
     @pytest.mark.parametrize('bs_format,output',[
         ('gaussian94', 'Basis set: 3-21G'),
-        ('json', '"basis_set_name": "3-21G"')
+        ('json', '"name": "3-21G"')
     ])
     def test_get_simple_basis(self, bs_format, output, client):
         """Get a simple basis set"""
