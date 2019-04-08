@@ -283,7 +283,17 @@ def html_references(basis_name, fmt):
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
-    dl_filename = basis_name + _get_ref_extension(fmt)
+
+    # Construct an appropriate filename
+    version = request.args.get('version', default=None)
+    if version is None:
+        basis_name = bse.misc.transform_basis_name(basis_name)
+        basis_md = data_loader.metadata[basis_name]
+        version = basis_md['latest_version']
+
+    # Note that _get_ref_extension already includes the leading dot
+    bs_filename = bse.misc.basis_name_to_filename(basis_name)
+    dl_filename = '{}.{}{}'.format(bs_filename, version, _get_ref_extension(fmt))
 
     return render_template('show_data.html',
                            data=data,
