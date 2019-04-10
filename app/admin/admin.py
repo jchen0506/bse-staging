@@ -49,6 +49,7 @@ class LogView(ModelView):
     # Bug in Flask admin, don't use disabled: True
     # Bug in Flask admin, readonly doesn't work with boolean and ListFields
     form_widget_args = dict(
+        date={'readonly': True},
         access_type={'readonly': True},
         api={'readonly': True},
         basis_name={'readonly': True},
@@ -65,8 +66,7 @@ class LogView(ModelView):
         help_page={'readonly': True},
         user_agent={'readonly': True},
         header_email={'readonly': True},
-        ip_address={'readonly': True},
-        date={'readonly': True}
+        ip_address={'readonly': True}
     )
 
     def is_accessible(self):
