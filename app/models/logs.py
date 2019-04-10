@@ -34,7 +34,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     basis_format = db.StringField(max_length=100)
     reference_format = db.StringField(max_length=100)
     help_page = db.StringField(max_length=100)
-    user_agent = db.StringField(max_length=256)
+    user_agent = db.StringField(max_length=512)
     header_email = db.StringField(max_length=100)
     ip_address = db.StringField(max_length=100)
     referrer = db.StringField(max_length=512)
@@ -94,9 +94,11 @@ def save_access(access_type, **kwargs):
     header_email = request.environ.get('HTTP_FROM', None)
     referrer = request.referrer
 
-    # trim referrer if necessary
+    # trim referrer and user agent if necessary
     if referrer is not None and len(referrer) > 512:
         referrer = referrer[:512]
+    if user_agent is not None and len(user_agent) > 512:
+        user_agent = user_agent[:512]
 
     # Check to see if this was requested directly via the api
     api = request.path.lower().startswith('/api/')
