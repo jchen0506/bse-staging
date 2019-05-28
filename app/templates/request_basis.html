@@ -1,0 +1,24 @@
+{% from 'bootstrap/wtf.html' import form_field %}
+
+{# A form to be displayed in a modal #}
+<form id="request_basis_Form" name="request_basis_Form" class="form" method="post">
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="download_all_label">Request Missing Basis set</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        {{ form.hidden_tag() }}
+        {{ form_field(form.name) }}
+        {{ form_field(form.email) }}
+        {{ form_field(form.requested_basis) }}
+        {{ form_field(form.other_basis) }}
+        {{ form_field(form.comments) }}
+    </div>
+    <div class="modal-footer">
+        <button id="submit" type="submit" class="btn unique-color">Submit</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
