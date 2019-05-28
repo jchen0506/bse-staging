@@ -6,6 +6,8 @@ from flask import request, render_template, Response, jsonify, json, current_app
 from . import main
 from .data_loader import DataLoader
 from ..models.logs import save_access
+from ..models.feedback import BasisRequest
+from .forms import BasisRequestForm
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +47,7 @@ def _get_ref_extension(fmt):
 # API for the website itself
 #############################
 
-@main.route('/')
+@main.route('/', methods=['GET', 'POST'])
 def index():
     """Returns the main page of the BSE website"""
 
@@ -388,3 +390,27 @@ def download_file(fmt, archive_type, ver):
         save_access(access_type='download_all', basis_format=fmt)
 
     return send_from_directory(filedir, filename, as_attachment=True, attachment_filename=filename)
+
+######################################
+# Feedback and Basis request
+######################################
+
+@main.route('/request_basis/', methods=['GET', 'POST'])
+def request_basis():
+
+    form = BasisRequestForm()
+    if form.validate_on_submit():
+        basis_request = BasisRequest(
+            name=form.name.data,
+            email = form.email.data,
+            requested_basis = form.requested_basis.data,
+            other_basis = form.other_basis.data,
+            comments=form.comments.data,
+        )
+        basis_request.save()
+
+        return jsonify({'sucess': True})
+
+    save_access(access_type='basis_request')
+
+    return render_template('request_basis.html', form=form)
