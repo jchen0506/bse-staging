@@ -2,7 +2,8 @@ import os
 import logging
 import basis_set_exchange as bse
 import basis_set_exchange_archive as bsea
-from flask import request, render_template, Response, jsonify, json, current_app, send_from_directory, safe_join
+from flask import (request, render_template, Response, jsonify, current_app,
+                   send_from_directory, safe_join, flash)
 from . import main
 from .data_loader import DataLoader
 from ..models.logs import save_access
@@ -408,8 +409,8 @@ def request_basis():
             comments=form.comments.data,
         )
         basis_request.save()
-
-        return jsonify({'sucess': True})
+        flash('Your request has been submitted successfully!', 'success')
+        return jsonify({'status': True})
 
     save_access(access_type='basis_request')
 

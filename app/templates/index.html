@@ -3,6 +3,22 @@
 
 {% block main_contents %}
 <main class="container-fluid">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+      {% if messages %}
+        {% for category, message in messages %}
+            <div class="row justify-content-center">
+              <div class="col-8-md mb-0 alert alert-{{ category }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              {{ message }}
+              </div>
+            </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+
     <!-- First row (panel and periodic) -->
     <div class="row justify-content-center px-3 py-1">
         <nav class="col-lg-3 sidebar mr-lg-3 p-0">
@@ -39,6 +55,7 @@
         </nav> <!-- left nav -->
 
     <div id="periodic_container" class="col-lg-8 py-3 px-4 border">
+
         <div id="periodic_header" class="row px-2 pb-2">
             <div class="col-6 pl-1"><b>Total found: <span id="total_found"></span></b></div>
             <div class="col-6 text-right pr-0">
@@ -235,7 +252,7 @@
     </div>
 </div>
 
-<div id="request_basis_dialog" class="modal  preview-modal" tabindex=-1 role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+<div id="request_basis_dialog" class="modal fade" tabindex=-1 role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
     </div>

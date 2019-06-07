@@ -52,9 +52,10 @@ $( document ).ready(function () {
 
             event.preventDefault();
             $.post(url, data=$('#request_basis_Form').serialize(), function(data) {
+                console.log('Data: ', data);
                 if (data.status == true) {
                   $('#request_basis_dialog').modal('hide');
-                  $(".modal-backdrop").remove();
+                  location.reload();
                 }
                 else {
                   $('#request_basis_dialog .modal-content').html(data);
