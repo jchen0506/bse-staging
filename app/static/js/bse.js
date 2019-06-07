@@ -46,27 +46,34 @@ $( document ).ready(function () {
 
     });
 
-    $('#request_basis').click(function(e) {
-        console.log('request basis link clicked');
-        e.preventDefault();
-        var url = "/request_basis/";
-        $.get(url, function(data) {
-            $('#request_basis_dialog .modal-content').html(data);
-            $('#request_basis_dialog').modal();
+    function bind_click_event(button_id, url) {
 
-            $('#submit').click(function(event) {
+        $(button_id).click(function(event) {
 
-              event.preventDefault();
-              $.post(url, data=$('#request_basis_Form').serialize(), function(data) {
+            event.preventDefault();
+            $.post(url, data=$('#request_basis_Form').serialize(), function(data) {
                 if (data.status == true) {
                   $('#request_basis_dialog').modal('hide');
                   $(".modal-backdrop").remove();
                 }
                 else {
                   $('#request_basis_dialog .modal-content').html(data);
+                  bind_click_event(button_id, url);
                 }
-              }); //post
-            }); // submit
+            }); //post
+        }); // submit
+    }
+
+    $('#request_basis').click(function(e) {
+        console.log('request basis link clicked');
+        e.preventDefault();
+
+        var url = "/request_basis/";
+        $.get(url, function(data) {
+            $('#request_basis_dialog .modal-content').html(data);
+            $('#request_basis_dialog').modal();
+
+            bind_click_event('#submit', url);
         }); // get
     });
 
