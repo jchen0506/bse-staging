@@ -4,6 +4,7 @@ import flask_login as login
 from datetime import date, datetime
 from flask_admin.model import typefmt
 from ..models.users import User, Permission, Role
+from ..models.feedback import BasisRequest
 
 
 def date_format(view, value):
@@ -73,8 +74,22 @@ class LogView(ModelView):
         return login.current_user.is_authenticated and login.current_user.can(Permission.ADMIN)
 
 
+class BasisRequestView(ModelView):
+
+    can_create = True  # to add those sent by emails
+    can_edit = False
+    can_view_details = True
+    can_export = True
+    column_type_formatters = MY_DEFAULT_FORMATTERS
+
+
+    def is_accessible(self):
+        return login.current_user.is_authenticated and login.current_user.can(Permission.ADMIN)
+
+
 def add_admin_views():
     """Register views to admin"""
     from .. import app_admin
     app_admin.add_view(LogView(Log, name='Access Log'))
     app_admin.add_view(UserView(User, name='Users'))
+    app_admin.add_view(BasisRequestView(BasisRequest, name='Basis Request'))
