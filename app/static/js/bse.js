@@ -4,6 +4,8 @@
 
 $( document ).ready(function () {
 
+    $("#flash_msgs").delay(4000).slideUp(300);
+
     $('#download_all_link').click(function (e) {
         console.log('Download all link clicked');
         e.preventDefault();
