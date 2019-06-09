@@ -9,7 +9,7 @@ jQuery.ajax({
     contentType: "application/json",
     dataType: "json",
     success: function(result) {
-        console.log("Returned data", result);
+        //console.log("Returned data", result);
         window.bs_metadata = result['metadata'];
         window.element_basis = result['element_basis'];
     } // success
