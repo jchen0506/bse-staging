@@ -1,4 +1,5 @@
 import os
+import datetime
 import basis_set_exchange as bse
 from basis_set_exchange import converters, refconverters
 import logging
@@ -22,6 +23,12 @@ class DataLoader(object):
                            for fmt in self.formats}
         self.ref_format_ext = {fmt: refconverters.get_format_extension(fmt)
                                for fmt in self.ref_formats}
+
+        # Change dates to be more readable
+        for bs_data in self.metadata.values():
+            for ver_data in bs_data['versions'].values():
+                revdate = datetime.date.fromisoformat(ver_data['revdate'])
+                ver_data['revdate'] = revdate.strftime('%B %-d, %Y')
 
         # Store whether notes exist for basis sets/families
         for bs in self.metadata.keys():

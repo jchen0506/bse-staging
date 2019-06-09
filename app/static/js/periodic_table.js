@@ -282,10 +282,12 @@ $( document ).ready(function () {
             var md = window.bs_metadata[selected];
             var latest_version = md['latest_version'];
             var verdesc = ' (' + md['versions'][latest_version]['revdesc'] + ')';
+            var verdate = md['versions'][latest_version]['revdate'];
             var notes = md['notes_exist']
 
             $('#basis_set_name').text(md['display_name']);
             $('#latest_version').text(latest_version + verdesc);
+            $('#last_update').text(verdate);
             $('#description').text(md['description']);
             $('#basis_family').text(md['family']);
             $('#basis_role').text(md['role']);
