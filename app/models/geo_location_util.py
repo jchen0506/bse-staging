@@ -24,8 +24,8 @@ def get_geoip2_data(ip_address):
         out['city'] = loc_data.city.name
         out['country'] = loc_data.country.name
         out['country_code'] = loc_data.country.iso_code
-        out['ip_lat'] = loc_data.location.latitude
-        out['ip_long'] = loc_data.location.longitude
+        out['ip_lat'] = str(loc_data.location.latitude)
+        out['ip_long'] = str(loc_data.location.longitude)
         out['postal_code'] = loc_data.postal.code
     except:
         logger.error('Problem getting geoip data for {}'.format(ip_address))
