@@ -2,6 +2,7 @@ import datetime
 from .. import db
 from flask import request, current_app
 from basis_set_exchange.misc import expand_elements
+from .geo_location_util import get_geoip2_data
 
 
 class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
@@ -25,8 +26,12 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
 
     """
 
+    # access info
     access_type = db.StringField(max_length=32)
     api = db.BooleanField()
+    date = db.DateTimeField(default=datetime.datetime.utcnow)
+
+    # basis info
     basis_name = db.StringField(max_length=100)
     basis_version = db.StringField(max_length=10)
     family_name = db.StringField(max_length=100)
@@ -34,21 +39,32 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     basis_format = db.StringField(max_length=100)
     reference_format = db.StringField(max_length=100)
     help_page = db.StringField(max_length=100)
+
+    # user info
     user_agent = db.StringField(max_length=512)
     header_email = db.StringField(max_length=100)
     ip_address = db.StringField(max_length=100)
     referrer = db.StringField(max_length=512)
+
+    # advanced basis options
     uncontract_general = db.BooleanField(default=False)
     uncontract_segmented = db.BooleanField(default=False)
     uncontract_spdf = db.BooleanField(default=False)
     optimize_general = db.BooleanField(default=False)
     make_general = db.BooleanField(default=False)
-    date = db.DateTimeField(default=datetime.datetime.utcnow)
+
+    # extra computed geo data
+    city = db.StringField()
+    country = db.StringField()
+    country_code = db.StringField()
+    ip_lat = db.StringField()
+    ip_long = db.StringField()
+    postal_code = db.StringField()
 
     meta = {
         'strict': False,     # allow extra fields
         'indexes': [
-            "basis_name", "basis_format"
+            "basis_name", "basis_format", "data"
         ]
     }
 
@@ -103,12 +119,16 @@ def save_access(access_type, **kwargs):
     # Check to see if this was requested directly via the api
     api = request.path.lower().startswith('/api/')
 
+    # extra geo data
+    extra = get_geoip2_data(ip_address)
+
     log = Log(access_type=access_type,
               api=api,
               ip_address=ip_address,
               user_agent=user_agent,
               header_email=header_email,
               referrer=referrer,
+              **extra,
               **kwargs)
 
     log.save()
