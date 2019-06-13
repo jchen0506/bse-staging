@@ -67,6 +67,9 @@ class LogView(ModelView):
         help_page={'readonly': True},
         user_agent={'readonly': True},
         header_email={'readonly': True},
+        city={'readonly': True},
+        country={'readonly': True},
+        subdivision={'readonly': True},
         ip_address={'readonly': True}
     )
 
