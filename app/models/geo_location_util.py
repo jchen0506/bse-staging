@@ -27,6 +27,7 @@ def get_geoip2_data(ip_address):
         out['ip_lat'] = str(loc_data.location.latitude)
         out['ip_long'] = str(loc_data.location.longitude)
         out['postal_code'] = loc_data.postal.code
+        out['subdivision'] = loc_data.subdivisions.most_specific.name
     except:
         logger.error('Problem getting geoip data for {}'.format(ip_address))
 

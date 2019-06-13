@@ -60,6 +60,7 @@ class Log(db.DynamicDocument):   # flexible schema, can have extra attributes
     ip_lat = db.StringField()
     ip_long = db.StringField()
     postal_code = db.StringField()
+    subdivision = db.StringField()
 
     meta = {
         'strict': False,     # allow extra fields
