@@ -372,13 +372,10 @@ def html_help_page(page):
 def download_file(fmt, archive_type, ver):
     if not fmt in data_loader.formats:
         raise RuntimeError("'{}' is not a valid format".format(fmt))
+    if not archive_type in data_loader.archive_types:
+        raise RuntimeError("'{} is not a valid archive type".format(archive_type))
 
-    if archive_type == 'zip':
-        ext = '.zip'
-    elif archive_type == 'tbz':
-        ext = '.tar.bz2'
-    else:
-        raise RuntimeError("'{}' is not a valid archive type".format(archive_type))
+    ext = data_loader.archive_types[archive_type]['extension']
 
     if ver == 'current':
         ver = bse.version()

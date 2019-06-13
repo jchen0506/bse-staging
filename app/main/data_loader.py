@@ -23,6 +23,7 @@ class DataLoader(object):
                            for fmt in self.formats}
         self.ref_format_ext = {fmt: refconverters.get_format_extension(fmt)
                                for fmt in self.ref_formats}
+        self.archive_types = bse.get_archive_types()
 
         # Change dates to be more readable
         for bs_data in self.metadata.values():
