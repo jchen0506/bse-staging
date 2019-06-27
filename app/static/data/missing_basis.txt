@@ -4,20 +4,8 @@ Other basis set
 3-21G*
 3-21GSP
 4-22GSP
-6-31++G**-J
-6-31+G*-J
-6-311++G**-J
-6-311+G*-J
-6-311G-J
-6-31G-Blaudeau
-6-31G-J
-6-31G*-Blaudeau
 6-31G** Polarization
 Ahlrichs Coulomb Fitting
-Ahlrichs pVDZ
-Ahlrichs TZV
-Ahlrichs VDZ
-Ahlrichs VTZ
 aug-cc-pCV(T+d)Z
 aug-cc-pV(6+d)Z
 aug-cc-pV(7+d)Z
@@ -25,7 +13,6 @@ aug-cc-pV5Z Diffuse
 aug-cc-pV5Z_OPTRI
 aug-cc-pV5Z-PP MP2 Fitting
 aug-cc-pV5Z-PP_OPTRI
-aug-cc-pV7Z
 aug-cc-pVDZ_OPTRI
 aug-cc-pVDZ-PP MP2 Fitting
 aug-cc-pVDZ-PP_OPTRI
@@ -33,21 +20,17 @@ aug-cc-pVQZ_OPTRI
 aug-cc-pVQZ-PP MP2 Fitting
 aug-cc-pVQZ-PP_OPTRI
 aug-cc-pVTZ_OPTRI
-aug-cc-pVTZ-J
 aug-cc-pVTZ-PP MP2 Fitting
 aug-cc-pVTZ-PP_OPTRI
-aug-cc-pwCV5Z-DK
 aug-cc-pwCV5Z-NR
 aug-cc-pwCV5Z-PP MP2 Fitting
 aug-cc-pwCV5Z-PP_OPTRI
 aug-cc-pwCVDZ-PP MP2 Fitting
 aug-cc-pwCVDZ-PP_OPTRI
-aug-cc-pwCVQZ-DK
 aug-cc-pwCVQZ-DK3
 aug-cc-pwCVQZ-NR
 aug-cc-pwCVQZ-PP MP2 Fitting
 aug-cc-pwCVQZ-PP_OPTRI
-aug-cc-pwCVTZ-DK
 aug-cc-pwCVTZ-NR
 aug-cc-pwCVTZ-NR MP2 Fitting
 aug-cc-pwCVTZ-PP MP2 Fitting
@@ -59,7 +42,6 @@ aug-mcc-pV8Z
 aug-mcc-pVQZ
 aug-mcc-pVTZ
 aug-pc-infinity
-aug-pV7Z
 aug-pV7Z Diffuse
 B2 basis set for Zn
 Bauschlicher ANO
@@ -70,15 +52,12 @@ Binning/Curtiss VTZP
 cc-pCV6Z
 cc-pCV6Z (old)
 cc-pCV6Z(old)
-cc-pCVDZ-F12
 cc-pCVDZ-F12 MP2 Fitting
 cc-pCVDZ-F12_OPTRI
 cc-pCVDZ(old)
-cc-pCVQZ-F12
 cc-pCVQZ-F12 MP2 Fitting
 cc-pCVQZ-F12_OPTRI
 cc-pCVQZ(old)
-cc-pCVTZ-F12
 cc-pCVTZ-F12 MP2 Fitting
 cc-pCVTZ-F12_OPTRI
 cc-pCVTZ(old)
@@ -93,14 +72,6 @@ cc-pV(T+d)Z+
 cc-pV5Z-PP MP2 Fitting
 cc-pV5Z-PP-RI
 cc-pV5Z-RI
-cc-pV5Z(fi/sf/fw)
-cc-pV5Z(fi/sf/lc)
-cc-pV5Z(fi/sf/sc)
-cc-pV5Z(pt/sf/fw)
-cc-pV5Z(pt/sf/lc)
-cc-pV5Z(pt/sf/sc)
-cc-pV8Z
-cc-pV9Z
 cc-pVDZ-F12
 cc-pVDZ-F12 MP2 Fitting
 cc-pVDZ-F12_OPTRI
@@ -108,12 +79,6 @@ cc-pVDZ-fit2-1
 cc-pVDZ-PP MP2 Fitting
 cc-pVDZ-PP-RI
 cc-pVDZ-RI
-cc-pVDZ(fi/sf/fw)
-cc-pVDZ(fi/sf/lc)
-cc-pVDZ(fi/sf/sc)
-cc-pVDZ(pt/sf/fw)
-cc-pVDZ(pt/sf/lc)
-cc-pVDZ(pt/sf/sc)
 cc-pVDZ(seg-opt)
 cc-pVQZ-F12
 cc-pVQZ-F12 MP2 Fitting
@@ -121,12 +86,6 @@ cc-pVQZ-F12_OPTRI
 cc-pVQZ-PP MP2 Fitting
 cc-pVQZ-PP-RI
 cc-pVQZ-RI
-cc-pVQZ(fi/sf/fw)
-cc-pVQZ(fi/sf/lc)
-cc-pVQZ(fi/sf/sc)
-cc-pVQZ(pt/sf/fw)
-cc-pVQZ(pt/sf/lc)
-cc-pVQZ(pt/sf/sc)
 cc-pVQZ(seg-opt)
 cc-pVTZ-F12
 cc-pVTZ-F12 MP2 Fitting
@@ -135,16 +94,9 @@ cc-pVTZ-fit2-1
 cc-pVTZ-PP MP2 Fitting
 cc-pVTZ-PP-RI
 cc-pVTZ-RI
-cc-pVTZ(fi/sf/fw)
-cc-pVTZ(fi/sf/lc)
-cc-pVTZ(fi/sf/sc)
-cc-pVTZ(pt/sf/fw)
-cc-pVTZ(pt/sf/lc)
-cc-pVTZ(pt/sf/sc)
 cc-pVTZ(seg-opt)
 cc-pwCV5Z Core Set
 cc-pwCV5Z Tight
-cc-pwCV5Z-DK
 cc-pwCV5Z-NR
 cc-pwCV5Z-PP MP2 Fitting
 cc-pwCV5Z-RI
@@ -152,17 +104,14 @@ cc-pwCV5Z-RI tight
 cc-pwCVDZ Tight
 cc-pwCVDZ-PP MP2 Fitting
 cc-pwCVDZ-RI
-cc-pwCVQZ-DK
 cc-pwCVQZ-NR
 cc-pwCVQZ-PP MP2 Fitting
 cc-pwCVQZ-RI
-cc-pwCVTZ-DK
 cc-pwCVTZ-NR
 cc-pwCVTZ-NR MP2 Fitting
 cc-pwCVTZ-PP MP2 Fitting
 cc-pwCVTZ-RI
 Chipman DZP + Diffuse
-Cologne DKH2
 CVTZ
 d-aug-cc-pV5Z
 d-aug-cc-pV6Z
@@ -215,15 +164,10 @@ NASA Ames cc-pCVTZ
 NASA Ames cc-pV5Z
 NASA Ames cc-pVQZ
 NASA Ames cc-pVTZ
-NLO-V
-NMR-DKH (TZ2P)
 Partridge Uncontracted 1
 Partridge Uncontracted 2
 Partridge Uncontracted 3
 Partridge Uncontracted 4
-Pt - mDZP
-pV6Z
-pV7Z
 Roos Augmented Double Zeta ANO
 Roos Augmented Triple Zeta ANO
 Sadlej pVTZ
@@ -233,13 +177,6 @@ SDB-aug-cc-pVQZ
 SDB-aug-cc-pVTZ
 SDB-cc-pVQZ
 SDB-cc-pVTZ
-STO-3G*
-Stuttgart RLC ECP
-Stuttgart RLC ECP
-Stuttgart RSC 1997 ECP
-Stuttgart RSC 1997 ECP
-Stuttgart RSC ANO/ECP
-Stuttgart RSC Segmented/ECP
 Stuttgart-Koeln MCDHF RSC ECP
 SV (Dunning-Hay)
 SV + Double Rydberg (Dunning-Hay)
