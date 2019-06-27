@@ -125,6 +125,7 @@ def api_metadata():
 
 
 @main.route('/api/basis/<basis_name>/format/<fmt>/')
+@main.route('/download_basis/basis/<basis_name>/format/<fmt>/')
 def api_basis(basis_name, fmt):
     """Get a basis set
 
@@ -166,6 +167,7 @@ def api_basis(basis_name, fmt):
 
     elements = request.args.getlist('elements')
 
+
     logger.info('API: basis: name=%s, ver=%s, elements=%s, format=%s, opts=%s,%s,%s,%s,%s',
                 basis_name, version, elements, fmt, uncontract_general, uncontract_segmented,
                 uncontract_spdf, optimize_general, make_general)
@@ -179,7 +181,13 @@ def api_basis(basis_name, fmt):
                               make_general=make_general,
                               header=header)
 
-    save_access(access_type='get_basis', basis_name=basis_name, basis_version=version, elements=elements, basis_format=fmt,
+    access_type = 'get_basis'
+
+    # Is this a download?
+    if request.path.lower().startswith('/download_basis/'):
+        access_type = 'download_basis'
+
+    save_access(access_type=access_type, basis_name=basis_name, basis_version=version, elements=elements, basis_format=fmt,
                 uncontract_general=uncontract_general, uncontract_segmented=uncontract_general,
                 uncontract_spdf=uncontract_spdf, make_general=make_general, optimize_general=optimize_general)
 
@@ -190,6 +198,7 @@ def api_basis(basis_name, fmt):
 
 
 @main.route('/api/references/<basis_name>/format/<fmt>/')
+@main.route('/download_references/references/<basis_name>/format/<fmt>/')
 def api_references(basis_name, fmt):
     """Get the references/citations for a given basis set
 
@@ -205,7 +214,13 @@ def api_references(basis_name, fmt):
     version = request.args.get('version', default=None)
     refs = bse.get_references(basis_name, elements=elements, fmt=fmt, version=version)
 
-    save_access(access_type='get_references', basis_name=basis_name, basis_version=version, elements=elements, reference_format=fmt)
+    access_type = 'get_references'
+
+    # Is this a download?
+    if request.path.lower().startswith('/download_references/'):
+        access_type = 'download_references'
+
+    save_access(access_type=access_type, basis_name=basis_name, basis_version=version, elements=elements, reference_format=fmt)
 
     # Force the latest version if none
     if version is None:
@@ -257,6 +272,7 @@ def html_basis(basis_name, fmt):
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
+    dl_link = web_link.replace(root, root + 'download_basis/')
 
     # Construct an appropriate filename
     version = request.args.get('version', default=None)
@@ -272,6 +288,7 @@ def html_basis(basis_name, fmt):
     return render_template('show_data.html',
                            data=data,
                            api_link=api_link,
+                           dl_link=dl_link,
                            web_link=web_link,
                            dl_filename=dl_filename,
                            show_topbox=True)
@@ -286,6 +303,7 @@ def html_references(basis_name, fmt):
     root = request.url_root
     web_link = request.url
     api_link = web_link.replace(root, root + 'api/')
+    dl_link = web_link.replace(root, root + 'download_references/')
 
     # Construct an appropriate filename
     version = request.args.get('version', default=None)
@@ -301,6 +319,7 @@ def html_references(basis_name, fmt):
     return render_template('show_data.html',
                            data=data,
                            api_link=api_link,
+                           dl_link=dl_link,
                            web_link=web_link,
                            dl_filename=dl_filename,
                            show_topbox=True)
@@ -312,16 +331,8 @@ def html_notes(basis_name):
 
     data = api_notes(basis_name).get_data(as_text=True)
 
-    root = request.url_root
-    web_link = request.url
-    api_link = web_link.replace(root, root + 'api/')
-    dl_filename = basis_name + ".txt"
-
     return render_template('show_data.html',
                            data=data,
-                           api_link=api_link,
-                           web_link=web_link,
-                           dl_filename=dl_filename,
                            show_topbox=False)
 
 
@@ -331,17 +342,10 @@ def html_family_notes(family):
 
     data = api_family_notes(family).get_data(as_text=True)
 
-    root = request.url_root
-    web_link = request.url
-    api_link = web_link.replace(root, root + 'api/')
-    dl_filename = family + ".txt"
-
     return render_template('show_data.html',
                            data=data,
-                           api_link=api_link,
-                           web_link=web_link,
-                           dl_filename=dl_filename,
                            show_topbox=False)
+
 
 #################################
 # Help pages, documentation, etc
