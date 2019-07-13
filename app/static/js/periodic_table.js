@@ -467,7 +467,7 @@ $( document ).ready(function () {
         //     basis_sets_selection_changed();  // event listener trigger is not working
         // }
 
-        var option, basis_ecp, basis_role;
+        var option, option_text, basis_ecp, basis_role;
         var options_list = get_full_basis_sets();
 
         // reset options list
@@ -475,9 +475,10 @@ $( document ).ready(function () {
 
         for (var i=0; i<options_list.length; i++){
             option = $(options_list[i]).val();
+            option_text = $(options_list[i]).text();
             basis_ecp = window.bs_metadata[option]['functiontypes'];
             basis_role = window.bs_metadata[option]['role'];
-            if (!(option.toUpperCase().indexOf(filter) === -1 ||
+            if (!(option_text.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
                 (ecp === 'ecp' && basis_ecp.indexOf('scalar_ecp') === -1 && basis_ecp.indexOf('spinorbit_ecp') === -1) ||
                 (ecp === 'no_ecp' && (basis_ecp.indexOf('scalar_ecp') > -1) || basis_ecp.indexOf('spinorbit_ecp') > -1) ||
