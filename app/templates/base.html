@@ -147,18 +147,17 @@
     </div>
 
 
-    <!--Library info-->
-      <div class="row justify-content-center mt-2">
-        <div class="col-auto">
-          <p class="text-center">Basis Set Exchange ver2, <a href="https://github.com/MolSSI-BSE/basis_set_exchange">BSE Library</a> {{ config.get('BSE_LIBRARY_VERSION') }}</p>
-        </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col-auto">
+        <p class="text-center">
+          <!--Library info-->
+          Basis Set Exchange ver2, <a href="https://github.com/MolSSI-BSE/basis_set_exchange">BSE Library</a> {{ config.get('BSE_LIBRARY_VERSION') }}
+          <!--Copyright-->
+          </br>
+          &copy; 2019 The Molecular Sciences Software Institute (MolSSI), Virginia Tech
+        </p>
       </div>
-    <!--Copyright-->
-      <div class="row justify-content-center mt-1">
-        <div class="col-auto">
-          &copy; 2019 The Molecular Sciences Software Institute (MolSSI), Virginia Tech</p>
-        </div>
-      </div>
+    </div>
 
 </footer>
 {% endblock %}
