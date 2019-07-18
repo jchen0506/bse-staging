@@ -19,6 +19,7 @@ class BasisRequestForm(FlaskForm):
     email = StringField('Email*', validators=[Email(), DataRequired()])
     requested_basis = SelectField('Requested Basis', choices=get_choices())
     other_basis = StringField('Other basis (not in list)')
+    basis_format = StringField('New Basis Set Download Format')
     comments = TextAreaField('Comments')
 
     # submit = SubmitField('Submit')

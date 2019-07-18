@@ -407,6 +407,7 @@ def request_basis():
             email = form.email.data,
             requested_basis = form.requested_basis.data,
             other_basis = form.other_basis.data,
+            basis_format = form.basis_format.data,
             comments=form.comments.data,
         )
         basis_request.save()

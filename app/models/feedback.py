@@ -11,7 +11,8 @@ class BasisRequest(db.Document):
     name = db.StringField()
     email = db.EmailField(max_length=128)
     requested_basis = db.StringField()
-    other_basis = db.StringField(max_length=128)
+    other_basis = db.StringField()
+    basis_format = db.StringField()
     comments = db.StringField()
     date = db.DateTimeField(default=datetime.utcnow)
 
