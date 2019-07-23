@@ -310,6 +310,7 @@ $( document ).ready(function () {
         }else{
             $('#basis_set_name').text('');
             $('#latest_version').text('');
+            $('#last_update').text('');
             $('#description').text('');
             $('#basis_family').text('');
             $('#basis_role').text('');
