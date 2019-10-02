@@ -3,18 +3,15 @@
 
 language: python
 sudo: false
+dist: xenial
 
 services:
   - mongodb
 
 matrix:
   include:
-      - python: 3.5
       - python: 3.6
       - python: 3.7
-        dist: xenial
-        after_success:
-          - codecov
 
 
 before_install:
@@ -38,3 +35,6 @@ script:
 
 notifications:
   email: false
+
+after_success:
+  - codecov
