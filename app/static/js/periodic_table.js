@@ -291,7 +291,7 @@ $( document ).ready(function () {
             $('#description').text(md['description']);
             $('#basis_family').text(md['family']);
             $('#basis_role').text(md['role']);
-            $('#basis_functions').text(md['functiontypes'].join(', '));
+            $('#basis_functions').text(md['function_types'].join(', '));
 
             if (notes[0]){
                 $('#basis_notes').attr('href', '#');
@@ -477,7 +477,7 @@ $( document ).ready(function () {
         for (var i=0; i<options_list.length; i++){
             option = $(options_list[i]).val();
             option_text = $(options_list[i]).text();
-            basis_ecp = window.bs_metadata[option]['functiontypes'];
+            basis_ecp = window.bs_metadata[option]['function_types'];
             basis_role = window.bs_metadata[option]['role'];
             if (!(option_text.toUpperCase().indexOf(filter) === -1 ||
                 (selected_elements.length > 0 && available_bs.indexOf(option) === -1) ||
