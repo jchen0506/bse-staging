@@ -1,7 +1,7 @@
 import os
 import datetime
 import basis_set_exchange as bse
-from basis_set_exchange import converters, refconverters
+from basis_set_exchange import writers, refconverters
 import logging
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class DataLoader(object):
         self.roles = bse.get_roles()
         self.basis_sets = sorted((k, v['display_name']) for k, v in self.metadata.items())
 
-        self.format_ext = {fmt: converters.get_format_extension(fmt)
+        self.format_ext = {fmt: writers.get_format_extension(fmt)
                            for fmt in self.formats}
         self.ref_format_ext = {fmt: refconverters.get_format_extension(fmt)
                                for fmt in self.ref_formats}
