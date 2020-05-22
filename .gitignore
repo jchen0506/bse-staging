@@ -107,3 +107,6 @@ src/
 .DS_Store
 private_env.sh
 _build
+
+# Private env variables
+.env
