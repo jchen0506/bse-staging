@@ -1,18 +1,13 @@
 import setuptools
 
-try: # for pip >= 10
-    from pip._internal.req import parse_requirements
-    from pip._internal.download import PipSession
-except ImportError: # for pip <= 9.0.3
-    from pip.req import parse_requirements
-    from pip.download import PipSession
-
 
 def read_requirements():
     """parses requirements from requirements.txt"""
 
-    install_reqs = parse_requirements('requirements.txt', session=PipSession())
-    return [ir.name for ir in install_reqs]
+    with open('requirements.txt') as f:
+        req = f.readlines()
+
+    return req
 
 
 if __name__ == "__main__":
