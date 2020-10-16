@@ -1,9 +1,8 @@
 import os
 import logging
 import basis_set_exchange as bse
-import basis_set_exchange_archive as bsea
 from flask import (request, render_template, Response, jsonify, current_app,
-                   send_from_directory, safe_join, flash)
+                   send_from_directory, safe_join, flash, redirect)
 from . import main
 from .data_loader import DataLoader
 from ..models.logs import save_access
@@ -385,13 +384,17 @@ def download_file(fmt, archive_type, ver):
         ver = bse.version()
 
     filename = 'basis_sets-' + fmt + '-' + ver + ext
-    filedir = safe_join(bsea.get_data_ver_dir())
-    fullpath = safe_join(filedir, filename)
 
-    if os.path.isfile(fullpath):
-        save_access(access_type='download_all', basis_format=fmt)
+    #filedir = safe_join(bsea.get_data_ver_dir())
+    #fullpath = safe_join(filedir, filename)
+    #if os.path.isfile(fullpath):
+    #    save_access(access_type='download_all', basis_format=fmt)
+    #return send_from_directory(filedir, filename, as_attachment=True, attachment_filename=filename)
 
-    return send_from_directory(filedir, filename, as_attachment=True, attachment_filename=filename)
+    zenodo_path = 'https://zenodo.org/record/4096129/files/' + filename + '?download=1'
+    save_access(access_type='download_all', basis_format=fmt)
+    return redirect(zenodo_path, code=302)
+
 
 ######################################
 # Feedback and Basis request

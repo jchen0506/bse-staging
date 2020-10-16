@@ -140,7 +140,7 @@ class TestAPIs(object):
         assert response.get_data(as_text=True)
 
     @pytest.mark.parametrize('bs_format', bse.get_formats().keys())
-    @pytest.mark.parametrize('archive_type', ['zip'])#bse.get_archive_types().keys())
+    @pytest.mark.parametrize('archive_type', bse.get_archive_types().keys())
     def test_download(self, bs_format, archive_type, client):
         """Get basis set family notes"""
 

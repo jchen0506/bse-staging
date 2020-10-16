@@ -16,6 +16,5 @@ Flask-DebugToolbar
 flask-ckeditor
 gunicorn
 geoip2
-basis_set_exchange==0.8.12
-basis_set_exchange_archive @ https://www.bennyp.org/basis_set_exchange_archive-0.8.12.tar.gz@egg=basis_set_exchange_archive
+basis_set_exchange==0.8.13
 python-dotenv
