@@ -11,7 +11,7 @@ Flask-WTF
 flask-moment
 Jinja2
 requests
-WTForms==2.1
+WTForms
 Flask-DebugToolbar
 flask-ckeditor
 gunicorn
@@ -19,3 +19,4 @@ geoip2
 basis_set_exchange==0.8.13
 python-dotenv
 dnspython
+email_validator
