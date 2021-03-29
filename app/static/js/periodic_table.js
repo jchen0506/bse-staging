@@ -485,9 +485,12 @@ $(document).ready(function () {
 			option_text = $(options_list[i]).text();
 			basis_ecp = window.bs_metadata[option]['function_types'];
 			basis_role = window.bs_metadata[option]['role'];
+			basis_description = window.bs_metadata[option]['description'];
+
 			if (
 				!(
-					option_text.toUpperCase().indexOf(filter) === -1 ||
+					(option_text.toUpperCase().indexOf(filter) === -1 &&
+						basis_description.toUpperCase().indexOf(filter) === -1) ||
 					(selected_elements.length > 0 &&
 						available_bs.indexOf(option) === -1) ||
 					(ecp === 'ecp' &&
